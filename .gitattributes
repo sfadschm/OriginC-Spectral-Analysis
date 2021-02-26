@@ -1,2 +1,5 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+
+# Convert PDF to Markdown
+*.pdf diff=pdf
