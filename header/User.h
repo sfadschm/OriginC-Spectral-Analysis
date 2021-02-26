@@ -349,7 +349,7 @@ vector<string> USER_correctDataSource(WorksheetPage wb, Worksheet dataWks, int m
 	
 	vector<string> tmp1 = {USER_CORRECT_BACKGROUND};
 	if(tmp1.Find(title) > -1){
-		GETN_RADIO_INDEX(bgMethod, 0, "Reference|Average");
+		GETN_RADIO_INDEX(bgMethod, 0, "Reference|Median");
 		GETN_OPTION_DISPLAY_FORMAT(DISPLAY_EDITOR_LEFT);
 		GETN_SEPARATOR_LINE;
 		GETN_STR(STR, "Reference:", "") GETN_HINT;
@@ -379,7 +379,7 @@ vector<string> USER_correctDataSource(WorksheetPage wb, Worksheet dataWks, int m
 	vector<string> tmp6 = {USER_CORRECT_BACKGROUND};
 	if(tmp6.Find(title) > -1){
 		GETN_SEPARATOR_LINE;
-		GETN_STR(STR, "Average:", "") GETN_HINT;
+		GETN_STR(STR, "Median:", "") GETN_HINT;
 		GETN_NUM(bgStart,	USER_CORRECT_BACKGROUND_PARAM_START, 0);
 		GETN_NUM(bgStop,	USER_CORRECT_BACKGROUND_PARAM_STOP, 0);
 	}

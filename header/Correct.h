@@ -124,7 +124,7 @@ void CORRECT_backgroundRef(Worksheet tgtWks, Worksheet refWks, string userLabelN
 
 /**
  * Method CORRECT_backgroundAve
- * Subtracts an averaged background from each column of a datasheet.
+ * Subtracts an averaged background from each column of a datasheet (using Median).
  * @param Worksheet tgtWks the worksheet holding the data
  * @param Worksheet refWks the worksheet holding the background data
  * @param string userLabelName the user label to connect data and reference dataset
@@ -166,16 +166,18 @@ void CORRECT_backgroundAve(Worksheet tgtWks, double xStart, double xStop){
 		dataCurve.GetRectPoints(fptTL, fptBR, vX, vY, vIndex);
 		double test;
 
-		// calculate average
-		double sum, background;
-		vY.Sum(sum);
-		background = round(sum / vY.GetSize(), 0);
-		
+		// calculate median
+		int nSize = vY.GetSize();
+		QuantileOptions opt;
+		QuantileResults res;
+		opt.Median = true;
+		ocmath_quantiles(vY, nSize, &opt, &res);    
+    
 		// subtract background
-		dataCurve = dataCurve - background;
+		dataCurve = dataCurve - res.Median;
 		
 		// set comment
-		tgtWks.Columns(colInt).SetComments("Subtracted '" + background + "'.");		
+		tgtWks.Columns(colInt).SetComments("Subtracted '" + res.Median + "'.");		
 	}
 
 	// user information
