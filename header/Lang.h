@@ -70,6 +70,10 @@
 #define USER_PEAKS_TITLE	"Peak Collection"
 #define USER_PEAKS_DESC		"Collect peaks from fitting results."
 
+// data interpolation
+#define USER_INTERPOLATE_TITLE	"Interpolate XY from X"
+#define USER_INTERPOLATE_DESC	"Project datasets on new X-axis."
+
 // worksheet labels
 #define USER_LABELS_TITLE	"Data Import Labels"
 #define USER_LABELS_DESC	"Define Data Column Labeling"

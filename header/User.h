@@ -611,4 +611,44 @@ vector<string> USER_peaks(WorksheetPage wb, vector<string> sheetNames){
 }
 
 
+/**
+ * Open a multiple input box to setup data interpolation.
+ *
+ * @param Worksheet wks the worksheet to evaluate
+ * @param vector<string> sheetNames an array of sheet names with valid data for collection
+ * 
+ * @return vector<string> params the user input parameters
+ **/
+vector<string> USER_interpolate(Worksheet wks){
+    // get possible column names
+	string wksCols;
+	double i = 0;
+    foreach(Column col in wks.Columns){    	
+		wksCols = wksCols + "|" + ftoa(i) + ": " + col.GetName() + " - " + col.GetLongName();
+		i = i + 1;
+	}
+
+	// setup N_BOX
+	GETN_BOX(tr);
+	GETN_STRLIST(colName, LABEL_COL_NAME, "", wksCols);
+	
+	// store results
+	vector<string> params;
+	if(GetNBox(tr, USER_INTERPOLATE_TITLE, USER_INTERPOLATE_DESC)){
+		params.Add(tr.colName.strVal);
+	} else { // user input failed or cancelled
+		params.Add("-1");
+	}
+
+	// extract column index
+	if(params[0] != "-1"){
+		int nRet = params[0].Find(":"); // wcolName
+		if(nRet > -1){
+			params[0] = params[0].Left(nRet);
+		}
+	}
+	
+	return params;
+}
+
 #endif

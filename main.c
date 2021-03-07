@@ -6,7 +6,7 @@
  * All Rights Reserved															*
  * 																				*
  * Last Modified:	07.03.2021													*
- * Tasks:           				    										*
+ * Tasks: Outsource datasheet collection etc.       							*
  *------------------------------------------------------------------------------*/
 #include <Origin.h>
 #include "header\Lang.h"
@@ -367,3 +367,67 @@ void reduce(){
     }
     Project.Save();
 }
+
+/**
+ * Interpolate all data in the current worksheet over a included x-dataset
+ **/
+ void interpolate(){
+	// get active page
+	Worksheet activeWks;
+	WorksheetPage activeWb;
+	ORIGIN_getActiveWorksheets(0, activeWb, activeWks);
+
+	// get parameters from user
+	vector<string> params;
+	params = USER_interpolate(activeWks);
+	int newXInt = atoi(params[0]);
+	
+	// generate new x-range
+	DataRange xRange;
+	xRange.Add(activeWks, newXInt, "X");
+
+	// generate x-range string
+	string str_xRange;
+	xRange.GetRangeString(str_xRange);
+
+	// duplicate data sheet
+	Worksheet tgtWks;
+	tgtWks = ORIGIN_createWks(activeWb, "Interpolated", true);
+	wks_copy(tgtWks, activeWks, CREATE_VISIBLE_SAME, DCTRL_COPY_GRID | DCTRL_COPY_DATA);
+	
+	// store sheet name
+	string tgtSheet = tgtWks.GetName();
+	
+	// loop through all columns
+	DataRange srcRange;
+	int numCols = tgtWks.GetNumCols();
+	for(int colInt = 0; colInt < numCols ; colInt++){
+		// only process y-data
+		if(tgtWks.Columns(colInt).GetType() == OKDATAOBJ_DESIGNATION_Y && colInt != newXInt){
+			// skipt empty columns
+			if(tgtWks.Columns(colInt).GetUpperBound() >= -1){
+				// extract peak cols with LabTalk
+				string src_str = tgtSheet + "!" + (colInt + 1);
+				string str_interpolate = "interp1 -r 0 ix:=" + str_xRange + " iy:=" + src_str + " method:=linear option:=1 ox:=" + src_str;
+				LT_execute(str_interpolate);					
+								
+				// add comment to interpolated data
+				tgtWks.Columns(colInt).SetComments("Interpolated to new X-axis.");
+			}
+		}
+	}
+	
+	// replace old x-data by new data
+	vector<double> newXData;
+	newXData = tgtWks.Columns(newXInt).GetDataObject();
+	for(colInt = 0; colInt < numCols ; colInt++){
+		if(tgtWks.Columns(colInt).GetType() == OKDATAOBJ_DESIGNATION_X && colInt != newXInt){
+			// paste converted X-data
+			vectorbase& xColObj = tgtWks.Columns(colInt).GetDataObject();
+			xColObj = newXData;
+		}
+	}
+	
+	// remove old x-data column
+	tgtWks.DeleteCol(newXInt);
+}	
