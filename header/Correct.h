@@ -2,12 +2,11 @@
  * File Name:	Correct.c 														*
  * Creation: 	Alexander Schmitz												*
  * Purpose: 	Provides user functions for data correction.					*
- * Copyright(c) 2020, Alexander Schmitz         								*
+ * Copyright(c) 2021, Alexander Schmitz         								*
  * All Rights Reserved															*
  * 																				*
- * Last Modified:	12.11.2020													*
+ * Last Modified:	07.03.2021													*
  * Tasks:	CORRECT_setup - Use User Label?										*
- *			Merge functions into one handler (avoid redundance)?				*
  *------------------------------------------------------------------------------*/
 #ifndef _CORRECT_ // include once
 #define _CORRECT_
@@ -123,13 +122,13 @@ void CORRECT_backgroundRef(Worksheet tgtWks, Worksheet refWks, string userLabelN
 
 
 /**
- * Method CORRECT_backgroundAve
+ * Method CORRECT_backgroundMedian
  * Subtracts an averaged background from each column of a datasheet (using Median).
  * @param Worksheet tgtWks the worksheet holding the data
  * @param Worksheet refWks the worksheet holding the background data
  * @param string userLabelName the user label to connect data and reference dataset
  **/
-void CORRECT_backgroundAve(Worksheet tgtWks, double xStart, double xStop){
+void CORRECT_backgroundMedian(Worksheet tgtWks, double xStart, double xStop){
 	// user information
 	out_str("Background Subtraction started ...");
 

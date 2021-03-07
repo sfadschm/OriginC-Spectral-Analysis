@@ -2,10 +2,10 @@
  * File Name:	main.c 															*
  * Creation: 	Alexander Schmitz												*
  * Purpose:		Data Handling/Evaluation										*
- * Copyright(c) 2020, Alexander Schmitz         								*
+ * Copyright(c) 2021, Alexander Schmitz         								*
  * All Rights Reserved															*
  * 																				*
- * Last Modified:	26.01.2021													*
+ * Last Modified:	07.03.2021													*
  * Tasks:           				    										*
  *------------------------------------------------------------------------------*/
 #include <Origin.h>
@@ -107,10 +107,15 @@ void correct(){
 								break;
 
 							case 2: // background
-								if(atof(userParams[0]) == 0){ // reference
-									CORRECT_backgroundRef(tgtWks, activeWb.Layers(userParams[1]), userParams[2]);
-								} else { // average
-									CORRECT_backgroundAve(tgtWks, atof(userParams[3]), atof(userParams[4]));
+								switch(atof(userParams[0]))
+								{
+									case 0: // Reference mode
+										CORRECT_backgroundRef(tgtWks, activeWb.Layers(userParams[1]), userParams[2]);
+										break;
+									
+									case 1: // Median mode
+										CORRECT_backgroundMedian(tgtWks, atof(userParams[1]), atof(userParams[2]));
+										break;
 								}
 								break;
 

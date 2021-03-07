@@ -2,10 +2,10 @@
  * File Name:	User.h 															*
  * Creation:	Alexander Schmitz												*
  * Purpose:		Provides methods for user interaction (interfaces).		        *
- * Copyright(c) 2019, Alexander Schmitz         								*
+ * Copyright(c) 2021, Alexander Schmitz         								*
  * All Rights Reserved															*
  * 																				*
- * Last Modified:	03.03.2020													*
+ * Last Modified:	07.03.2021													*
  * Tasks: 																		*
  *------------------------------------------------------------------------------*/
 #ifndef _USER_ // include once
@@ -326,8 +326,10 @@ vector<string> USER_correctData(WorksheetPage wb){
  * Open a multiple input box to setup data manipulation.
  * @return vector<string> params the user input parameters
  **/
-vector<string> USER_correctDataSource(WorksheetPage wb, Worksheet dataWks, int method, string title){
-    // get Worksheet names
+vector<string> USER_correctDataSource(WorksheetPage wb, Worksheet dataWks, int method, string title, int step = 1){
+	vector<string> params;
+	
+	// get Worksheet names
 	string wksNames;
 	foreach(Layer lay in wb.Layers){
 		wksNames = wksNames + "|" + lay.GetName();		
@@ -346,81 +348,119 @@ vector<string> USER_correctDataSource(WorksheetPage wb, Worksheet dataWks, int m
 
 	// setup N_BOX
 	GETN_BOX(tr);
+	switch(method)
+	{
+		case 1: // Clean Masked Data
+		case 7: // Correct Transform
+		case 8: // Correct Normalise
+			GETN_STR(STR, "Confirm with OK or abort with Cancel!", "") GETN_HINT;
+			break;
 	
-	vector<string> tmp1 = {USER_CORRECT_BACKGROUND};
-	if(tmp1.Find(title) > -1){
-		GETN_RADIO_INDEX(bgMethod, 0, "Reference|Median");
-		GETN_OPTION_DISPLAY_FORMAT(DISPLAY_EDITOR_LEFT);
-		GETN_SEPARATOR_LINE;
-		GETN_STR(STR, "Reference:", "") GETN_HINT;
-	}
-	
-	vector<string> tmp2 = {USER_CORRECT_BACKGROUND, USER_CORRECT_SETUP, USER_CORRECT_FILTERS};
-	if(tmp2.Find(title) > -1){
-		GETN_STRLIST(wksName,	USER_ANALYSE_WKS, "", wksNames);
-	}
+		case 2: // Correct Background
+			switch(step)
+			{
+				case 1:	// Pre-select correction method
+					GETN_STR(STR, "Choose background correction method:", "") GETN_HINT;
+					GETN_RADIO_INDEX(bgMethod, 1, "Reference|Median");
+					GETN_OPTION_DISPLAY_FORMAT(DISPLAY_EDITOR_LEFT);
+					
+					// Call second dialogue step with recursion
+					if(GetNBox(tr, title, "Choose background correction method:")){
+						return USER_correctDataSource(wb, dataWks, method, title, tr.bgMethod.dVal + 2);
+					} else { // user input failed or cancelled
+						params.Add("-1");
+						return params;
+					}
+					break;
+				
+				case 2: // Reference mode
+					GETN_STR(STR, "Reference:", "") GETN_HINT;
+					GETN_STRLIST(wksName,	USER_ANALYSE_WKS, "", wksNames);
+					GETN_LIST(userParam,	ANALYSIS_LABEL_PARAMETER, -1,  labelList);
+					break;
 
-	vector<string> tmp3 = {USER_CORRECT_SPIKES};
-	if(tmp3.Find(title) > -1){
-		GETN_NUM(spikeTh,	USER_CORRECT_SPIKES_PARAM_THRESHOLD, 5);
-		GETN_NUM(spikeW,	USER_CORRECT_SPIKES_PARAM_WIDTH, 5);
-	}
-
-	vector<string> tmp4 = {USER_CORRECT_BACKGROUND, USER_CORRECT_FILTERS, USER_CORRECT_INTEGRATION};
-	if(tmp4.Find(title) > -1){
-		GETN_LIST(userParam,	ANALYSIS_LABEL_PARAMETER, -1,  labelList);
-	}
-
-	vector<string> tmp5 = {USER_CORRECT_CLEAN, USER_CORRECT_TRANSFORM, USER_CORRECT_NORMALISE};
-	if(tmp5.Find(title) > -1){
-		GETN_STR(STR, "Confirm with OK or abort with Cancel!", "") GETN_HINT;
-	}
-
-	vector<string> tmp6 = {USER_CORRECT_BACKGROUND};
-	if(tmp6.Find(title) > -1){
-		GETN_SEPARATOR_LINE;
-		GETN_STR(STR, "Median:", "") GETN_HINT;
-		GETN_NUM(bgStart,	USER_CORRECT_BACKGROUND_PARAM_START, 0);
-		GETN_NUM(bgStop,	USER_CORRECT_BACKGROUND_PARAM_STOP, 0);
-	}
-	
-	// store results
-	vector<string> params;
-	if(GetNBox(tr, title, "Please select source for '" + title + "'.")){
-
-		vector<string> tmp7 = {USER_CORRECT_BACKGROUND};
-		if(tmp7.Find(title) > -1){
-			params.Add(tr.bgMethod.strVal);
-		}
-		
-		vector<string> tmp8 = {USER_CORRECT_BACKGROUND, USER_CORRECT_SETUP, USER_CORRECT_FILTERS};
-		if(tmp8.Find(title) > -1){
-			params.Add(tr.wksName.strVal);
-		}
-
-		vector<string> tmp9 = {USER_CORRECT_SPIKES};
-		if(tmp9.Find(title) > -1){
-			params.Add(tr.spikeW.dVal);
-			params.Add(tr.spikeTh.dVal);
-		}
-
-		vector<string> tmp10 = {USER_CORRECT_BACKGROUND,USER_CORRECT_FILTERS, USER_CORRECT_INTEGRATION};
-		if(tmp10.Find(title) > -1)
-			if(tr.userParam.dVal >= 0){
-				params.Add(labelNames[tr.userParam.dVal]);
-			} else {
-				params.Add(0);
+				case 3: // Median mode
+					GETN_STR(STR, "Median:", "") GETN_HINT;
+					GETN_NUM(bgStart,	USER_CORRECT_BACKGROUND_PARAM_START, 0);
+					GETN_NUM(bgStop,	USER_CORRECT_BACKGROUND_PARAM_STOP, 0);
+					break;
 			}
-			
-		vector<string> tmp11 = {USER_CORRECT_CLEAN, USER_CORRECT_TRANSFORM, USER_CORRECT_NORMALISE};
-		if(tmp11.Find(title) > -1){
-			params.Add(1);
-		}
+			break;
 
-		vector<string> tmp12 = {USER_CORRECT_BACKGROUND};
-		if(tmp12.Find(title) > -1){
-			params.Add(tr.bgStart.dVal);
-			params.Add(tr.bgStop.dVal);
+		case 3: // Correct Spikes
+			GETN_NUM(spikeTh,	USER_CORRECT_SPIKES_PARAM_THRESHOLD, 5);
+			GETN_NUM(spikeW,	USER_CORRECT_SPIKES_PARAM_WIDTH, 5);
+			break;
+
+		case 4: // Correct Setup
+			GETN_STRLIST(wksName,	USER_ANALYSE_WKS, "", wksNames);
+			break;
+
+		case 5: // Correct Filters
+			GETN_STRLIST(wksName,	USER_ANALYSE_WKS, "", wksNames);
+			GETN_LIST(userParam,	ANALYSIS_LABEL_PARAMETER, -1,  labelList);
+			break;
+
+		case 6: // Correct Integration
+			GETN_LIST(userParam,	ANALYSIS_LABEL_PARAMETER, -1,  labelList);
+			break;
+	}
+		
+	// store results
+	if(GetNBox(tr, title, "Please select source for '" + title + "'.")){
+		switch(method)
+		{
+			case 1: // Clean Masked Data
+			case 7: // Correct Transform
+			case 8: // Correct Normalise
+				params.Add(1);
+				break;
+	
+			case 2: // Correct Background
+				params.Add(step - 2);
+				switch(step)
+				{
+					case 2: // Reference mode
+						params.Add(tr.wksName.strVal);
+						if(tr.userParam.dVal >= 0){
+							params.Add(labelNames[tr.userParam.dVal]);
+						} else {
+							params.Add(0);
+						}
+						break;
+							
+					case 3: // Median mode
+						params.Add(tr.bgStart.dVal);
+						params.Add(tr.bgStop.dVal);
+						break;
+				}
+				break;
+
+			case 3: // Correct Spikes
+				params.Add(tr.spikeW.dVal);
+				params.Add(tr.spikeTh.dVal);
+				break;
+
+			case 4: // Correct Setup
+				params.Add(tr.wksName.strVal);
+				break;
+
+			case 5: // Correct Filters
+				params.Add(tr.wksName.strVal);
+				if(tr.userParam.dVal >= 0){
+					params.Add(labelNames[tr.userParam.dVal]);
+				} else {
+					params.Add(0);
+				}
+				break;
+
+			case 6: // Correct Integration
+				if(tr.userParam.dVal >= 0){
+					params.Add(labelNames[tr.userParam.dVal]);
+				} else {
+					params.Add(0);
+				}
+				break;
 		}
 	} else { // user input failed or cancelled
 		params.Add("-1");
