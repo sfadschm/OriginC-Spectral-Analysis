@@ -2,10 +2,10 @@
  * File Name:	Misc.h  	 													*
  * Creation: 	Alexander Schmitz												*
  * Purpose: 	Provides basic variable/string handling methods.  				*
- * Copyright(c) 2019, Alexander Schmitz         								*
+ * Copyright(c) 2021, Alexander Schmitz         								*
  * All Rights Reserved															*
  * 																				*
- * Last Modified:	16.02.2020											    	*
+ * Last Modified:	16.02.2021											    	*
  * Tasks:           				    										*
  *------------------------------------------------------------------------------*/
 #ifndef _MISC_ // include once

@@ -2,7 +2,7 @@
  * File Name:	Origin.h	 													*
  * Creation: 	Alexander Schmitz												*
  * Purpose: 	Provides methods to manipulate Origin objects.  				*
- * Copyright(c) 2019, Alexander Schmitz         								*
+ * Copyright(c) 2021, Alexander Schmitz         								*
  * All Rights Reserved															*
  * 																				*
  * Last Modified:	14.11.2019										    		*

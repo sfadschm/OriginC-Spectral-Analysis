@@ -2,7 +2,7 @@
  * File Name:	Lang.h 															*
  * Creation:	Alexander Schmitz												*
  * Purpose:		Provides text constant for user interfaces. 					*
- * Copyright(c) 2020, Alexander Schmitz         								*
+ * Copyright(c) 2021, Alexander Schmitz         								*
  * All Rights Reserved															*
  * 																				*
  * Last Modified:	17.02.2021													*

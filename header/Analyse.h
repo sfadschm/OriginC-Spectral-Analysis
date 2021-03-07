@@ -2,7 +2,7 @@
  * File Name:	Analyse.h 														*
  * Creation: 	Alexander Schmitz												*
  * Purpose: 	Provides user functions to perform analysis on datasets.		*
- * Copyright(c) 2019, Alexander Schmitz         								*
+ * Copyright(c) 2021, Alexander Schmitz         								*
  * All Rights Reserved															*
  * 																				*
  * Last Modified:	11.02.2021			    									* 

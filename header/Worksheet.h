@@ -2,10 +2,10 @@
  * File Name:	Worksheet.h	 													*
  * Creation: 	Alexander Schmitz												*
  * Purpose: 	Provides methods for Origin Worksheet manipulation.				*
- * Copyright(c) 2019, Alexander Schmitz         								*
+ * Copyright(c) 2021, Alexander Schmitz         								*
  * All Rights Reserved															*
  * 																				*
- * Last Modified:	16.02.2020													*
+ * Last Modified:	16.02.2020  												*
  * Tasks:           				    										*
  *------------------------------------------------------------------------------*/
 #ifndef _WORKSHEET_ // include once
