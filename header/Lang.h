@@ -66,6 +66,10 @@
 #define	USER_IMPORT_SPARKL	"Create Spaklines? (Slow!!!)"
 #define USER_IMPORT_SERIES	"Add Series Labels (User)?"
 
+// peak collection
+#define USER_PEAKS_TITLE	"Peak Collection"
+#define USER_PEAKS_DESC		"Collect peaks from fitting results."
+
 // worksheet labels
 #define USER_LABELS_TITLE	"Data Import Labels"
 #define USER_LABELS_DESC	"Define Data Column Labeling"

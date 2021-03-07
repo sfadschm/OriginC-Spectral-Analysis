@@ -592,7 +592,7 @@ vector<string> USER_peaks(WorksheetPage wb, vector<string> sheetNames){
 	
 	// store results
 	vector<string> params;
-	if(GetNBox(tr, USER_IMPORT_TITLE, USER_IMPORT_DESC)){
+	if(GetNBox(tr, USER_PEAKS_TITLE, USER_PEAKS_DESC)){
 		params.Add(tr.Identifier.strVal);
 		params.Add(tr.colName.strVal);
 	} else { // user input failed or cancelled
@@ -609,5 +609,6 @@ vector<string> USER_peaks(WorksheetPage wb, vector<string> sheetNames){
 
 	return params;
 }
+
 
 #endif
