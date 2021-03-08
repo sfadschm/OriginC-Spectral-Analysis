@@ -780,4 +780,66 @@ void CORRECT_normalise(Worksheet tgtWks)
 	out_str("Normalisation finished.\n");
 }
 
+void CORRECT_interpolate(WorksheetPage wb, Worksheet wks, int newXInt)
+{
+	// user information
+	printf("Starting data interpolation...");
+
+	// generate x-range string
+	string str_xRange = wks.GetName() + "!" + newXInt;
+
+	// store new x-data for replication
+	vector<double> newXData;
+	newXData = wks.Columns(newXInt).GetDataObject();
+
+	// duplicate data sheet
+	Worksheet tgtWks;
+	tgtWks = ORIGIN_createWks(wb, "Interpolated", true);
+	wks_copy(tgtWks, wks, CREATE_VISIBLE_SAME, DCTRL_COPY_GRID | DCTRL_COPY_DATA);
+
+	// store sheet name
+	string tgtSheet = tgtWks.GetName();
+
+	// loop through all columns
+	int numCols = tgtWks.GetNumCols();
+	for(int colInt = 0; colInt < numCols ; colInt++)
+	{
+		// skip x/z-data, new x-axis and empty columns
+		if(tgtWks.Columns(colInt).GetType() != OKDATAOBJ_DESIGNATION_Y || colInt == newXInt || tgtWks.Columns(colInt).GetUpperBound() == -1)
+		{
+			continue;
+		}
+
+		// perform interpolation with LabTalk
+		string src_str         = tgtSheet + "!" + (colInt + 1);
+		string str_interpolate = "interp1 -r 0 ix:=" + str_xRange + " iy:=" + src_str + " method:=linear option:=1 ox:=" + src_str;
+		LT_execute(str_interpolate);
+
+		// add comment to interpolated data
+		tgtWks.Columns(colInt).SetComments("Interpolated to new X-axis.");
+	}
+
+	// replace old x-data with new axis
+	for(colInt = 0; colInt < numCols ; colInt++)
+	{
+		// skip y/z-data and source of new x-data
+		if(tgtWks.Columns(colInt).GetType() != OKDATAOBJ_DESIGNATION_X || colInt == newXInt)
+		{
+			continue;
+		}
+
+		// get target data object
+		vectorbase& xColObj = tgtWks.Columns(colInt).GetDataObject();
+
+		// paste new x-data
+		xColObj = newXData;
+	}
+
+	// remove old x-data column
+	tgtWks.DeleteCol(newXInt);
+
+	// user information
+	printf("Data interpolation finished.");
+}
+
 #endif
