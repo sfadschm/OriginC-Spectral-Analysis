@@ -1,20 +1,20 @@
 /*------------------------------------------------------------------------------*
  * File Name:	Lang.h 															*
  * Creation:	Alexander Schmitz												*
- * Purpose:		Provides text constant for user interfaces. 					*
+ * Purpose:		Provides text constants for user interfaces. 					*
  * Copyright(c) 2021, Alexander Schmitz         								*
  * All Rights Reserved															*
  * 																				*
- * Last Modified:	17.02.2021													*
+ * Last Modified:	08.03.2021													*
  * Tasks:           				    										*
  *------------------------------------------------------------------------------*/
 #ifndef _LANG_ // include once
 #define _LANG_
 
 /****************************** General ******************************/
-#define LABEL_WB_NAME	"Target Workbook"
-#define LABEL_WKS_NAME	"Target Worksheet"
-#define LABEL_COL_NAME	"Target Column"
+#define LABEL_WB_NAME	    "Target Workbook"
+#define LABEL_WKS_NAME	    "Target Worksheet"
+#define LABEL_COL_NAME   	"Target Column"
 #define USER_PARAMS_EMPTY	"\nNo Parameters were set!"
 /****************************** General End ******************************/
 
@@ -34,6 +34,7 @@
 #define RENAME_STOP			"Workbooks renamed.\n"
 #define LOWERBOUND_START	"Setting worksheet lower bound ...\n"
 #define LOWERBOUND_STOP		"Lower bound set to %.3f.\n"
+#define REDUCE_STOP			"All sparklines have been deleted.\n"
 #define PEAKS_START			"\nCollecting peak data ..."
 #define PEAKS_STOP			"\nPeak data completed.\n"
 /****************************** Progress Information End ******************************/
@@ -94,8 +95,8 @@
 // noise reduction
 #define USER_NOISE_VALUE_LABEL	"Noise Level"
 #define	USER_NOISE_USEMIN_LABEL	"Use current sheet min value?"
-#define USER_NOISE_TITLE	"Noise Subtraction"
-#define USER_NOISE_DESCR	"Define Noise Level (enter 0 to skip)."
+#define USER_NOISE_TITLE	    "Noise Subtraction"
+#define USER_NOISE_DESCR	    "Define Noise Level (enter 0 to skip)."
 
 // general analysis
 #define ANALYSIS_TITLE				"Evaluation"
@@ -134,8 +135,8 @@
 #define USER_XYZ_MATRIX_YSTEP		"Y-Step"
 
 // data manipulation/correction
-#define USER_CORRECT_TITLE	"Data Manipulation"
-#define USER_CORRECT_DESC	"Run several manipulation methods on worksheets in active workbook."
+#define USER_CORRECT_TITLE	        "Data Manipulation"
+#define USER_CORRECT_DESC	        "Run several manipulation methods on worksheets in active workbook."
 #define USER_CORRECT_NODATAWKS		"No valid worksheet selected."
 #define USER_CORRECT_DATAWKS_LABEL	"Data Source"
 
@@ -162,7 +163,7 @@
 #define USER_CORRECT_SPIKES_PARAM_WIDTH			"Averaging Width"
 
 #define USER_CORRECT_BACKGROUND_PARAM_START "Start"
-#define USER_CORRECT_BACKGROUND_PARAM_STOP "Stop"
+#define USER_CORRECT_BACKGROUND_PARAM_STOP  "Stop"
 
 // 4D-map linescan
 #define USER_LINESCAN_TITLE	"Linecan Coordinate"

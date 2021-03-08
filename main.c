@@ -5,8 +5,8 @@
  * Copyright(c) 2021, Alexander Schmitz         								*
  * All Rights Reserved															*
  * 																				*
- * Last Modified:	07.03.2021													*
- * Tasks: Outsource datasheet collection etc.       							*
+ * Last Modified:	08.03.2021													*
+ * Tasks:                                            							*
  *------------------------------------------------------------------------------*/
 #include <Origin.h>
 #include "header\Lang.h"
@@ -17,29 +17,40 @@
 #include "header\Correct.h"
 
 /**
- * Method import
- * Import various datasets from user input.
+ * Import various datasets based on user input.
  **/
-void import(){
+void import()
+{
 	// get parameters from user
 	vector<string> params;
 	params = USER_importData();
 	
-	// import data
-	if(atoi(params[0]) > -1){
-		printf(IMPORT_START);
+	// abort if user dialog cancelled
+	if(params[0] == "-1")
+	{
+		printf(USER_PARAMS_EMPTY);
+		return;
+	}
+	
+	// user information
+	printf(IMPORT_START);
 
-		// map user parameters
-		int methodInt = atoi(params[0]);
+	// map user parameters
+	int methodInt = atoi(params[0]);
 
-		// read source files from user
-		vector<string> strFiles;
-		strFiles = USER_selectFiles();
-		if(strFiles.GetSize() == 0)
-			return;
-			
-		// call import method
-		switch(methodInt){ // method switch
+	// read source files from user
+	vector<string> strFiles;
+	strFiles = USER_selectFiles();
+		
+	// abort if no file selected
+	if(strFiles.GetSize() == 0)
+	{
+		return;
+	}
+		
+	// call import method
+	switch(methodInt)
+	{
 		case 0: // Spectra
 			IMPORT_spectra(params, strFiles);
 			break;
@@ -56,24 +67,22 @@ void import(){
 			IMPORT_4dMaps(params, strFiles);
 			break;
 			
-		case 4: // ImageJ Trackings
+		case 4: // ImageJ Tracks
 			IMPORT_Tracks(params, strFiles);
 			break;
-		}
-		
-		printf(IMPORT_STOP);
-	} else { // user cancel
-		printf(USER_PARAMS_EMPTY);
 	}
+	
+	// user information
+	printf(IMPORT_STOP);
 }
 
 /**
- * Method correct
  * Run different manipulation routines on worksheets in current workbook.
  **/
-void correct(){
+void correct()
+{
 	// get targets
-	Worksheet activeWks;
+	Worksheet     activeWks;
 	WorksheetPage activeWb;
 	ORIGIN_getActiveWorksheets(0, activeWb, activeWks);
 
@@ -81,138 +90,163 @@ void correct(){
 	vector<string> params;
 	params = USER_correctData(activeWb);
 	
-	// correct data
-	if(atoi(params[0]) > -1){
-		// map source parameters
-        Worksheet dataWks = activeWb.Layers(params[0]);
-
-		if(dataWks){ // existing worksheet
-			// run through methods
-			Worksheet tgtWks;
-			vector<string> dialogTitles = {USER_CORRECT_CLEAN, USER_CORRECT_BACKGROUND, USER_CORRECT_SPIKES, USER_CORRECT_SETUP, USER_CORRECT_FILTERS, USER_CORRECT_INTEGRATION, USER_CORRECT_TRANSFORM, USER_CORRECT_NORMALISE};
-			vector<string> sheetTitles = {USER_CORRECT_SHEET_CLEAN, USER_CORRECT_SHEET_BACKGROUND, USER_CORRECT_SHEET_SPIKES, USER_CORRECT_SHEET_SETUP, USER_CORRECT_SHEET_FILTERS, USER_CORRECT_SHEET_INTEGRATION, USER_CORRECT_SHEET_TRANSFORM, USER_CORRECT_SHEET_NORMALISE};
-			for(int i = 1; i <= 8; i++) {
-				if(atoi(params[i]) == 1){
-					vector<string> userParams;
-					userParams = USER_correctDataSource(activeWb, dataWks, i, dialogTitles[i - 1]);
-					if(atoi(userParams[0]) > -1){
-						// duplicate data sheet
-						tgtWks = ORIGIN_createWks(activeWb, sheetTitles[i - 1], true);
-						wks_copy(tgtWks, dataWks, CREATE_VISIBLE_SAME, DCTRL_COPY_GRID | DCTRL_COPY_DATA);
-
-						// run method
-						switch(i){
-							case 1: // clean masked data
-								CORRECT_masked(tgtWks);
-								break;
-
-							case 2: // background
-								switch(atof(userParams[0]))
-								{
-									case 0: // Reference mode
-										CORRECT_backgroundRef(tgtWks, activeWb.Layers(userParams[1]), userParams[2]);
-										break;
-									
-									case 1: // Median mode
-										CORRECT_backgroundMedian(tgtWks, atof(userParams[1]), atof(userParams[2]));
-										break;
-								}
-								break;
-
-							case 3: // spikes
-								CORRECT_spikes(tgtWks, atof(userParams[0]), atoi(userParams[1]));
-								break;
-
-							case 4: // setup
-								CORRECT_setup(tgtWks, activeWb.Layers(userParams[0]));
-								break;
-
-							case 5: // filters
-								CORRECT_filters(tgtWks, activeWb.Layers(userParams[0]), userParams[1]);
-								break;
-
-							case 6: // integration time
-								CORRECT_integrationTime(tgtWks, userParams[0]);
-								break;
-
-							case 7: // energy transformation
-								CORRECT_transform(tgtWks);
-								break;
-
-							case 8: // normalisation
-								CORRECT_normalise(tgtWks);
-								break;
-						}
-
-						// make sure comments are shown
-						Grid gg;
-						gg.Attach(tgtWks);	
-						gg.ShowLabels(RCLT_COMMENT);
-
-						// assign new data sheet
-						dataWks = tgtWks;
-					} else {
-						printf(USER_PARAMS_EMPTY + " (" + dialogTitles[i - 1] + ")");
-					}
-				}
-			}
-		} else { // wrong input
-			printf(USER_CORRECT_NODATAWKS);
-		}
-	} else { // user cancel
+	// abort if user dialog cancelled
+	if(params[0] == "-1")
+	{
 		printf(USER_PARAMS_EMPTY);
+		return;
+	}
+	
+	// map source parameters
+    Worksheet dataWks = activeWb.Layers(params[0]);
+
+    // abort if not a worksheet
+    if(!dataWks)
+    {
+		printf(USER_CORRECT_NODATAWKS);
+		return;
+	}
+
+	// prepare dialog titles/texts
+	vector<string> dialogTitles = {USER_CORRECT_CLEAN, USER_CORRECT_BACKGROUND, USER_CORRECT_SPIKES, USER_CORRECT_SETUP, USER_CORRECT_FILTERS, USER_CORRECT_INTEGRATION, USER_CORRECT_TRANSFORM, USER_CORRECT_NORMALISE};
+	vector<string> sheetTitles  = {USER_CORRECT_SHEET_CLEAN, USER_CORRECT_SHEET_BACKGROUND, USER_CORRECT_SHEET_SPIKES, USER_CORRECT_SHEET_SETUP, USER_CORRECT_SHEET_FILTERS, USER_CORRECT_SHEET_INTEGRATION, USER_CORRECT_SHEET_TRANSFORM, USER_CORRECT_SHEET_NORMALISE};
+
+	// run through methods
+	Worksheet tgtWks;
+	for(int i = 1; i <= dialogTitles.GetSize(); i++)
+	{
+		if(atoi(params[i]) == 1)
+		{
+			// read user parameters for current step
+			vector<string> userParams;
+			userParams = USER_correctDataSource(activeWb, dataWks, i, dialogTitles[i - 1]);
+			
+			// abort if parameter dialogue cancelled
+			if(userParams[0] == "-1")
+			{
+				printf(USER_PARAMS_EMPTY + " (" + dialogTitles[i - 1] + ")");
+				return;
+			}
+			
+			// duplicate data sheet
+			tgtWks = ORIGIN_createWks(activeWb, sheetTitles[i - 1], true);
+			wks_copy(tgtWks, dataWks, CREATE_VISIBLE_SAME, DCTRL_COPY_GRID | DCTRL_COPY_DATA);
+
+			// run correction method
+			switch(i)
+			{
+				case 1: // clean masked data
+					CORRECT_masked(tgtWks);
+					break;
+
+				case 2: // subtract background
+					switch(atof(userParams[0]))
+					{
+						case 0: // reference mode
+							CORRECT_backgroundRef(tgtWks, activeWb.Layers(userParams[1]), userParams[2]);
+							break;
+									
+						case 1: // median mode
+							CORRECT_backgroundMedian(tgtWks, atof(userParams[1]), atof(userParams[2]));
+							break;
+					}
+					break;
+
+				case 3: // automatically remove spikes
+					CORRECT_spikes(tgtWks, atof(userParams[0]), atoi(userParams[1]));
+					break;
+
+				case 4: // correct setup efficiency
+					CORRECT_setup(tgtWks, activeWb.Layers(userParams[0]));
+					break;
+
+				case 5: // correct filter transmission
+					CORRECT_filters(tgtWks, activeWb.Layers(userParams[0]), userParams[1]);
+					break;
+
+				case 6: // correct integration time
+					CORRECT_integrationTime(tgtWks, userParams[0]);
+					break;
+
+				case 7: // perform energy transformation
+					CORRECT_transform(tgtWks);
+					break;
+
+				case 8: // perform data normalisation
+					CORRECT_normalise(tgtWks);
+					break;
+			}
+
+			// ensure that comments are shown
+			Grid gg;
+			gg.Attach(tgtWks);	
+			gg.ShowLabels(RCLT_COMMENT);
+
+			// assign new data sheet (for recursion)
+			dataWks = tgtWks;
+		}
 	}
 }
 
 /**
- * Method analyse
- * Run data analyse on a workbook or worksheet.
+ * Run basic data analysis on a workbook or worksheet.
  **/
-void analyse(){
+void analyse()
+{
 	// get parameters from user
 	vector<string> params;
 	params = USER_analyse();
 	
-	// analyse data
-	if(atoi(params[0]) > -1){
-		printf(ANALYSIS_START);
+	// abort if user dialog cancelled
+	if(params[0] == "-1")
+	{
+		printf(USER_PARAMS_EMPTY);
+		return;
+	}
 
-		// map source parameters
-		int methodInt = atoi(params[0]);
-		int sourceTypeInt = atoi(params[1]);
+	// user information
+	printf(ANALYSIS_START);
+
+	// map source parameters
+	int methodInt     = atoi(params[0]);
+	int sourceTypeInt = atoi(params[1]);
 	
-		// get targets
-		Worksheet activeWks;
-		WorksheetPage activeWb;
-		vector<int> sourceWksInts;
-		sourceWksInts = ORIGIN_getActiveWorksheets(sourceTypeInt, activeWb, activeWks);
+	// get targets
+	Worksheet     activeWks;
+	WorksheetPage activeWb;
+	vector<int>   sourceWksInts;
+	sourceWksInts = ORIGIN_getActiveWorksheets(sourceTypeInt, activeWb, activeWks);
 
-		// loop through source layers
-		Worksheet wks;
-		for(int i = 0; i < sourceWksInts.GetSize(); i++){
-			wks = activeWb.Layers(sourceWksInts[i]);
-			if(wks.GetName() == ANALYSIS_TARGET)
-				continue;
+	// loop through source layers
+	Worksheet wks;
+	for(int i = 0; i < sourceWksInts.GetSize(); i++)
+	{
+		wks = activeWb.Layers(sourceWksInts[i]);
+		
+		// skip existing result sheets
+		if(wks.GetName() == ANALYSIS_TARGET)
+		{
+			continue;
+		}
 
-			// call analysis method
-			switch(methodInt){ // method switch
-			case 0: // Spectra
+		// call analysis method
+		switch(methodInt)
+		{
+			case 0: // spectral analysis
 				ANALYSE_spectra(wks);
 				break;
 			
-			case 1: // 4D Linescan
+			case 1: // 4D linescan
 				MAP_4D_Linescan(wks);
 				break;
-			}
 		}
-		printf(ANALYSIS_STOP);
-	} else { // user cancel
-		printf(USER_PARAMS_EMPTY);
 	}
+	
+	// user information
+	printf(ANALYSIS_STOP);
 }
 
 /**
- * Method convert
  * Convert data to or from maps (3D/4D).
  **/
 void convert(){
@@ -220,61 +254,74 @@ void convert(){
 	vector<string> params;
 	params = USER_convert();
 	
-	// handle data
-	if(atoi(params[0]) > -1){
-		printf(CONVERSION_START);
+	// abort if user dialog cancelled
+	if(params[0] == "-1")
+	{
+		printf(USER_PARAMS_EMPTY);
+		return;
+	}
+	
+	// user information
+	printf(CONVERSION_START);
 
-		// map user parameters
-		int methodInt = atoi(params[0]);
+	// map user parameters
+	int methodInt = atoi(params[0]);
 			
-		// get targets
-		Worksheet activeWks = Project.ActiveLayer();
-		if(!activeWks){
-			printf(ANALYSIS_NO_WKS);
-			return;
-		}
+	// get targets
+	Worksheet activeWks = Project.ActiveLayer();
+	
+    // abort if not a worksheet
+	if(!activeWks)
+	{
+		printf(ANALYSIS_NO_WKS);
+		return;
+	}
 
-		// call conversion method
-		switch(methodInt){ // method switch
-		case 0: // convert XYZ to matrix
+	// call conversion method
+	switch(methodInt)
+	{
+		case 0: // convert XYZ data to matrix
 			// get conversion parameters
 			vector<string> mapParams;	
 			mapParams = USER_xyzMatrix();
-			if(atoi(mapParams[0]) > -1){
-				CONVERT_XYZtoMatrix(activeWks, mapParams);
-			} else{ // user cancel
+
+			// abort if parameter dialogue cancelled
+			if(mapParams[0] == "-1"){
 				printf(USER_PARAMS_EMPTY);
 				return;
 			}
+
+			// run conversion
+			CONVERT_XYZtoMatrix(activeWks, mapParams);
 			break;
-		}
-		printf(CONVERSION_STOP);
-	} else { // user cancel
-		printf(USER_PARAMS_EMPTY);
 	}
+	
+	// user information
+	printf(CONVERSION_STOP);
 }
 
 /**
- * Method peaks
- * Collect and resort specific data columns from multiple peak analysis.
+ * Collect and resort selected data columns from multiple peak analysis result sheets.
  **/
 void peaks(){
 	// get active page
-	Worksheet activeWks;
+	Worksheet     activeWks;
 	WorksheetPage activeWb;
 	ORIGIN_getActiveWorksheets(0, activeWb, activeWks);
 
-	// collect valid sheets in page
+	// collect valid sheets in active page
 	vector<string> sheetNames;
-	foreach(Layer tempWks in activeWb.Layers){
+	foreach(Layer tempWks in activeWb.Layers)
+	{
 		// only peak summary sheets are valid
 		string tmpName = tempWks.GetName();
-		if(tmpName.Match("PeakProperties*")){
+		if(tmpName.Match("PeakProperties*"))
+		{
 			sheetNames.Add(tmpName);
 		}
 	}
 	
-	// exit if no valid sheets
+	// abort if no valid sheets available
 	if(sheetNames.GetSize() < 1){
 		printf(PEAKS_NO_WKS);
 		return;
@@ -284,25 +331,28 @@ void peaks(){
 	vector<string> params;
 	params = USER_peaks(activeWb, sheetNames);
 	
-	// analyse data
-	if(atoi(params[0]) > -1){
-		printf(PEAKS_START);
-
-		// map source parameters
-		string identifier = params[0];
-		string columnName = params[1];
-
-		// evaluate peaks
-		ANALYSE_collectPeaks(activeWb, sheetNames, columnName, identifier);
-
-		printf(PEAKS_STOP);
-	} else { // user cancel
+	// abort if user dialog cancelled
+	if(params[0] == "-1")
+	{
 		printf(USER_PARAMS_EMPTY);
+		return;
 	}
+	
+	// user information
+	printf(PEAKS_START);
+
+	// map source parameters
+	string identifier = params[0];
+	string columnName = params[1];
+
+	// evaluate peaks
+	ANALYSE_collectPeaks(activeWb, sheetNames, columnName, identifier);
+
+	// user information
+	printf(PEAKS_STOP);
 }
 
 /**
- * Method alignText
  * Align a text field in the active graph window.
  **/
 void alignText(){
@@ -314,29 +364,32 @@ void alignText(){
 }
 
 /**
- * Method renameWbs
  * Rename all Workbooks in active folder with their long names.
  **/
 void renameWbs(){
+	// get active folder
     Folder fld = Project.ActiveFolder();
-    PageBase pb;
 
-    foreach(pb in fld.Pages){
+    // loop through workbook pages in folder
+    PageBase pb;
+    foreach(pb in fld.Pages)
+    {
       pb.Rename(page_get_display_name(pb, FALSE), TRUE, TRUE);
     }
 
+    // user information
     printf(RENAME_STOP);
 }
 
 
 /**
- * Method setLowerBound
- * Sets the lower bound of allowed values in the current worksheet.
+ * Set the lower bound of allowed values in the current worksheet to a defined value.
+ *
  * @param double lowerBound the lowest allowed value
  **/
 void setLowerBound(double lowerBound = 0){
 	// get targets
-	Worksheet activeWks;
+	Worksheet     activeWks;
 	WorksheetPage activeWb;
 	ORIGIN_getActiveWorksheets(0, activeWb, activeWks);
 
@@ -351,44 +404,59 @@ void setLowerBound(double lowerBound = 0){
 }
 
 /**
- * Method reduce
- * Reduces CPU load by removing all sparklines from project and hiding all page windows.
+ * Reduce CPU load by removing all sparklines from the project and hiding all page windows.
  **/
 void reduce(){
-	// loop all pages
+	// loop through all pages
     foreach(PageBase pb in Project.Pages){
-    	if(pb.GetName().Find("sparkline") > -1){
+    	if(pb.GetName().Find("sparkline") > -1)
+    	{
 			// delete sparkline
 		    pb.Destroy();
-		} else {
+		}
+		else 
+		{
 			// hide other pages
 			pb.Show = false;
         }
     }
+    
+    // save project
     Project.Save();
+    
+    // user information
+    printf(REDUCE_STOP);
 }
 
 /**
- * Interpolate all data in the current worksheet over a included x-dataset
+ * Project all data in the current worksheet onto a new x-axis.
  **/
  void interpolate(){
 	// get active page
-	Worksheet activeWks;
+	Worksheet     activeWks;
 	WorksheetPage activeWb;
 	ORIGIN_getActiveWorksheets(0, activeWb, activeWks);
 
 	// get parameters from user
 	vector<string> params;
 	params = USER_interpolate(activeWks);
+	
+	// abort if user dialog cancelled
+	if(params[0] == "-1")
+	{
+		printf(USER_PARAMS_EMPTY);
+		return;
+	}
+	
+	// map user parameters
 	int newXInt = atoi(params[0]);
 	
-	// generate new x-range
-	DataRange xRange;
-	xRange.Add(activeWks, newXInt, "X");
-
 	// generate x-range string
-	string str_xRange;
-	xRange.GetRangeString(str_xRange);
+	string str_xRange = activeWks.GetName() + "!" + newXInt;
+
+	// store new x-data for replication
+	vector<double> newXData;
+	newXData = activeWks.Columns(newXInt).GetDataObject();
 
 	// duplicate data sheet
 	Worksheet tgtWks;
@@ -399,33 +467,38 @@ void reduce(){
 	string tgtSheet = tgtWks.GetName();
 	
 	// loop through all columns
-	DataRange srcRange;
 	int numCols = tgtWks.GetNumCols();
-	for(int colInt = 0; colInt < numCols ; colInt++){
-		// only process y-data
-		if(tgtWks.Columns(colInt).GetType() == OKDATAOBJ_DESIGNATION_Y && colInt != newXInt){
-			// skipt empty columns
-			if(tgtWks.Columns(colInt).GetUpperBound() >= -1){
-				// extract peak cols with LabTalk
-				string src_str = tgtSheet + "!" + (colInt + 1);
-				string str_interpolate = "interp1 -r 0 ix:=" + str_xRange + " iy:=" + src_str + " method:=linear option:=1 ox:=" + src_str;
-				LT_execute(str_interpolate);					
-								
-				// add comment to interpolated data
-				tgtWks.Columns(colInt).SetComments("Interpolated to new X-axis.");
-			}
-		}
+	for(int colInt = 0; colInt < numCols ; colInt++)
+	{
+		// skip x/z-data, new x-axis and empty columns
+		if(tgtWks.Columns(colInt).GetType() != OKDATAOBJ_DESIGNATION_Y || colInt == newXInt || tgtWks.Columns(colInt).GetUpperBound() == -1)
+		{
+			continue;
+		}		
+
+		// perform interpolation with LabTalk
+		string src_str         = tgtSheet + "!" + (colInt + 1);
+		string str_interpolate = "interp1 -r 0 ix:=" + str_xRange + " iy:=" + src_str + " method:=linear option:=1 ox:=" + src_str;
+		LT_execute(str_interpolate);					
+							
+		// add comment to interpolated data
+		tgtWks.Columns(colInt).SetComments("Interpolated to new X-axis.");
 	}
 	
-	// replace old x-data by new data
-	vector<double> newXData;
-	newXData = tgtWks.Columns(newXInt).GetDataObject();
-	for(colInt = 0; colInt < numCols ; colInt++){
-		if(tgtWks.Columns(colInt).GetType() == OKDATAOBJ_DESIGNATION_X && colInt != newXInt){
-			// paste converted X-data
-			vectorbase& xColObj = tgtWks.Columns(colInt).GetDataObject();
-			xColObj = newXData;
+	// replace old x-data with new axis
+	for(colInt = 0; colInt < numCols ; colInt++)
+	{
+		// skip y/z-data and source of new x-data
+		if(tgtWks.Columns(colInt).GetType() != OKDATAOBJ_DESIGNATION_X || colInt == newXInt)
+		{
+			continue;
 		}
+		
+		// get target data object
+		vectorbase& xColObj = tgtWks.Columns(colInt).GetDataObject();
+
+		// paste new x-data
+		xColObj = newXData;
 	}
 	
 	// remove old x-data column

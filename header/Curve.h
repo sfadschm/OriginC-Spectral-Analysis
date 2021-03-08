@@ -5,7 +5,7 @@
  * Copyright(c) 2021, Alexander Schmitz         								*
  * All Rights Reserved															*
  * 																				*
- * Last Modified::	14.11.2019											    	*
+ * Last Modified::	08.13.2019											    	*
  * Tasks:           				    										*
  *------------------------------------------------------------------------------*/
 #ifndef _CURVE_ // include once
@@ -14,16 +14,18 @@
 #include <Origin.h>
 
 /**
- * Function CURVE_truncate
  * Remove missing data from curve and set boundaries.
- * @param Curve rawCurve the unprepared curve
- * @param Curve& data the reference to the finalised curve object
- * @param Worksheet tmpWks the temporary worksheet to attach the curves to
- * @param double startX the lower x boundary
- * @param double stopX the upper x boundary
+ *
+ * @param Curve     rawCurve the unprepared curve
+ * @param Curve&    data     the reference to the finalised curve object
+ * @param Worksheet tmpWks   the temporary worksheet to attach the curves to
+ * @param double    startX   the lower x boundary
+ * @param double    stopX    the upper x boundary
+ *
  * @return Curve truncCurve the truncated curve
  **/
-void CURVE_truncate(Curve rawCurve, Curve& dataCurve, Worksheet tmpWks, double startX, double stopX){
+void CURVE_truncate(Curve rawCurve, Curve& dataCurve, Worksheet tmpWks, double startX, double stopX)
+{
 	// remove missing curve values
 	int nMissing;
 	int nSrcOffset;
@@ -37,10 +39,12 @@ void CURVE_truncate(Curve rawCurve, Curve& dataCurve, Worksheet tmpWks, double s
 	Curve_MinMax(&strippedCurve, &xMin, &xMax, true, &yMin, &yMax);
 
 	// set user boundaries
-	if(startX != 0){
+	if(startX != 0)
+	{
 		xMin = startX;
 	}
-	if(stopX != 0){
+	if(stopX != 0)
+	{
 		xMax = stopX;
 	}
 

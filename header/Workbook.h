@@ -5,7 +5,7 @@
  * Copyright(c) 2021, Alexander Schmitz         								*
  * All Rights Reserved															*
  * 																				*
- * Last Modified::	14.11.2019													*
+ * Last Modified::	08.03.2021													*
  * Tasks:           				    										*
  *------------------------------------------------------------------------------*/
 #ifndef _WORKBOOK_ // include once
@@ -14,21 +14,25 @@
 #include <Origin.h>
 
 /**
- *  Function WORKBOOK_addWorksheet
- *  Adds a new worksheet to a workbook.
- *  @param WorksheetPage wb the target workbook
- *	@param string wksName() the name of the new worksheet
+ *  Add a new worksheet to a workbook.
+ *
+ *  @param WorksheetPage wb        the target workbook
+ *	@param string        wksName() the name of the new worksheet
+ *
  *	@return int wksInt the index of the new worksheet in the workbook
  **/ 
-int WORKBOOK_addWorksheet(WorksheetPage wb, string wksName = ""){
+int WORKBOOK_addWorksheet(WorksheetPage wb, string wksName = "")
+{
+	// create new layer
 	int wksInt = wb.AddLayer();
 	Worksheet wks  = wb.Layers(wksInt);
 
-	// create empty worksheet
+	// clear worksheet
 	while(wks.DeleteCol(0));
 	
 	// rename worksheet if applicable
-	if(wksName != ""){
+	if(wksName != "")
+	{
 		wks.SetName(wksName);
 	}
 
