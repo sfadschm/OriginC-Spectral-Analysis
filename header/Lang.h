@@ -106,7 +106,7 @@
 
 // data conversion
 #define USER_CONVERT_TITLE   "Data Conversion"
-#define USER_CONVERT_DESC    Choose Processing Method"
+#define USER_CONVERT_DESC    "Choose Processing Method"
 #define USER_CONVERT_METHOD  USER_ANALYSE_METHOD
 #define USER_CONVERT_METHODS "XYZ-Data to Matrix"
 #define USER_CONVERT_SELCOL  "Please select a single range of data in the active worksheet first!"
