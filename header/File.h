@@ -24,7 +24,8 @@ void FILE_openRead(stdioFile &fileObj, string fileName)
 {
 	if(!fileObj.Open(fileName, file::modeRead))
 	{
-		printf("File not found!"); // invalid file
+		// invalid file
+		printf("File not found!");
 	}
 }
 

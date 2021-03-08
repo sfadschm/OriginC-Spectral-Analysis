@@ -35,7 +35,7 @@ vector<string> USER_selectFiles()
 
 	// check for user cancel
 	if(numFiles == 0)
-	{ 
+	{
 		printf(USER_FILES_EMPTY);
 		strFiles.RemoveAt(0);
 	}
@@ -54,17 +54,17 @@ vector<string> USER_importData()
 	string wbNames, wksNames;
 
 	// get Worksheet(page) names
-    foreach(PageBase pb in Project.ActiveFolder().Pages)
-    {
+	foreach(PageBase pb in Project.ActiveFolder().Pages)
+	{
 		// skip everything except workbook pages
 		if(pb.GetType() != 2)
 		{
 			continue;
 		}
-		
+
 		// extract name
 		wbNames = wbNames + "|" + pb.GetName();
-		
+
 		// extract worksheet names from page
 		Page p;
 		p = (Page) pb;
@@ -72,20 +72,19 @@ vector<string> USER_importData()
 		{
 			wksNames = wksNames + "|" + pb.GetName() + " - " + lay.GetName();		
 		}
-		
 	}
 
 	// setup N_BOX
 	GETN_BOX(tr);
 	GETN_STRLIST(wbName,      LABEL_WB_NAME,      "", wbNames);
 	GETN_STRLIST(wksName,     LABEL_WKS_NAME,     "", wksNames);
-	GETN_LIST(   Method, 	  USER_IMPORT_METHOD, 0,  USER_IMPORT_METHODS);
+	GETN_LIST(   Method,      USER_IMPORT_METHOD, 0,  USER_IMPORT_METHODS);
 	GETN_LIST(   Delimiter,   USER_IMPORT_DELIM,  2,  USER_IMPORT_DELIMS);
 	GETN_LIST(   Separator,   USER_IMPORT_SEPAR,  3,  USER_IMPORT_SEPARS);
 	GETN_CHECK(  RemoveX,     USER_IMPORT_XAXIS,  false);
 	GETN_CHECK(  Sparklines,  USER_IMPORT_SPARKL, false);
 	GETN_CHECK(  SeriesLabel, USER_IMPORT_SERIES, false);
-	
+
 	// store results
 	vector<string> params;
 	if(GetNBox(tr, USER_IMPORT_TITLE, USER_IMPORT_DESC))
@@ -97,7 +96,7 @@ vector<string> USER_importData()
 		params.Add(tr.Separator.strVal);
 		params.Add(tr.RemoveX.strVal);
 		params.Add(tr.Sparklines.strVal);
-        params.Add(tr.SeriesLabel.strVal);
+		params.Add(tr.SeriesLabel.strVal);
 	}
 	else
 	{
@@ -106,9 +105,9 @@ vector<string> USER_importData()
 	}
 
 	// secure worksheet name
-    int nRet = params[2].Find(" - "); // wksName
-    if(nRet > -1)
-    {
+	int nRet = params[2].Find(" - "); // wksName
+	if(nRet > -1)
+	{
 		params[1] = params[2].Left(nRet); // wbName
 		params[2] = params[2].Right(params[2].GetLength() - (nRet + 3)); // wksName
 	}
@@ -136,7 +135,9 @@ vector<string> USER_readLabels()
 		params.Add(tr.Parameter.strVal);
 		params.Add(tr.Unit.strVal);
 		params.Add(tr.Stepsize.strVal);
-	} else {
+	}
+	else
+	{
 		// user input failed or cancelled
 		params.Add("-1");
 	}
@@ -155,7 +156,7 @@ vector<string> USER_analyse()
 	GETN_BOX(tr);
 	GETN_LIST(Method, USER_ANALYSE_METHOD, 0, USER_ANALYSE_METHODS);
 	GETN_LIST(Target, USER_ANALYSE_TARGET, 1, USER_ANALYSE_TARGETS);
-	
+
 	// store results
 	vector<string> params;
 	if(GetNBox(tr, USER_ANALYSE_TITLE, USER_ANALYSE_DESC))
@@ -186,18 +187,18 @@ vector<string> USER_analyseSpectra(Worksheet wks)
 	gg.Attach(wks);	
 	vector<string> labelNames;
 	gg.GetUserDefinedLabelNames(labelNames);
-	
+
 	// implode labels for GETN
 	labelNames.InsertAt(0, "Index");
 	string labelList = str_combine(labelNames, "|");
 
 	// setup N_BOX
 	GETN_BOX(tr);
-	GETN_STR( DataName,	ANALYSIS_LABEL_TARGET,    ANALYSIS_TARGET);
-	GETN_LIST(Method,	ANALYSIS_LABEL_METHOD,	  0, ANALYSIS_SPECTRA_METHODS);
-	GETN_LIST(Param,	ANALYSIS_LABEL_PARAMETER, 0, labelList);
-	GETN_NUM( StartX,	ANALYSIS_LABEL_XSTART,	  0);
-	GETN_NUM( StopX,	ANALYSIS_LABEL_XSTOP,	  0);
+	GETN_STR( DataName, ANALYSIS_LABEL_TARGET,    ANALYSIS_TARGET);
+	GETN_LIST(Method,   ANALYSIS_LABEL_METHOD,    0, ANALYSIS_SPECTRA_METHODS);
+	GETN_LIST(Param,    ANALYSIS_LABEL_PARAMETER, 0, labelList);
+	GETN_NUM( StartX,   ANALYSIS_LABEL_XSTART,    0);
+	GETN_NUM( StopX,    ANALYSIS_LABEL_XSTOP,     0);
 
 	// store results
 	vector<string> params;
@@ -210,7 +211,7 @@ vector<string> USER_analyseSpectra(Worksheet wks)
 		params.Add(tr.Param.strVal);
 	}
 	else
-	{ 
+	{
 		// user input failed or cancelled
 		params.Add("-1");
 	}
@@ -229,7 +230,7 @@ vector<string> USER_map4dLinescan(Worksheet wks)
 {
 	// resolve worksheet label names
 	Grid gg;
-	gg.Attach(wks);	
+	gg.Attach(wks);
 	vector<string> labelNamesV;
 	gg.GetUserDefinedLabelNames(labelNamesV);
 	string labelNames = str_combine(labelNamesV, "|");
@@ -263,11 +264,11 @@ vector<string> USER_map4dLinescan(Worksheet wks)
 	vector<string> xStrVUnique, yStrVUnique;
 	xStrVUnique = MISC_arrayUnique(xStrV);
 	yStrVUnique = MISC_arrayUnique(yStrV);
-	
+
 	// prepare coordinates
 	vector<string> coordStrV;
 	if(tr.ScanAxis.nVal == 0)
-	{ 
+	{
 		// x-Axis scan
 		coordStrV = yStrVUnique;
 	}
@@ -279,7 +280,7 @@ vector<string> USER_map4dLinescan(Worksheet wks)
 	// get coordinate and width
 	vector<string> lineParams;
 	lineParams = USER_linescan(coordStrV);
-	
+
 	// add coordinate and width
 	params.Add(lineParams[0]);
 	params.Add(lineParams[1]);
@@ -323,7 +324,7 @@ vector<string> USER_linescan(vector<string> coordStrV)
 	{
 		params.Add(coordStrV[tr.Coord.nVal]);
 		params.Add(widthsV[tr.Width.nVal]);
-	} 
+	}
 	else
 	{
 		// only symmetric widths
@@ -340,25 +341,25 @@ vector<string> USER_linescan(vector<string> coordStrV)
  **/
 vector<string> USER_correctData(WorksheetPage wb)
 {
-   // get Worksheet(page) names
+	// get Worksheet(page) names
 	string wksNames;
 	foreach(Layer lay in wb.Layers)
 	{
-		wksNames = wksNames + "|" + lay.GetName();		
+		wksNames = wksNames + "|" + lay.GetName();
 	}
 	wksNames.TrimLeft("|");
 
 	// setup N_BOX
 	GETN_BOX(tr);
-	GETN_STRLIST(wksName,		USER_CORRECT_DATAWKS_LABEL, wb.Layers(0).GetName(), wksNames);
-	GETN_CHECK(  Clean,       	USER_CORRECT_CLEAN,         false);
-	GETN_CHECK(  Background,  	USER_CORRECT_BACKGROUND,    false);
-	GETN_CHECK(  Spikes,  		USER_CORRECT_SPIKES,        false);
-	GETN_CHECK(  Setup, 		USER_CORRECT_SETUP,         false);
-	GETN_CHECK(  Filters, 		USER_CORRECT_FILTERS,       false);
-	GETN_CHECK(  Integration, 	USER_CORRECT_INTEGRATION,   false);
-	GETN_CHECK(  Transform,  	USER_CORRECT_TRANSFORM,     false);
-	GETN_CHECK(  Normalise, 	USER_CORRECT_NORMALISE,     false);
+	GETN_STRLIST(wksName,       USER_CORRECT_DATAWKS_LABEL, wb.Layers(0).GetName(), wksNames);
+	GETN_CHECK(  Clean,         USER_CORRECT_CLEAN,         false);
+	GETN_CHECK(  Background,    USER_CORRECT_BACKGROUND,    false);
+	GETN_CHECK(  Spikes,        USER_CORRECT_SPIKES,        false);
+	GETN_CHECK(  Setup,         USER_CORRECT_SETUP,         false);
+	GETN_CHECK(  Filters,       USER_CORRECT_FILTERS,       false);
+	GETN_CHECK(  Integration,   USER_CORRECT_INTEGRATION,   false);
+	GETN_CHECK(  Transform,     USER_CORRECT_TRANSFORM,     false);
+	GETN_CHECK(  Normalise,     USER_CORRECT_NORMALISE,     false);
 
 	// store results
 	vector<string> params;
@@ -375,7 +376,7 @@ vector<string> USER_correctData(WorksheetPage wb)
 		params.Add(tr.Normalise.strVal);
 	}
 	else
-	{ 
+	{
 		// user input failed or cancelled
 		params.Add("-1");
 	}
@@ -391,21 +392,21 @@ vector<string> USER_correctData(WorksheetPage wb)
 vector<string> USER_correctDataSource(WorksheetPage wb, Worksheet dataWks, int method, string title, int step = 1)
 {
 	vector<string> params;
-	
+
 	// get Worksheet names
 	string wksNames;
 	foreach(Layer lay in wb.Layers)
 	{
-		wksNames = wksNames + "|" + lay.GetName();		
+		wksNames = wksNames + "|" + lay.GetName();
 	}
 	wksNames.TrimLeft("|");
-	
+
 	// read worksheet user labels
 	Grid gg;
-	gg.Attach(dataWks);	
+	gg.Attach(dataWks);
 	vector<string> labelNames;
 	gg.GetUserDefinedLabelNames(labelNames);
-	
+
 	// implode labels for GETN
 	labelNames.InsertAt(0, "Index");
 	string labelList = str_combine(labelNames, "|");
@@ -419,15 +420,15 @@ vector<string> USER_correctDataSource(WorksheetPage wb, Worksheet dataWks, int m
 		case 8: // normalise data
 			GETN_STR(STR, "Confirm with OK or abort with Cancel!", "") GETN_HINT;
 			break;
-	
+
 		case 2: // subtract background
 			switch(step)
 			{
-				case 1:	// pre-select correction method
+				case 1: // pre-select correction method
 					GETN_STR(STR, "Choose background correction method:", "") GETN_HINT;
 					GETN_RADIO_INDEX(bgMethod, 1, "Reference|Median");
 					GETN_OPTION_DISPLAY_FORMAT(DISPLAY_EDITOR_LEFT);
-					
+
 					// call second dialogue step with recursion
 					if(GetNBox(tr, title, "Choose background correction method:")){
 						return USER_correctDataSource(wb, dataWks, method, title, tr.bgMethod.dVal + 2);
@@ -436,7 +437,7 @@ vector<string> USER_correctDataSource(WorksheetPage wb, Worksheet dataWks, int m
 						return params;
 					}
 					break;
-				
+
 				case 2: // reference mode
 					GETN_STR(STR, "Reference:", "") GETN_HINT;
 					GETN_STRLIST(wksName, USER_ANALYSE_WKS,         "", wksNames);
@@ -469,7 +470,7 @@ vector<string> USER_correctDataSource(WorksheetPage wb, Worksheet dataWks, int m
 			GETN_LIST(userParam,	ANALYSIS_LABEL_PARAMETER, -1,  labelList);
 			break;
 	}
-		
+
 	// store results
 	if(GetNBox(tr, title, "Please select source for '" + title + "'."))
 	{
@@ -480,7 +481,7 @@ vector<string> USER_correctDataSource(WorksheetPage wb, Worksheet dataWks, int m
 			case 8: // normalise data
 				params.Add(1);
 				break;
-	
+
 			case 2: // subtract background
 				params.Add(step - 2);
 				switch(step)
@@ -496,7 +497,7 @@ vector<string> USER_correctDataSource(WorksheetPage wb, Worksheet dataWks, int m
 							params.Add(0);
 						}
 						break;
-							
+
 					case 3: // median mode
 						params.Add(tr.bgStart.dVal);
 						params.Add(tr.bgStop.dVal);
@@ -556,7 +557,7 @@ vector<string> USER_convert()
 	// setup N_BOX
 	GETN_BOX(tr);
 	GETN_LIST(Method, USER_CONVERT_METHOD, 0, USER_CONVERT_METHODS);
-	
+
 	// store results
 	vector<string> params;
 	if(GetNBox(tr, USER_CONVERT_TITLE, USER_CONVERT_DESC))
@@ -581,16 +582,16 @@ vector<string> USER_xyzMatrix()
 {
 	// setup N_BOX
 	GETN_BOX(tr);
-    GETN_INTERACTIVE(ZRange, USER_XYZ_MATRIX_ZCOL, "")
+	GETN_INTERACTIVE(ZRange, USER_XYZ_MATRIX_ZCOL, "")
 	GETN_OPTION_INTERACTIVE_CONTROL(ICOPT_ALLOW_MULTIPLE_DATA_1);
-	GETN_CHECK(  UseCols, USER_XYZ_MATRIX_USECOLS, true)
+	GETN_CHECK(UseCols,   USER_XYZ_MATRIX_USECOLS, true)
 	GETN_XYRANGE(XyRange, USER_XYZ_MATRIX_XYCOL,   1, "") ;
 	GETN_OPTION_INTERACTIVE_CONTROL(ICOPT_RESTRICT_TO_ONE_DATA);
 
-	GETN_NUM(NumCols, 	USER_XYZ_MATRIX_COLC,	10)		GETN_BEGIN_GROUP(USER_XYZ_MATRIX_TITLE);;
-	GETN_STR(StepUnit, 	USER_XYZ_MATRIX_STEPU,	"µm");
-	GETN_NUM(XStep, 	USER_XYZ_MATRIX_XSTEP,	1);
-	GETN_NUM(YStep, 	USER_XYZ_MATRIX_YSTEP,	1)		GETN_END_GROUP;
+	GETN_NUM(NumCols,   USER_XYZ_MATRIX_COLC,  10) GETN_BEGIN_GROUP(USER_XYZ_MATRIX_TITLE);;
+	GETN_STR(StepUnit,  USER_XYZ_MATRIX_STEPU, "µm");
+	GETN_NUM(XStep,     USER_XYZ_MATRIX_XSTEP, 1);
+	GETN_NUM(YStep,     USER_XYZ_MATRIX_YSTEP, 1)  GETN_END_GROUP;
 
 	// store results
 	vector<string> params;
@@ -604,7 +605,7 @@ vector<string> USER_xyzMatrix()
 		params.Add(tr.StepUnit.strVal);
 		params.Add(tr.XStep.strVal);
 		params.Add(tr.YStep.strVal);
-	} 
+	}
 	else
 	{
 		// user input failed or cancelled
@@ -626,11 +627,11 @@ vector<string> USER_peaks(WorksheetPage wb, vector<string> sheetNames)
 {
 	// get first valid worksheet
 	Worksheet tmpWks = wb.Layers(sheetNames[0]);
-	
-    // get possible column names
+
+	// get possible column names
 	string wksCols;
-    foreach(Column col in tmpWks.Columns)
-    {
+	foreach(Column col in tmpWks.Columns)
+	{
 		wksCols = wksCols + "|" + col.GetName() + " - " + col.GetLongName();
 	}
 
@@ -638,7 +639,7 @@ vector<string> USER_peaks(WorksheetPage wb, vector<string> sheetNames)
 	GETN_BOX(tr);
 	GETN_STR(    Identifier, "Name:",        "");
 	GETN_STRLIST(colName,    LABEL_COL_NAME, "", wksCols);
-	
+
 	// store results
 	vector<string> params;
 	if(GetNBox(tr, USER_PEAKS_TITLE, USER_PEAKS_DESC))
@@ -665,7 +666,6 @@ vector<string> USER_peaks(WorksheetPage wb, vector<string> sheetNames)
 	return params;
 }
 
-
 /**
  * Open a multiple input box to setup data interpolation.
  *
@@ -676,11 +676,11 @@ vector<string> USER_peaks(WorksheetPage wb, vector<string> sheetNames)
  **/
 vector<string> USER_interpolate(Worksheet wks)
 {
-    // get possible column names
+	// get possible column names
 	string wksCols;
 	double i = 0;
-    foreach(Column col in wks.Columns)
-    {
+	foreach(Column col in wks.Columns)
+	{
 		wksCols = wksCols + "|" + ftoa(i) + ": " + col.GetName() + " - " + col.GetLongName();
 		i = i + 1;
 	}
@@ -688,7 +688,7 @@ vector<string> USER_interpolate(Worksheet wks)
 	// setup N_BOX
 	GETN_BOX(tr);
 	GETN_STRLIST(colName, LABEL_COL_NAME, "", wksCols);
-	
+
 	// store results
 	vector<string> params;
 	if(GetNBox(tr, USER_INTERPOLATE_TITLE, USER_INTERPOLATE_DESC))
@@ -710,7 +710,7 @@ vector<string> USER_interpolate(Worksheet wks)
 			params[0] = params[0].Left(nRet);
 		}
 	}
-	
+
 	return params;
 }
 

@@ -1,11 +1,11 @@
 /*------------------------------------------------------------------------------*
- * File Name:	Map.h                                                           *
- * Creation:	Alexander Schmitz                                               *
- * Purpose:		Provides user functions to analyse map data.                    *
+ * File Name: Map.h                                                             *
+ * Creation:  Alexander Schmitz                                                 *
+ * Purpose:   Provides user functions to analyse map data.                      *
  * Copyright(c) 2021, Alexander Schmitz                                         *
  * All Rights Reserved                                                          *
  *                                                                              *
- * Last Modified:	08.03.2021                                                  *
+ * Last Modified: 08.03.2021                                                    *
  * Tasks:                                                                       *
  *------------------------------------------------------------------------------*/
 #ifndef _MAP_ // include once
@@ -21,7 +21,7 @@
 void MAP_4D_Linescan(Worksheet wks)
 {
 	// get user parameters
-	vector<string> params;	
+	vector<string> params;
 	params = USER_map4dLinescan(wks);
 
 	// abort if user dialog cancelled

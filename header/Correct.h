@@ -1,7 +1,7 @@
 /*------------------------------------------------------------------------------*
- * File Name:	Correct.c 														*
- * Creation: 	Alexander Schmitz												*
- * Purpose: 	Provides user functions for data correction.					*
+ * File Name: Correct.c 														*
+ * Creation:  Alexander Schmitz												*
+ * Purpose:   Provides user functions for data correction.					*
  * Copyright(c) 2021, Alexander Schmitz         								*
  * All Rights Reserved															*
  * 																				*
@@ -44,7 +44,7 @@ void CORRECT_backgroundRef(Worksheet tgtWks, Worksheet refWks, string userLabelN
 	tgtWks.Columns(xTempInt).SetType(OKDATAOBJ_DESIGNATION_X);
 
 	// get column designations
-    string colTypes    = tgtWks.GetColDesignations();
+	string colTypes    = tgtWks.GetColDesignations();
 	string refColTypes = refWks.GetColDesignations();
 
 	// loop through all columns
@@ -57,7 +57,8 @@ void CORRECT_backgroundRef(Worksheet tgtWks, Worksheet refWks, string userLabelN
 		}
 		if(colTypes.GetAt(colInt) == 'X')
 		{
-			if(xInt >= 0){
+			if(xInt >= 0)
+			{
 				// get X-data
 				vector<double> xTempDataV = tgtWks.Columns(xTempInt).GetDataObject();
 
@@ -80,7 +81,7 @@ void CORRECT_backgroundRef(Worksheet tgtWks, Worksheet refWks, string userLabelN
 		XYRange dataTgt;
 		dataTgt.Add(tgtWks, xTempInt, "X");
 		dataTgt.Add(tgtWks, yInt, "Y");
-    
+
 		// get reference data range by user label
 		refYInt = refLabelData.Find(tgtLabelData[yInt]);
 
@@ -143,13 +144,14 @@ void CORRECT_backgroundMedian(Worksheet tgtWks, double xStart, double xStop)
 	out_str("Background Subtraction started ...");
 
 	// get column designations
-    string colTypes = tgtWks.GetColDesignations();
+	string colTypes = tgtWks.GetColDesignations();
 
 	// loop through all columns
 	for(int colInt = 0; colInt < colTypes.GetLength(); colInt++)
 	{
 		// only process y-data
-		if(colTypes.GetAt(colInt) != 'Y'){
+		if(colTypes.GetAt(colInt) != 'Y')
+		{
 			continue;
 		}
 
@@ -186,12 +188,12 @@ void CORRECT_backgroundMedian(Worksheet tgtWks, double xStart, double xStop)
 		QuantileResults res;
 		opt.Median = true;
 		ocmath_quantiles(vY, nSize, &opt, &res);    
-    
+
 		// subtract background
 		dataCurve = dataCurve - res.Median;
-		
+
 		// set comment
-		tgtWks.Columns(colInt).SetComments("Subtracted '" + res.Median + "'.");		
+		tgtWks.Columns(colInt).SetComments("Subtracted '" + res.Median + "'.");
 	}
 
 	// user information
@@ -204,20 +206,21 @@ void CORRECT_backgroundMedian(Worksheet tgtWks, double xStart, double xStop)
  * @param Worksheet wks the worksheet
  **/
 void CORRECT_masked(Worksheet wks){
-    // user information
-    out_str("Cleaning masked data ...");
+	// user information
+	out_str("Cleaning masked data ...");
 
 	// get column designations
-    string colTypes = wks.GetColDesignations();
-    
+	string colTypes = wks.GetColDesignations();
+
 	// loop through all columns
-    DataRange dr;
-    Column dataCol;
+	DataRange dr;
+	Column dataCol;
 	int xInt = 0, yInt = 0, dataSize;
- 	for(int colInt = 0; colInt < colTypes.GetLength(); colInt++)
- 	{
+	for(int colInt = 0; colInt < colTypes.GetLength(); colInt++)
+	{
 		// only manipulate Y-Columns
-		if(colTypes.GetAt(colInt) != 'Y'){
+		if(colTypes.GetAt(colInt) != 'Y')
+		{
 			continue;
 		}
 
@@ -229,9 +232,9 @@ void CORRECT_masked(Worksheet wks){
 		dr.Add("CurRange", wks, 0, colInt, -1, colInt);
 		dr.SetMask(FALSE, TRUE);
  
-          // Create mean values for removed data
+		// Create mean values for removed data
 		dataCol = wks.Columns(colInt);
-   		vector &vData = dataCol.GetDataObject();
+		vector &vData = dataCol.GetDataObject();
 		dataSize = vData.GetSize();
 
 		// Loop rows
@@ -256,7 +259,7 @@ void CORRECT_masked(Worksheet wks){
 						}
 					}
 				}
-				
+
 				// Write data to cell
 				if(seqCounter > 0)
 				{
@@ -268,12 +271,12 @@ void CORRECT_masked(Worksheet wks){
 				}
 			}
 		}
-	
+
 		// add comment
 		wks.Columns(colInt).SetComments("Cleaned.");
 	}
-	   
-   	// user information
+
+	// user information
 	out_str("Masked data have been cleaned.\n");
 }
 
@@ -288,13 +291,13 @@ void CORRECT_masked(Worksheet wks){
 void CORRECT_spikes(Worksheet wks, double threshold, int width)
 {
 	// get column designations
-    string colTypes = wks.GetColDesignations();
+	string colTypes = wks.GetColDesignations();
 
 	// loop through all columns
 	int dataSize;
-    Column dataCol;
+	Column dataCol;
 	double median, mad;
-    vector vDiff, vZ, vSpikes;
+	vector vDiff, vZ, vSpikes;
 	for(int colInt = 0; colInt < colTypes.GetLength(); colInt++)
 	{
 		// skip x/z-data
@@ -302,7 +305,7 @@ void CORRECT_spikes(Worksheet wks, double threshold, int width)
 		{
 			continue;
 		}
-		
+
 		// get spectrum
 		dataCol = wks.Columns(colInt);
 		vector &vData = dataCol.GetDataObject();
@@ -319,10 +322,10 @@ void CORRECT_spikes(Worksheet wks, double threshold, int width)
 		QuantileOptions opt;
 		QuantileResults res;
 		int nRet;
-		opt.Median = true;
+		opt.Median      = true;
 		opt.Interpolate = INTERPOLATE_WEIGHT_AVER_RIGHT;        
-		nRet = ocmath_quantiles(vDiff, dataSize - 1, &opt, &res);
-		double median = res.Median;
+		nRet            = ocmath_quantiles(vDiff, dataSize - 1, &opt, &res);
+		double median   = res.Median;
 
 		// calculate median absolute deviation
 		mad = 0;
@@ -364,10 +367,9 @@ void CORRECT_spikes(Worksheet wks, double threshold, int width)
 				}
 			}
 		}
-		
+
 		// set comment
 		dataCol.SetComments("Removed spikes (" + ftoa(threshold) + ", " + ftoa(width) + ").");
-
 	}
 }
 
@@ -393,7 +395,7 @@ void CORRECT_setup(Worksheet tgtWks, Worksheet refWks)
 	tgtWks.Columns(xTempInt).SetType(OKDATAOBJ_DESIGNATION_X);
 
 	// get column designations
-    string colTypes = tgtWks.GetColDesignations();
+	string colTypes = tgtWks.GetColDesignations();
 
 	// loop through all columns
 	for(int colInt = 0; colInt < colTypes.GetLength(); colInt++)
@@ -401,9 +403,10 @@ void CORRECT_setup(Worksheet tgtWks, Worksheet refWks)
 		// set column indexes
 		if(colTypes.GetAt(colInt) == 'Y')
 		{
-				yInt = colInt;
+			yInt = colInt;
 		}
-		if(colTypes.GetAt(colInt) == 'X'){
+		if(colTypes.GetAt(colInt) == 'X')
+		{
 			if(xInt >= 0)
 			{
 				// get X-data
@@ -423,7 +426,7 @@ void CORRECT_setup(Worksheet tgtWks, Worksheet refWks)
 		XYRange data;
 		data.Add(tgtWks, xInt, "X");
 		data.Add(tgtWks, yInt, "Y");
-    
+
 		// set target data range
 		XYRange dataTgt;
 		dataTgt.Add(tgtWks, xTempInt, "X");
@@ -485,7 +488,7 @@ void CORRECT_filters(Worksheet tgtWks, Worksheet refWks, string userLabelName)
 	tgtWks.Columns(xTempInt).SetType(OKDATAOBJ_DESIGNATION_X);
 
 	// get column designations
-    string colTypes    = tgtWks.GetColDesignations();
+	string colTypes    = tgtWks.GetColDesignations();
 	string refColTypes = refWks.GetColDesignations();
 
 	// loop through all columns
@@ -494,9 +497,10 @@ void CORRECT_filters(Worksheet tgtWks, Worksheet refWks, string userLabelName)
 		// set column indexes
 		if(colTypes.GetAt(colInt) == 'Y')
 		{
-				yInt = colInt;
+			yInt = colInt;
 		}
-		if(colTypes.GetAt(colInt) == 'X'){
+		if(colTypes.GetAt(colInt) == 'X')
+		{
 			if(xInt >= 0)
 			{
 				// get X-data
@@ -524,7 +528,7 @@ void CORRECT_filters(Worksheet tgtWks, Worksheet refWks, string userLabelName)
 
 		// get reference data range by user label
 		refYInt = refLabelData.Find(tgtLabelData[yInt]);
-		
+
 		// abort if no reference data found
 		if(refYInt < 0 && tgtLabelData[yInt] == "")
 		{
@@ -532,7 +536,7 @@ void CORRECT_filters(Worksheet tgtWks, Worksheet refWks, string userLabelName)
 			tgtWks.Columns(yInt).SetComments("No reference data found!");
 			continue;
 		}
-		
+
 		// find reference X-axis
 		refXInt = refColTypes.Find('X');
 		while(refColTypes.Find('X', refXInt + 1) < refYInt && refColTypes.Find('X', refXInt + 1) >= 0)
@@ -547,13 +551,15 @@ void CORRECT_filters(Worksheet tgtWks, Worksheet refWks, string userLabelName)
 
 		// prepare X-Function
 		XFBase xf("mathtool");
-		if(!xf.SetArg("iy1", data) || !xf.SetArg("operator", 2) || !xf.SetArg("operand", 1) || !xf.SetArg("iy2", ref) || !xf.SetArg("oy", dataTgt) || !xf.SetArg("common", 1)){
+		if(!xf.SetArg("iy1", data) || !xf.SetArg("operator", 2) || !xf.SetArg("operand", 1) || !xf.SetArg("iy2", ref) || !xf.SetArg("oy", dataTgt) || !xf.SetArg("common", 1))
+		{
 			out_str("Failed to set parameters!");
 			continue;
 		}
 
 		// run X-Function
-		if(!xf.Evaluate()){
+		if(!xf.Evaluate())
+		{
 			out_str("Failed to evaluate the mathtool X-Function.");
 			continue;
 		}
@@ -592,15 +598,16 @@ void CORRECT_integrationTime(Worksheet tgtWks, string userLabelName)
 	}
 
 	// get column designations
-    string colTypes = tgtWks.GetColDesignations();
+	string colTypes = tgtWks.GetColDesignations();
 
 	// loop through all columns
 	int xInt = 0, yInt = 0;
-	for(int colInt = 0; colInt < colTypes.GetLength(); colInt++){
+	for(int colInt = 0; colInt < colTypes.GetLength(); colInt++)
+	{
 		// set column indexes
 		if(colTypes.GetAt(colInt) == 'Y')
 		{
-				yInt = colInt;
+			yInt = colInt;
 		} 
 		else
 		{
@@ -622,7 +629,7 @@ void CORRECT_integrationTime(Worksheet tgtWks, string userLabelName)
 			tgtWks.Columns(yInt).SetComments("No reference data found!");
 			continue;
 		}
-		
+
 		// get source integration time
 		double intTime = atof(tgtLabelData[yInt]);
 
@@ -639,7 +646,7 @@ void CORRECT_integrationTime(Worksheet tgtWks, string userLabelName)
 		{
 			out_str("Failed to evaluate the mathtool X-Function.\n");
 			continue;
-		}  
+		}
 
 		// set units
 		tgtWks.Columns(yInt).SetUnits("cts./s");
@@ -663,10 +670,10 @@ void CORRECT_transform(Worksheet tgtWks)
 	out_str("Jacobian Transformation started ...");
 
 	// get column designations
-    string colTypes = tgtWks.GetColDesignations();
+	string colTypes = tgtWks.GetColDesignations();
 
 	// loop through all columns
-    int xStore = -1;
+	int xStore = -1;
 	Column xCol, yCol;
 	vector<double> xDataV, yDataV;
 	for(int colInt = 0; colInt < colTypes.GetLength(); colInt++)
@@ -678,7 +685,7 @@ void CORRECT_transform(Worksheet tgtWks)
 			yCol = tgtWks.Columns(colInt);
 			yDataV = yCol.GetDataObject();
 			yDataV = yDataV * xDataV * xDataV / 1239.841857;
-			
+
 			// paste new Y-data
 			vectorbase& yDataO = yCol.GetDataObject();
 			yDataO = yDataV;
@@ -696,7 +703,7 @@ void CORRECT_transform(Worksheet tgtWks)
 			// paste converted X-data
 			vectorbase& xDataO = xCol.GetDataObject();
 			xDataO = 1239.841857 / xDataV;
-				
+
 			// set labels
 			tgtWks.Columns(colInt).SetLongName("Energy");
 			tgtWks.Columns(colInt).SetUnits("eV");
@@ -718,14 +725,15 @@ void CORRECT_normalise(Worksheet tgtWks)
 	out_str("Normalisation started ...");
 
 	// get column designations
-    string colTypes = tgtWks.GetColDesignations();
+	string colTypes = tgtWks.GetColDesignations();
 
 	// loop through all columns
 	int xInt = 0, yInt = 0;
 	for(int colInt = 0; colInt < colTypes.GetLength(); colInt++)
 	{
 		// set column indexes
-		if(colTypes.GetAt(colInt) == 'Y'){
+		if(colTypes.GetAt(colInt) == 'Y')
+		{
 				yInt = colInt;
 		} 
 		else
@@ -741,7 +749,7 @@ void CORRECT_normalise(Worksheet tgtWks)
 		XYRange data;
 		data.Add(tgtWks, xInt, "X");
 		data.Add(tgtWks, yInt, "Y");
-    
+
 		// prepare X-Function
 		XFBase xf("normalize ");
 		if(!xf.SetArg("iy", data) || !xf.SetArg("method", 3) || !xf.SetArg("oy", data))

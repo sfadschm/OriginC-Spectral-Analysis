@@ -1,11 +1,11 @@
 /*------------------------------------------------------------------------------*
- * File Name:	Convert.h                                                       *
- * Creation:	Alexander Schmitz                                               *
- * Purpose:		Provide user functions to convert matrix data.                  *
+ * File Name: Convert.h                                                         *
+ * Creation:  Alexander Schmitz                                                 *
+ * Purpose:   Provide user functions to convert matrix data.                    *
  * Copyright(c) 2021, Alexander Schmitz                                         *
  * All Rights Reserved                                                          *
  *                                                                              *
- * Last Modified:	08.03.2021                                                  *
+ * Last Modified: 08.03.2021                                                    *
  * Tasks:                                                                       *
  *------------------------------------------------------------------------------*/
 #ifndef _CONVERT_ // include once

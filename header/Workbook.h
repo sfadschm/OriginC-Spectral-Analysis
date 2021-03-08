@@ -1,11 +1,11 @@
 /*------------------------------------------------------------------------------*
- * File Name:	Workbook.h                                                      *
- * Creation:	Alexander Schmitz                                               *
- * Purpose:		Provides methods for Origin Workbook manipulation.              *
+ * File Name: Workbook.h                                                        *
+ * Creation:  Alexander Schmitz                                                 *
+ * Purpose:   Provides methods for Origin Workbook manipulation.                *
  * Copyright(c) 2021, Alexander Schmitz                                         *
  * All Rights Reserved                                                          *
  *                                                                              *
- * Last Modified::	08.03.2021                                                  *
+ * Last Modified: 08.03.2021                                                    *
  * Tasks:                                                                       *
  *------------------------------------------------------------------------------*/
 #ifndef _WORKBOOK_ // include once
@@ -20,7 +20,7 @@
  * @param string        wksName() the name of the new worksheet
  *
  * @return int wksInt the index of the new worksheet in the workbook
- **/ 
+ **/
 int WORKBOOK_addWorksheet(WorksheetPage wb, string wksName = "")
 {
 	// create new layer
@@ -29,7 +29,7 @@ int WORKBOOK_addWorksheet(WorksheetPage wb, string wksName = "")
 
 	// clear worksheet
 	while(wks.DeleteCol(0));
-	
+
 	// rename worksheet if applicable
 	if(wksName != "")
 	{

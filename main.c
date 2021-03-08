@@ -282,7 +282,7 @@ void convert(){
 	{
 		case 0: // convert XYZ data to matrix
 			// get conversion parameters
-			vector<string> mapParams;	
+			vector<string> mapParams;
 			mapParams = USER_xyzMatrix();
 
 			// abort if parameter dialogue cancelled

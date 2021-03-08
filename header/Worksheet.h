@@ -96,7 +96,7 @@ bool WORKSHEET_addSparklines(Worksheet &wks)
 double WORKSHEET_getYMin(Worksheet wks)
 {
 	// setup variables
-	double min = 1E37 , colMin, colMax;
+	double min = 1E37, colMin, colMax;
 
 	// loop through columns
 	for(int colInt = 0; colInt < wks.GetNumCols(); colInt++)

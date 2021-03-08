@@ -28,14 +28,14 @@ void ANALYSE_spectra(Worksheet wks)
 	// get analysis parameters
 	vector<string> params;
 	params = USER_analyseSpectra(wks);
-	
+
 	// abort if dialogue cancelled
 	if(params[0] == "-1")
 	{
 		printf(USER_PARAMS_EMPTY);
 		return;
 	}
-	
+
 	// map user parameters
 	int methodInt      = atoi(params[0]);
 	string strDataname = params[1];
@@ -47,7 +47,7 @@ void ANALYSE_spectra(Worksheet wks)
 	WorksheetPage wb  = wks.GetPage();
 	Worksheet evalWks = ORIGIN_createWks(wb, ANALYSIS_TARGET);
 
-    // create new temporary sheet for calculations
+	// create new temporary sheet for calculations
 	Worksheet tmpWks = ORIGIN_createWks(wb, "temp");
 	tmpWks.AddCol();
 	tmpWks.AddCol();
@@ -68,18 +68,18 @@ void ANALYSE_spectra(Worksheet wks)
 		// truncate curve
 		Curve dataCurve;
 		CURVE_truncate(rawCurve, dataCurve, tmpWks, startX, stopX);
-			
+
 		// evaluate worksheet
 		switch(methodInt)
 		{
 			case 0: // peak position
 				result.Add(xatymax(dataCurve));
 				break;
-			
+
 			case 1: // mass centre
 				vector<double> xDataV, yDataV;
 				dataCurve.CopyData(xDataV, yDataV);
-				
+
 				vector<double> weightedAreaV;
 				weightedAreaV = xDataV * yDataV;
 
@@ -93,7 +93,7 @@ void ANALYSE_spectra(Worksheet wks)
 			case 2: // peak intensity
 				result.Add(max(dataCurve));
 				break;
-					
+
 			case 3: // peak area
 				result.Add(area(dataCurve));
 				break;
@@ -111,12 +111,11 @@ void ANALYSE_spectra(Worksheet wks)
 	tmpWks.Delete();
 
 	// activate source worksheet
-    set_active_layer(wks);
-		
+	set_active_layer(wks);
 
 	// prepare grid for extracting x-data
-    Grid gg;
-	gg.Attach(wks);	
+	Grid gg;
+	gg.Attach(wks);
 	string labelName;
 	vector<double> labelData;
 
@@ -126,7 +125,7 @@ void ANALYSE_spectra(Worksheet wks)
 		// create numeric index 
 		labelName = "Index";
 		labelData.Data(1, result.GetSize(), 1);
-	} 
+	}
 	else
 	{
 		// resolve label name
@@ -137,7 +136,7 @@ void ANALYSE_spectra(Worksheet wks)
 		// get label data
 		vector<string> labelDataStr;
 		gg.GetLabelsByType(labelDataStr, RCLT_UDL + (paramInt-1));
-		
+
 		// remove x-axes
 		for(int colInt = wks.Columns().GetSize()-1; colInt >= 0; colInt--)
 		{
@@ -153,18 +152,18 @@ void ANALYSE_spectra(Worksheet wks)
 		// convert to numeric values
 		convert_str_vector_to_num_vector(labelDataStr, labelData);
 	}
-		
+
 	// paste x-labels into worksheet
 	int tgtXColumnInt = evalWks.AddCol();
 	evalWks.Columns(tgtXColumnInt).SetLongName(labelName);
 	evalWks.Columns(tgtXColumnInt).SetType(OKDATAOBJ_DESIGNATION_X);
-	
+
 	// assign new x-dataobject
 	vectorbase &tgtXColumnData = evalWks.Columns(tgtXColumnInt).GetDataObject();
 
 	// paste x-data
 	tgtXColumnData = labelData;
-		
+
 	// paste y-labels into worksheet
 	int tgtColumnInt = evalWks.AddCol();
 	evalWks.Columns(tgtColumnInt).SetLongName(strDataname);
@@ -179,7 +178,6 @@ void ANALYSE_spectra(Worksheet wks)
 	ANALYSE_spectra(wks);
 }
 
-
 /**
  * Collect and resort specific data columns from multiple peak analysis result sheets.
  *
@@ -189,20 +187,21 @@ void ANALYSE_spectra(Worksheet wks)
  * @param string         identifier the base name of the result sheets to be created
  **/
 void ANALYSE_collectPeaks(WorksheetPage wb, vector<string> srcNames, string columnName, string identifier)
-{	
+{
 	// get workbook name
 	string wbName = wb.GetName();
-	
+
 	// create worksheet for appended data
 	Worksheet colWks = ORIGIN_createWks(wb, identifier + "Cols");
-	
+
 	// generate source data range
-    DataRange srcRange;
-    for(int ii = 0; ii < srcNames.GetSize(); ii++){
+	DataRange srcRange;
+	for(int ii = 0; ii < srcNames.GetSize(); ii++)
+	{
 		// generate range name from sheet name (number)
 		string rangeName = srcNames[ii];
 		rangeName.Replace("PeakProperties", "");
-			
+
 		// append range to source
 		srcRange.Add(rangeName, "[" + wbName + "]" + srcNames[ii] + "!" + columnName);
 	}
@@ -210,14 +209,14 @@ void ANALYSE_collectPeaks(WorksheetPage wb, vector<string> srcNames, string colu
 	// extract range string from source range
 	string str_range;
 	srcRange.GetRangeString(str_range);
-	
+
 	// extract peak columns with LabTalk
 	string str_append = "wAppend -r 1 irng:=" + str_range + " ow:=\"" + colWks.GetName() + "\" id:=0;";
 	LT_execute(str_append);
-	
+
 	// focus on result sheet
 	set_active_layer(colWks);
-	
+
 	// create worksheet for transposed data
 	Worksheet rowWks = ORIGIN_createWks(wb, identifier + "Rows");
 
@@ -227,7 +226,7 @@ void ANALYSE_collectPeaks(WorksheetPage wb, vector<string> srcNames, string colu
 
 	// focus on transposed sheet
 	set_active_layer(rowWks);
-	
+
 	// create worksheet for re-using data
 	Worksheet tgtWks = ORIGIN_createWks(wb, identifier);
 	tgtWks.AddCol("Peak Index");
@@ -253,7 +252,7 @@ void ANALYSE_collectPeaks(WorksheetPage wb, vector<string> srcNames, string colu
 
 		srcCol++;
 	}
-	
+
 	// focus on result sheet
 	set_active_layer(tgtWks);
 }

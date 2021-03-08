@@ -1,11 +1,11 @@
 /*------------------------------------------------------------------------------*
- * File Name:	Origin.h                                                        *
- * Creation:	Alexander Schmitz                                               *
- * Purpose:		Provides methods to manipulate Origin objects.                  *
+ * File Name: Origin.h                                                          *
+ * Creation:  Alexander Schmitz                                                 *
+ * Purpose:   Provides methods to manipulate Origin objects.                    *
  * Copyright(c) 2021, Alexander Schmitz                                         *
  * All Rights Reserved                                                          *
  *                                                                              *
- * Last Modified:	08.03.2021                                                  *
+ * Last Modified: 08.03.2021                                                    *
  * Tasks: Optimize conditions and use base method for layers?                   *
  *------------------------------------------------------------------------------*/
 #ifndef _ORIGIN_ // include once
@@ -131,7 +131,8 @@ vector<int> ORIGIN_getActiveWorksheets(int sourceType, WorksheetPage& wb, Worksh
 	wks = Project.ActiveLayer();
 
 	// abort if not a valid worksheet
-	if(!wks){
+	if(!wks)
+	{
 		printf(ANALYSIS_NO_WKS);
 		return sourceWksInts;
 	}
