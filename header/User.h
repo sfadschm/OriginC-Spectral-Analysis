@@ -615,53 +615,6 @@ vector<string> USER_xyzMatrix()
 }
 
 /**
- * Choose text object and text alignment of a graph layer.
- *
- * @param GraphLayer gl the active graph layer
- *
- * @return vector<string> the user input parameters
- **/
-vector<string> USER_alignGlTexts(GraphLayer gl)
-{
-	// get graph layer text objects
-    Collection<GraphObject> grObjColl;
-	grObjColl = gl.GraphObjects;
-
-    // get object names
-	string objNames;
-	vector<string> objNamesV;
-    foreach(GraphObject grObj in grObjColl)
-    {
-    	 // only use text objects
-		if(grObj.GetObjectType() == "Text")
-		{
-			objNames = grObj.GetName() + "|" + objNames;
-			objNamesV.InsertAt(0, grObj.GetName());
-		}
-    }
-
-	// setup N_BOX	
-	GETN_BOX(tr);
-	GETN_LIST(Obj,		USER_ALIGN_OBJ,		0,	objNames);
-	GETN_LIST(Align,	USER_ALIGN_ALIGN,	0,	USER_ALIGN_ALIGNS);
-
-	// store results
-	vector<string> params;
-	if(GetNBox(tr, USER_ALIGN_TITLE, USER_ALIGN_DESC))
-	{
-		params.Add(objNamesV[tr.obj.nVal]);
-		params.Add(tr.Align.strVal);
-	}
-	else
-	{
-		// user input failed or cancelled
-		params.Add("-1");
-	}
-
-	return params;
-}
-
-/**
  * Open a multiple input box to setup peak collection.
  *
  * @param WorksheetPage  wb         the workbook to evaluate

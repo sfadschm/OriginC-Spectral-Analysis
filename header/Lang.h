@@ -28,7 +28,6 @@
 #define SPARKS_START		"\n\nCreating sparklines (might take some time) ..."
 #define CORRECT_START		"\nModifying datasets ..."
 #define CORRECT_STOP		"\nModificaton complete ..."
-#define ALIGN_STOP			"Text aligned.\n"
 #define CONVERSION_START	"\nProcessing data ..."
 #define CONVERSION_STOP		"\nConversion completed.\n"
 #define RENAME_STOP			"Workbooks renamed.\n"
@@ -44,15 +43,6 @@
 #define USER_FILES_TITLE	"\nSelect File(s)"
 #define USER_FILES_EMPTY	"\nNo File(s) selected!"
 #define USER_FILES_TYPES	"[Data Files (*.txt, *.tsv, *.dac, *.m)] *.txt; *.tsv; *.dac; *.m|[All Files (*.*)] *.*"
-
-// text align
-#define USER_ALIGN_TITLE	"Align Text Object"
-#define USER_ALIGN_DESC		"Choose Target and Alignment"
-#define USER_ALIGN_OBJ		"Text object"
-#define USER_ALIGN_ALIGN	"Alignment"
-#define USER_ALIGN_ALIGNS	"Left|Center|Right"
-#define USER_ALIGN_NOOBJ	"\n%s is not a valid object in current layer."
-#define USER_ALIGN_NOGRAPH	"\nActive layer is not a valid graph!"
 
 // data import
 #define USER_IMPORT_TITLE	"Data Import"

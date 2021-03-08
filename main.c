@@ -353,17 +353,6 @@ void peaks(){
 }
 
 /**
- * Align a text field in the active graph window.
- **/
-void alignText(){
-	// call method
-	MISC_alignGraphText();
-	
-	// user information
-	printf(ALIGN_STOP);
-}
-
-/**
  * Rename all Workbooks in active folder with their long names.
  **/
 void renameWbs(){
