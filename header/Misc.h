@@ -1,16 +1,17 @@
-/*------------------------------------------------------------------------------*
- * File Name: Misc.h                                                            *
- * Creation:  Alexander Schmitz                                                 *
- * Purpose:   Provides basic variable/string handling methods.                  *
- * Copyright(c) 2021, Alexander Schmitz                                         *
- * All Rights Reserved                                                          *
- *                                                                              *
- * Last Modified: 08.03.2021                                                    *
- * Tasks:                                                                       *
- *------------------------------------------------------------------------------*/
+/**
+ * This file is part of the OriginC Spectral Analysis package.
+ *
+ * (c) Alexander Schmitz <alexander.schmitz@uni-due.de>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 #ifndef _MISC_ // include once
 #define _MISC_
 
+/**
+ * This file provides general helper methods unrelated to Origin objects.
+ */
 #include <Origin.h>
 
 /**
@@ -19,7 +20,7 @@
  * @param string name the string to strip
  *
  * @return string name the stripped string
- **/
+ */
 string MISC_stripName(string name)
 {
 	// strip path if name is derived from a file path
@@ -43,7 +44,7 @@ string MISC_stripName(string name)
  * @param vector<string> rawData the raw stirng vector
  *
  * @return vector<string> unique the trimmed vector
- **/
+ */
 vector<string> MISC_arrayUnique(vector<string> rawData)
 {
 	// search duplicate data

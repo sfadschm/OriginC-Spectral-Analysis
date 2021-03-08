@@ -1,16 +1,19 @@
-/*------------------------------------------------------------------------------*
- * File Name: Correct.c 														*
- * Creation:  Alexander Schmitz												*
- * Purpose:   Provides user functions for data correction.					*
- * Copyright(c) 2021, Alexander Schmitz         								*
- * All Rights Reserved															*
- * 																				*
- * Last Modified:	08.03.2021													*
- * Tasks: CORRECT_setup - Use User Label? Outsource reference data collection.	*
- *------------------------------------------------------------------------------*/
+/**
+ * This file is part of the OriginC Spectral Analysis package.
+ *
+ * (c) Alexander Schmitz <alexander.schmitz@uni-due.de>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 #ifndef _CORRECT_ // include once
 #define _CORRECT_
 
+/**
+ * This file provides methods for manipulating (correcting) worksheet data.
+ *
+ * @toDo Outsource reference data collection.
+ */
 #include <Origin.h>
 #include <XFBase.h>
 
@@ -20,7 +23,7 @@
  * @param Worksheet tgtWks        the worksheet holding the data
  * @param Worksheet refWks        the worksheet holding the background data
  * @param string    userLabelName the user label to connect data and reference dataset
- **/
+ */
 void CORRECT_backgroundRef(Worksheet tgtWks, Worksheet refWks, string userLabelName)
 {
 	// user information
@@ -137,7 +140,7 @@ void CORRECT_backgroundRef(Worksheet tgtWks, Worksheet refWks, string userLabelN
  * @param Worksheet tgtWks        the worksheet holding the data
  * @param Worksheet refWks        the worksheet holding the background data
  * @param string    userLabelName the user label to connect data and reference dataset
- **/
+ */
 void CORRECT_backgroundMedian(Worksheet tgtWks, double xStart, double xStop)
 {
 	// user information
@@ -204,7 +207,7 @@ void CORRECT_backgroundMedian(Worksheet tgtWks, double xStart, double xStop)
  * Set all masked data to undefined and remove mask.
  *
  * @param Worksheet wks the worksheet
- **/
+ */
 void CORRECT_masked(Worksheet wks){
 	// user information
 	out_str("Cleaning masked data ...");
@@ -287,7 +290,7 @@ void CORRECT_masked(Worksheet wks){
  * @param Worksheet tgtWks    the worksheet holding the data
  * @param double    threshold the threshold for the "z-Value"
  * @param int       width     the step width to caluclate mean values from
- **/
+ */
 void CORRECT_spikes(Worksheet wks, double threshold, int width)
 {
 	// get column designations
@@ -378,7 +381,9 @@ void CORRECT_spikes(Worksheet wks, double threshold, int width)
  *
  * @param Worksheet tgtWks the worksheet holding the data
  * @param Worksheet refWks the worksheet holding the setup correction data
- **/
+ *
+ * @toDo Use User Label?
+ */
 void CORRECT_setup(Worksheet tgtWks, Worksheet refWks)
 {
 	// user information
@@ -464,7 +469,7 @@ void CORRECT_setup(Worksheet tgtWks, Worksheet refWks)
  * @param Worksheet tgtWks        the worksheet holding the data
  * @param Worksheet refWks        the worksheet holding the filter transmittance data
  * @param string    userLabelName the user label to connect data and reference dataset
- **/
+ */
 void CORRECT_filters(Worksheet tgtWks, Worksheet refWks, string userLabelName)
 {
 	// user information
@@ -580,7 +585,7 @@ void CORRECT_filters(Worksheet tgtWks, Worksheet refWks, string userLabelName)
  *
  * @param Worksheet tgtWks        the worksheet holding the data
  * @param string    userLabelName the user label holding integration times
- **/
+ */
 void CORRECT_integrationTime(Worksheet tgtWks, string userLabelName)
 {
 	// user information
@@ -663,7 +668,7 @@ void CORRECT_integrationTime(Worksheet tgtWks, string userLabelName)
  * Perfom a Jacobian energy transformation on spectroscopic data.
  *
  * @param Worksheet tgtWks the worksheet holding the data
- **/
+ */
 void CORRECT_transform(Worksheet tgtWks)
 {
 	// user information
@@ -718,7 +723,7 @@ void CORRECT_transform(Worksheet tgtWks)
  * Normalise data in a worksheet (divide by maximum).
  *
  * @param Worksheet tgtWks the worksheet holding the data
- **/
+ */
 void CORRECT_normalise(Worksheet tgtWks)
 {
 	// user information

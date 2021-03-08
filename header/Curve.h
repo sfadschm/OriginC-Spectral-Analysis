@@ -1,16 +1,17 @@
-/*------------------------------------------------------------------------------*
- * File Name: Curve.h                                                           *
- * Creation:  Alexander Schmitz                                                 *
- * Purpose:   Provides basic curve handling methods.                            *
- * Copyright(c) 2021, Alexander Schmitz                                         *
- * All Rights Reserved                                                          *
- *                                                                              *
- * Last Modified: 08.03.2021                                                    *
- * Tasks:                                                                       *
- *------------------------------------------------------------------------------*/
+/**
+ * This file is part of the OriginC Spectral Analysis package.
+ *
+ * (c) Alexander Schmitz <alexander.schmitz@uni-due.de>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 #ifndef _CURVE_ // include once
 #define _CURVE_
 
+/**
+ * This file provides basic helper methods for handling curve data.
+ */
 #include <Origin.h>
 
 /**
@@ -23,7 +24,7 @@
  * @param double    stopX    the upper x boundary
  *
  * @return Curve truncCurve the truncated curve
- **/
+ */
 void CURVE_truncate(Curve rawCurve, Curve& dataCurve, Worksheet tmpWks, double startX, double stopX)
 {
 	// remove missing curve values

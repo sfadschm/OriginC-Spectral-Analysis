@@ -1,16 +1,17 @@
-/*------------------------------------------------------------------------------*
- * File Name:	Import.c 														*
- * Creation: 	Alexander Schmitz												*
- * Purpose: 	Import various data formats.									*
- * Copyright(c) 2021, Alexander Schmitz         								*
- * All Rights Reserved															*
- * 																				*
- * Last Modified:	17.02.2021													*
- * Tasks: 		    				    										*
- *------------------------------------------------------------------------------*/
+/**
+ * This file is part of the OriginC Spectral Analysis package.
+ *
+ * (c) Alexander Schmitz <alexander.schmitz@uni-due.de>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 #ifndef _IMPORTER_ // include once
 #define _IMPORTER_
 
+/**
+ * This file provides methods for importing data from various file formats.
+ */
 #include <Origin.h>
 #include "Lang.h"
 #include "File.h"
@@ -24,7 +25,7 @@
  * @param vector<string> strFiles the names of the input data files
  *
  * @return Worksheet wks the worksheet containing the imported data
- **/
+ */
 Worksheet IMPORT_spectra(vector<string> params, vector<string> strFiles){
 	// user information
 	printf(IMPORT_READING);
@@ -147,7 +148,7 @@ Worksheet IMPORT_spectra(vector<string> params, vector<string> strFiles){
  * @param vector<string> strFiles the names of the input data files
  *
  * @return WorksheetPage wb the workbook containing the imported data
- **/
+ */
 WorksheetPage IMPORT_3dMaps(vector<string> params, vector<string> strFiles){
 	//user information
 	printf(IMPORT_READING);
@@ -262,7 +263,7 @@ WorksheetPage IMPORT_3dMaps(vector<string> params, vector<string> strFiles){
  * @param vector<string> strFiles the names of the input data files
  *
  * @return WorksheetPage wb the workbook containing the imported data
- **/
+ */
 WorksheetPage IMPORT_4dMaps(vector<string> params, vector<string> strFiles){
 	// user information
 	printf(IMPORT_READING);
@@ -423,7 +424,7 @@ WorksheetPage IMPORT_4dMaps(vector<string> params, vector<string> strFiles){
  * @param vector<string> strFiles the names of the input data files
  *
  * @return WorksheetPage wb the workbook containing the imported data
- **/
+ */
 WorksheetPage IMPORT_LabViewMaps(vector<string> params, vector<string> strFiles){
 	// user information
 	printf(IMPORT_READING);
@@ -498,7 +499,7 @@ WorksheetPage IMPORT_LabViewMaps(vector<string> params, vector<string> strFiles)
  * @param vector<string> strFiles the names of the input data files
  *
  * @return WorksheetPage wb the workbook containing the imported data
- **/
+ */
 void IMPORT_Tracks(vector<string> params, vector<string> strFiles){
 	// user information
 	printf(IMPORT_READING);

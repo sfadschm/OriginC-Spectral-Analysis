@@ -1,23 +1,24 @@
-/*------------------------------------------------------------------------------*
- * File Name: Map.h                                                             *
- * Creation:  Alexander Schmitz                                                 *
- * Purpose:   Provides user functions to analyse map data.                      *
- * Copyright(c) 2021, Alexander Schmitz                                         *
- * All Rights Reserved                                                          *
- *                                                                              *
- * Last Modified: 08.03.2021                                                    *
- * Tasks:                                                                       *
- *------------------------------------------------------------------------------*/
+/**
+ * This file is part of the OriginC Spectral Analysis package.
+ *
+ * (c) Alexander Schmitz <alexander.schmitz@uni-due.de>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */ 
 #ifndef _MAP_ // include once
 #define _MAP_
 
+/**
+ * This file provides helper methods for analysing map data.
+ */
 #include <Origin.h>
 
 /**
  * Extract a linescan from a map of XY-I data.
  *
  * @param WorksheetPage wb the workbook to extract the line from
- **/
+ */
 void MAP_4D_Linescan(Worksheet wks)
 {
 	// get user parameters

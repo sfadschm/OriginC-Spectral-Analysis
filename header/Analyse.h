@@ -1,16 +1,17 @@
-/*------------------------------------------------------------------------------*
- * File Name:	Analyse.h 														*
- * Creation: 	Alexander Schmitz												*
- * Purpose: 	Provides user functions to perform analysis on datasets.		*
- * Copyright(c) 2021, Alexander Schmitz         								*
- * All Rights Reserved															*
- * 																				*
- * Last Modified:	08.03.2021			    									* 
- * Tasks:           				    										*
- *------------------------------------------------------------------------------*/
+/**
+ * This file is part of the OriginC Spectral Analysis package.
+ *
+ * (c) Alexander Schmitz <alexander.schmitz@uni-due.de>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 #ifndef _ANALYSIS_ // include once
 #define _ANALYSIS_
 
+/**
+ * This file provides methods for analysing spectral datasets.
+ */
 #include <Origin.h>
 #include "Lang.h"
 #include "User.h"
@@ -22,7 +23,7 @@
  * Run spectral analysis on a worksheet layer.
  *
  * @param Worksheet wks the worksheet to analyse
- **/
+ */
 void ANALYSE_spectra(Worksheet wks)
 {
 	// get analysis parameters
@@ -185,7 +186,7 @@ void ANALYSE_spectra(Worksheet wks)
  * @param vector<string> srcNames   the names of the data source sheets
  * @param string         columnName the name of the column to extract from the source sheets
  * @param string         identifier the base name of the result sheets to be created
- **/
+ */
 void ANALYSE_collectPeaks(WorksheetPage wb, vector<string> srcNames, string columnName, string identifier)
 {
 	// get workbook name

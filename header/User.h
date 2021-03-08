@@ -1,16 +1,17 @@
-/*------------------------------------------------------------------------------*
- * File Name:	User.h 															*
- * Creation:	Alexander Schmitz												*
- * Purpose:		Provides methods for user interaction (interfaces).		        *
- * Copyright(c) 2021, Alexander Schmitz         								*
- * All Rights Reserved															*
- * 																				*
- * Last Modified:	08.03.2021													*
- * Tasks: 																		*
- *------------------------------------------------------------------------------*/
+/**
+ * This file is part of the OriginC Spectral Analysis package.
+ *
+ * (c) Alexander Schmitz <alexander.schmitz@uni-due.de>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 #ifndef _USER_ // include once
 #define _USER_
 
+/**
+ * This file defines the user interaction interfaces (dialogues).
+ */
 #include <Origin.h>
 #include <GetNBox.h>
 #include "Lang.h"
@@ -21,7 +22,7 @@
  * @param string boxTitle the title of the dialog box
  *
  * @return string strFile the full path to the selected file
- **/
+ */
 vector<string> USER_selectFiles()
 {
 	// "explode" file types
@@ -47,7 +48,7 @@ vector<string> USER_selectFiles()
  * Open a multiple input box to setup data import.
  *
  * @return vector<string> params the user input parameters
- **/
+ */
 vector<string> USER_importData()
 {
 	// name holders
@@ -119,7 +120,7 @@ vector<string> USER_importData()
  * Open a multi field input box to setup the worksheet labeling.
  *
  * @return vector<string> params the user input parameters
- **/
+ */
 vector<string> USER_readLabels()
 {
 	// setup N_BOX
@@ -149,7 +150,7 @@ vector<string> USER_readLabels()
  * Open a multiple input box to setup data analysis.
  *
  * @return vector<string> params the user input parameters
- **/
+ */
 vector<string> USER_analyse()
 {
 	// setup N_BOX
@@ -179,7 +180,7 @@ vector<string> USER_analyse()
  * @param Worksheet wks the worksheet to read the user labels from
  *
  * @return vector<string> params the user input parameters
- **/
+ */
 vector<string> USER_analyseSpectra(Worksheet wks)
 {
 	// read worksheet user labels
@@ -225,7 +226,7 @@ vector<string> USER_analyseSpectra(Worksheet wks)
  * @param Worksheet wks the source data worksheet
  *
  * @return vector<string> params the user input parameters
- **/
+ */
 vector<string> USER_map4dLinescan(Worksheet wks)
 {
 	// resolve worksheet label names
@@ -294,7 +295,7 @@ vector<string> USER_map4dLinescan(Worksheet wks)
  * @param vector<string> coordStrV the string values of available coordinates
  *
  * @return vector<string> params the user input parameters
- **/
+ */
 vector<string> USER_linescan(vector<string> coordStrV)
 {
 	// combine coordinates
@@ -338,7 +339,7 @@ vector<string> USER_linescan(vector<string> coordStrV)
  * Open a multiple input box to setup data manipulation.
  *
  * @return vector<string> params the user input parameters
- **/
+ */
 vector<string> USER_correctData(WorksheetPage wb)
 {
 	// get Worksheet(page) names
@@ -388,7 +389,7 @@ vector<string> USER_correctData(WorksheetPage wb)
  * Open a multiple input box to setup data manipulation.
  *
  * @return vector<string> params the user input parameters
- **/
+ */
 vector<string> USER_correctDataSource(WorksheetPage wb, Worksheet dataWks, int method, string title, int step = 1)
 {
 	vector<string> params;
@@ -551,7 +552,7 @@ vector<string> USER_correctDataSource(WorksheetPage wb, Worksheet dataWks, int m
  * Open a multiple input box to setup data conversion.
  *
  * @return vector<string> params the user input parameters
- **/
+ */
 vector<string> USER_convert()
 {
 	// setup N_BOX
@@ -577,7 +578,7 @@ vector<string> USER_convert()
  * Open a multi field input box to setup a map dimension.
  *
  * @return vector<string> params the user input parameters
- **/
+ */
 vector<string> USER_xyzMatrix()
 {
 	// setup N_BOX
@@ -622,7 +623,7 @@ vector<string> USER_xyzMatrix()
  * @param vector<string> sheetNames an array of sheet names with valid data for collection
  * 
  * @return vector<string> params the user input parameters
- **/
+ */
 vector<string> USER_peaks(WorksheetPage wb, vector<string> sheetNames)
 {
 	// get first valid worksheet
@@ -673,7 +674,7 @@ vector<string> USER_peaks(WorksheetPage wb, vector<string> sheetNames)
  * @param vector<string> sheetNames an array of sheet names with valid data for collection
  * 
  * @return vector<string> params the user input parameters
- **/
+ */
 vector<string> USER_interpolate(Worksheet wks)
 {
 	// get possible column names

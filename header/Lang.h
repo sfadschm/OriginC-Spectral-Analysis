@@ -1,24 +1,26 @@
-/*------------------------------------------------------------------------------*
- * File Name: Lang.h                                                            *
- * Creation:  Alexander Schmitz                                                 *
- * Purpose:   Provides text constants for user interfaces.                      *
- * Copyright(c) 2021, Alexander Schmitz                                         *
- * All Rights Reserved                                                          *
- *                                                                              *
- * Last Modified: 08.03.2021                                                    *
- * Tasks:                                                                       *
- *------------------------------------------------------------------------------*/
+/**
+ * This file is part of the OriginC Spectral Analysis package.
+ *
+ * (c) Alexander Schmitz <alexander.schmitz@uni-due.de>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 #ifndef _LANG_ // include once
 #define _LANG_
 
-/****************************** General ******************************/
+/**
+ * This file provides text constants for user and status messages.
+ */
+
+/****************************** General *****************************/
 #define LABEL_WB_NAME     "Target Workbook"
 #define LABEL_WKS_NAME    "Target Worksheet"
 #define LABEL_COL_NAME    "Target Column"
 #define USER_PARAMS_EMPTY "\nNo Parameters were set!"
-/****************************** General End ******************************/
+/****************************** General End *****************************/
 
-/****************************** Progress Information ******************************/
+/****************************** Progress Information *****************************/
 #define IMPORT_START     "\nImporting data ..."
 #define IMPORT_READING   "\nReading files ..."
 #define IMPORT_LABELING  "\nCreating labels ..."
@@ -36,9 +38,9 @@
 #define REDUCE_STOP      "All sparklines have been deleted.\n"
 #define PEAKS_START      "\nCollecting peak data ..."
 #define PEAKS_STOP       "\nPeak data completed.\n"
-/****************************** Progress Information End ******************************/
+/****************************** Progress Information End *****************************/
 
-/****************************** User Dialogs ******************************/
+/****************************** User Dialogs *****************************/
 // file selection
 #define USER_FILES_TITLE "\nSelect File(s)"
 #define USER_FILES_EMPTY "\nNo File(s) selected!"
@@ -168,6 +170,6 @@
 #define X_INIT_FAILED  "Could not initialize X-Function!"
 #define X_PARAM_FAILED "Could not set parameter for X-Function!"
 #define X_EVAL_FAILED  "Could not evaluate X-Function!"
-/****************************** User Dialogs End ******************************/
+/****************************** User Dialogs End *****************************/
 
 #endif

@@ -1,16 +1,18 @@
-/*------------------------------------------------------------------------------*
- * File Name: Origin.h                                                          *
- * Creation:  Alexander Schmitz                                                 *
- * Purpose:   Provides methods to manipulate Origin objects.                    *
- * Copyright(c) 2021, Alexander Schmitz                                         *
- * All Rights Reserved                                                          *
- *                                                                              *
- * Last Modified: 08.03.2021                                                    *
- * Tasks: Optimize conditions and use base method for layers?                   *
- *------------------------------------------------------------------------------*/
+/**
+ * This file is part of the OriginC Spectral Analysis package.
+ *
+ * (c) Alexander Schmitz <alexander.schmitz@uni-due.de>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+ 
 #ifndef _ORIGIN_ // include once
 #define _ORIGIN_
 
+/**
+ * This file provides helper methods for Origin objects.
+ */
 #include <Origin.h>
 #include "Lang.h"
 #include "Misc.h"
@@ -23,7 +25,7 @@
  * @param string wbName() the desired name of the new workbook
  *
  * @return WorksheetPage wb the workbook object
- **/
+ */
 WorksheetPage ORIGIN_createWb(string wbName = "")
 {
 	WorksheetPage wb;
@@ -63,7 +65,7 @@ WorksheetPage ORIGIN_createWb(string wbName = "")
  * @param bool          forceNew(false) defines if a new worksheet must be created even if name exists
  
  * @return Worksheet wks the worksheet object
- **/
+ */
 Worksheet ORIGIN_createWks(WorksheetPage wb, string wksName = "", bool forceNew = false)
 {
 	// index of new worksheet
@@ -121,7 +123,7 @@ Worksheet ORIGIN_createWks(WorksheetPage wb, string wksName = "", bool forceNew 
  * @param Worksheet&     wks        the worksheet reference to link the active worksheet to
  *
  * @return vector<int> sourceWksInts the numeric indexes of the worksheet in the active workbook
- **/
+ */
 vector<int> ORIGIN_getActiveWorksheets(int sourceType, WorksheetPage& wb, Worksheet& wks)
 {
 	// storage for worksheet indices
@@ -164,7 +166,7 @@ vector<int> ORIGIN_getActiveWorksheets(int sourceType, WorksheetPage& wb, Worksh
  * @param string mpName() the name of the page to create
  *
  * @return MatrixPage mp the page object
- **/
+ */
 MatrixPage ORIGIN_createMp(string mpName = "")
 {
 	MatrixPage mp;
@@ -205,7 +207,7 @@ MatrixPage ORIGIN_createMp(string mpName = "")
  * @param bool       forceNew(false) defines if a new layer must be created even if name exists
  *
  * @return MatrixLayer ml the layer object
- **/
+ */
 MatrixLayer ORIGIN_createMl(MatrixPage mp, string mlName = "", bool forceNew = false)
 {
 	// layer index

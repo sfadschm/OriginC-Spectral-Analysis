@@ -1,13 +1,11 @@
-/*------------------------------------------------------------------------------*
- * File Name:	main.c                                                          *
- * Creation:	Alexander Schmitz                                               *
- * Purpose:		Data Handling/Evaluation                                        *
- * Copyright(c) 2021, Alexander Schmitz                                         *
- * All Rights Reserved                                                          *
- *                                                                              *
- * Last Modified:	08.03.2021                                                  *
- * Tasks:                                                                       *
- *------------------------------------------------------------------------------*/
+/**
+ * This file is part of the OriginC Spectral Analysis package.
+ *
+ * (c) Alexander Schmitz <alexander.schmitz@uni-due.de>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 #include <Origin.h>
 #include "header\Lang.h"
 #include "header\User.h"
@@ -17,8 +15,13 @@
 #include "header\Correct.h"
 
 /**
+ * This is the package's main file.
+ * All methods defined here should be called directly from the command window.
+ */
+
+/**
  * Import various datasets based on user input.
- **/
+ */
 void import()
 {
 	// get parameters from user
@@ -78,7 +81,7 @@ void import()
 
 /**
  * Run different manipulation routines on worksheets in current workbook.
- **/
+ */
 void correct()
 {
 	// get targets
@@ -190,7 +193,7 @@ void correct()
 
 /**
  * Run basic data analysis on a workbook or worksheet.
- **/
+ */
 void analyse()
 {
 	// get parameters from user
@@ -248,7 +251,7 @@ void analyse()
 
 /**
  * Convert data to or from maps (3D/4D).
- **/
+ */
 void convert(){
 	// get parameters from user
 	vector<string> params;
@@ -303,7 +306,7 @@ void convert(){
 
 /**
  * Project all data in the current worksheet onto a new x-axis.
- **/
+ */
 void interpolate(){
 	// get active page
 	Worksheet     activeWks;
@@ -380,7 +383,7 @@ void interpolate(){
 
 /**
  * Collect and resort selected data columns from multiple peak analysis result sheets.
- **/
+ */
 void peaks(){
 	// get active page
 	Worksheet     activeWks;
@@ -432,7 +435,7 @@ void peaks(){
 
 /**
  * Rename all Workbooks in active folder with their long names.
- **/
+ */
 void renameWbs(){
 	// get active folder
 	Folder fld = Project.ActiveFolder();
@@ -453,7 +456,7 @@ void renameWbs(){
  * Set the lower bound of allowed values in the current worksheet to a defined value.
  *
  * @param double lowerBound the lowest allowed value
- **/
+ */
 void setLowerBound(double lowerBound = 0){
 	// get targets
 	Worksheet     activeWks;
@@ -472,7 +475,7 @@ void setLowerBound(double lowerBound = 0){
 
 /**
  * Reduce CPU load by removing all sparklines from the project and hiding all page windows.
- **/
+ */
 void reduce(){
 	// loop through all pages
 	foreach(PageBase pb in Project.Pages){

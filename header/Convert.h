@@ -1,16 +1,17 @@
-/*------------------------------------------------------------------------------*
- * File Name: Convert.h                                                         *
- * Creation:  Alexander Schmitz                                                 *
- * Purpose:   Provide user functions to convert matrix data.                    *
- * Copyright(c) 2021, Alexander Schmitz                                         *
- * All Rights Reserved                                                          *
- *                                                                              *
- * Last Modified: 08.03.2021                                                    *
- * Tasks:                                                                       *
- *------------------------------------------------------------------------------*/
+/**
+ * This file is part of the OriginC Spectral Analysis package.
+ *
+ * (c) Alexander Schmitz <alexander.schmitz@uni-due.de>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 #ifndef _CONVERT_ // include once
 #define _CONVERT_
 
+/**
+ * This file provides helper methods for converting matrix data.
+ */
 #include <Origin.h>
 
 /**
@@ -18,7 +19,7 @@
  *
  * @param Worksheet      wks    the source worksheet
  * @param vector<string> params the mapping parameters (user defined)
- **/
+ */
 void CONVERT_XYZtoMatrix(Worksheet wks, vector<string> params)
 {
 	// dummy variable
