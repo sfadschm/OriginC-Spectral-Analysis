@@ -1,12 +1,12 @@
 /*------------------------------------------------------------------------------*
- * File Name:	Map.h 															*
- * Creation: 	Alexander Schmitz												*
- * Purpose: 	Provides user functions to analyse map data.					*
- * Copyright(c) 2021, Alexander Schmitz         								*
- * All Rights Reserved															*
- * 																				*
- * Last Modified:	08.03.2021			    									* 
- * Tasks:           				    										*
+ * File Name:	Map.h                                                           *
+ * Creation:	Alexander Schmitz                                               *
+ * Purpose:		Provides user functions to analyse map data.                    *
+ * Copyright(c) 2021, Alexander Schmitz                                         *
+ * All Rights Reserved                                                          *
+ *                                                                              *
+ * Last Modified:	08.03.2021                                                  *
+ * Tasks:                                                                       *
  *------------------------------------------------------------------------------*/
 #ifndef _MAP_ // include once
 #define _MAP_
@@ -22,7 +22,7 @@ void MAP_4D_Linescan(Worksheet wks)
 {
 	// get user parameters
 	vector<string> params;	
-	params = USER_map4dLinescan(wks);	
+	params = USER_map4dLinescan(wks);
 
 	// abort if user dialog cancelled
 	if(params[0] == "-1")
@@ -30,7 +30,7 @@ void MAP_4D_Linescan(Worksheet wks)
 		printf(USER_PARAMS_EMPTY);
 		return;
 	}
-	
+
 	// map user parameters
 	int    scanAxisInt = atof(params[0]); // scan axis (X, Y)
 	int    xParamInt   = atof(params[1]); // user parameter index X
@@ -43,7 +43,7 @@ void MAP_4D_Linescan(Worksheet wks)
 	gg.Attach(wks);	
 	vector<string> labelNamesV;
 	gg.GetUserDefinedLabelNames(labelNamesV);
-		
+
 	// get XY data from labels
 	vector<string> xStrV, yStrV;
 	gg.GetLabelsByType(xStrV, RCLT_UDL + xParamInt);
@@ -80,7 +80,7 @@ void MAP_4D_Linescan(Worksheet wks)
 
 	// add user parameter
 	WOKRSHEET_addUserParameter(tgtWks, scanAxisLabel);
-		
+
 	// get x-column
 	int        tgtLColInt = tgtWks.AddCol();
 	Column     tgtLCol    = tgtWks.Columns(tgtLColInt);
@@ -102,11 +102,11 @@ void MAP_4D_Linescan(Worksheet wks)
 			// create column
 			tgtIColInt = tgtWks.AddCol();
 			tgtICol    = tgtWks.Columns(tgtIColInt);
-			
+
 			// transfer intensity data
 			vectorbase &iData = tgtICol.GetDataObject();
 			iData = wks.Columns(i).GetDataObject();
-			
+
 			// set column labels
 			tgtICol.SetLongName(wks.Columns(i).GetLongName());
 			tgtICol.SetUnits(wks.Columns(i).GetUnits());

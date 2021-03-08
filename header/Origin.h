@@ -1,11 +1,11 @@
 /*------------------------------------------------------------------------------*
- * File Name:	Origin.h	 													*
- * Creation: 	Alexander Schmitz												*
- * Purpose: 	Provides methods to manipulate Origin objects.  				*
- * Copyright(c) 2021, Alexander Schmitz         								*
- * All Rights Reserved															*
- * 																				*
- * Last Modified:	08.03.2021										    		*
+ * File Name:	Origin.h                                                        *
+ * Creation:	Alexander Schmitz                                               *
+ * Purpose:		Provides methods to manipulate Origin objects.                  *
+ * Copyright(c) 2021, Alexander Schmitz                                         *
+ * All Rights Reserved                                                          *
+ *                                                                              *
+ * Last Modified:	08.03.2021                                                  *
  * Tasks: Optimize conditions and use base method for layers?                   *
  *------------------------------------------------------------------------------*/
 #ifndef _ORIGIN_ // include once
@@ -26,33 +26,33 @@
  **/
 WorksheetPage ORIGIN_createWb(string wbName = "")
 {
-    WorksheetPage wb;
-    
-    // strip workbook name
+	WorksheetPage wb;
+
+	// strip workbook name
 	string strippedName = MISC_stripName(wbName);
-	
+
 	// create new book if invalid name
-    if(strippedName.IsEmpty())
-    {
-    	wb.Create();
-	    wb.Layers(0).Delete();
-	    return wb;
-    }
-    
+	if(strippedName.IsEmpty())
+	{
+		wb.Create();
+		wb.Layers(0).Delete();
+		return wb;
+	}
+
 	// try using use existing workbook
 	WorksheetPage wb2(strippedName);
 	if(wb2)
-	{ 
+	{
 		// use existing workbook
 		return wb2;
 	}
-	
+
 	// create new workbook with name
 	wb.Create();
 	wb.Layers(0).Delete();
-	wb.SetName(strippedName);		
-	        
-    return wb;
+	wb.SetName(strippedName);
+
+	return wb;
 }
 
 /**
@@ -68,7 +68,7 @@ Worksheet ORIGIN_createWks(WorksheetPage wb, string wksName = "", bool forceNew 
 {
 	// index of new worksheet
 	int wksInt;
-	
+
 	// strip worksheet name
 	string strippedName = MISC_stripName(wksName);
 
@@ -76,6 +76,7 @@ Worksheet ORIGIN_createWks(WorksheetPage wb, string wksName = "", bool forceNew 
 	if(strippedName.IsEmpty())
 	{
 		wksInt = WORKBOOK_addWorksheet(wb);
+		return wb.Layers(wksInt);
 	}
 
 	// try to get existing worksheet
@@ -85,16 +86,17 @@ Worksheet ORIGIN_createWks(WorksheetPage wb, string wksName = "", bool forceNew 
 	if(!wks)
 	{
 		wksInt = WORKBOOK_addWorksheet(wb, strippedName);
+		return wb.Layers(wksInt);
 	}
-	
+
 	// use existing worksheet if not forced
 	if(forceNew)
-	{ 
+	{
 		// rename until no existing layer found
 		int i = 2;
 		string newName;
 		while(wks)
-		{ 
+		{
 			newName = strippedName + "_" + ftoa(i++);
 			wks = wb.Layers(newName);
 		}
@@ -107,7 +109,7 @@ Worksheet ORIGIN_createWks(WorksheetPage wb, string wksName = "", bool forceNew 
 		// use existing worksheet
 		wksInt = wks.GetIndex();
 	}
-	
+
 	return wb.Layers(wksInt);
 }
 
@@ -127,13 +129,13 @@ vector<int> ORIGIN_getActiveWorksheets(int sourceType, WorksheetPage& wb, Worksh
 
 	// get active layer/page
 	wks = Project.ActiveLayer();
-	
+
 	// abort if not a valid worksheet
 	if(!wks){
 		printf(ANALYSIS_NO_WKS);
 		return sourceWksInts;
 	}
-	
+
 	// get workbook page
 	wb = wks.GetPage();
 
@@ -145,7 +147,7 @@ vector<int> ORIGIN_getActiveWorksheets(int sourceType, WorksheetPage& wb, Worksh
 		{
 			sourceWksInts.Add(tempWks.GetIndex());
 		}
-	} 
+	}
 	else
 	{
 		// get worksheet index
@@ -164,13 +166,13 @@ vector<int> ORIGIN_getActiveWorksheets(int sourceType, WorksheetPage& wb, Worksh
  **/
 MatrixPage ORIGIN_createMp(string mpName = "")
 {
-    MatrixPage mp;
-    
-    // strip layer name
+	MatrixPage mp;
+
+	// strip layer name
 	string strippedName = MISC_stripName(mpName);
-	
+
 	// create new page if invalid name
-    if(strippedName.IsEmpty())
+	if(strippedName.IsEmpty())
 	{
 		mp.Create();
 		mp.Layers(0).Delete();
@@ -179,19 +181,19 @@ MatrixPage ORIGIN_createMp(string mpName = "")
 
 	// try getting existing page
 	MatrixPage mp2(strippedName);
-	
+
 	// use exsiting page
 	if(mp2)
 	{
 		return mp2;
 	}
-	
+
 	// create new named page
 	mp.Create();
-    mp.Layers(0).Delete();
-	mp.SetName(strippedName);		
+	mp.Layers(0).Delete();
+	mp.SetName(strippedName);
 
-    return mp;
+	return mp;
 }
 
 /**
@@ -207,26 +209,25 @@ MatrixLayer ORIGIN_createMl(MatrixPage mp, string mlName = "", bool forceNew = f
 {
 	// layer index
 	int mlInt;
-	
+
 	// strip layer name
 	string strippedName = MISC_stripName(mlName);
-	
+
 	// create new layer if invalid name
 	if(!strippedName.IsEmpty())
 	{
 		mlInt = MATRIXPAGE_addMatrixLayer(mp);
 	}
-	
+
 	// try getting existing layer
 	Worksheet ml = mp.Layers(strippedName);
 
-	
 	// create new named layer if not exists
 	if(!ml)
 	{
 		mlInt = MATRIXPAGE_addMatrixLayer(mp, strippedName);
 	}
-	
+
 	// use existing worksheet if not forced
 	if(forceNew)
 	{
@@ -241,13 +242,13 @@ MatrixLayer ORIGIN_createMl(MatrixPage mp, string mlName = "", bool forceNew = f
 
 		// create new matrix layer
 		mlInt = MATRIXPAGE_addMatrixLayer(mp, newName);
-	} 
+	}
 	else
 	{
 		// use existing worksheet
 		mlInt = ml.GetIndex();
 	}
-		
+
 	return mp.Layers(mlInt);
 }
 

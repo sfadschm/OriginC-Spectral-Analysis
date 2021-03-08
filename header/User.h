@@ -564,7 +564,7 @@ vector<string> USER_convert()
 		params.Add(tr.Method.strVal);
 	}
 	else
-	{ 
+	{
 		// user input failed or cancelled
 		params.Add("-1");
 	}

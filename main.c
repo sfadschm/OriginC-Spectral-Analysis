@@ -1,12 +1,12 @@
 /*------------------------------------------------------------------------------*
- * File Name:	main.c 															*
- * Creation: 	Alexander Schmitz												*
- * Purpose:		Data Handling/Evaluation										*
- * Copyright(c) 2021, Alexander Schmitz         								*
- * All Rights Reserved															*
- * 																				*
- * Last Modified:	08.03.2021													*
- * Tasks:                                            							*
+ * File Name:	main.c                                                          *
+ * Creation:	Alexander Schmitz                                               *
+ * Purpose:		Data Handling/Evaluation                                        *
+ * Copyright(c) 2021, Alexander Schmitz                                         *
+ * All Rights Reserved                                                          *
+ *                                                                              *
+ * Last Modified:	08.03.2021                                                  *
+ * Tasks:                                                                       *
  *------------------------------------------------------------------------------*/
 #include <Origin.h>
 #include "header\Lang.h"
@@ -24,14 +24,14 @@ void import()
 	// get parameters from user
 	vector<string> params;
 	params = USER_importData();
-	
+
 	// abort if user dialog cancelled
 	if(params[0] == "-1")
 	{
 		printf(USER_PARAMS_EMPTY);
 		return;
 	}
-	
+
 	// user information
 	printf(IMPORT_START);
 
@@ -41,24 +41,24 @@ void import()
 	// read source files from user
 	vector<string> strFiles;
 	strFiles = USER_selectFiles();
-		
+
 	// abort if no file selected
 	if(strFiles.GetSize() == 0)
 	{
 		return;
 	}
-		
+
 	// call import method
 	switch(methodInt)
 	{
 		case 0: // Spectra
 			IMPORT_spectra(params, strFiles);
 			break;
-		
+
 		case 1: // 3D Map (Streak)
 			IMPORT_3dMaps(params, strFiles);
 			break;
-			
+
 		case 2: // 4D Map (LabView)
 			IMPORT_LabViewMaps(params, strFiles);
 			break;
@@ -66,12 +66,12 @@ void import()
 			case 3: // 4D Map (NT-MDT)
 			IMPORT_4dMaps(params, strFiles);
 			break;
-			
+
 		case 4: // ImageJ Tracks
 			IMPORT_Tracks(params, strFiles);
 			break;
 	}
-	
+
 	// user information
 	printf(IMPORT_STOP);
 }
@@ -89,20 +89,20 @@ void correct()
 	// get parameters from user
 	vector<string> params;
 	params = USER_correctData(activeWb);
-	
+
 	// abort if user dialog cancelled
 	if(params[0] == "-1")
 	{
 		printf(USER_PARAMS_EMPTY);
 		return;
 	}
-	
-	// map source parameters
-    Worksheet dataWks = activeWb.Layers(params[0]);
 
-    // abort if not a worksheet
-    if(!dataWks)
-    {
+	// map source parameters
+	Worksheet dataWks = activeWb.Layers(params[0]);
+
+	// abort if not a worksheet
+	if(!dataWks)
+	{
 		printf(USER_CORRECT_NODATAWKS);
 		return;
 	}
@@ -120,14 +120,14 @@ void correct()
 			// read user parameters for current step
 			vector<string> userParams;
 			userParams = USER_correctDataSource(activeWb, dataWks, i, dialogTitles[i - 1]);
-			
+
 			// abort if parameter dialogue cancelled
 			if(userParams[0] == "-1")
 			{
 				printf(USER_PARAMS_EMPTY + " (" + dialogTitles[i - 1] + ")");
 				return;
 			}
-			
+
 			// duplicate data sheet
 			tgtWks = ORIGIN_createWks(activeWb, sheetTitles[i - 1], true);
 			wks_copy(tgtWks, dataWks, CREATE_VISIBLE_SAME, DCTRL_COPY_GRID | DCTRL_COPY_DATA);
@@ -179,7 +179,7 @@ void correct()
 
 			// ensure that comments are shown
 			Grid gg;
-			gg.Attach(tgtWks);	
+			gg.Attach(tgtWks);
 			gg.ShowLabels(RCLT_COMMENT);
 
 			// assign new data sheet (for recursion)
@@ -196,7 +196,7 @@ void analyse()
 	// get parameters from user
 	vector<string> params;
 	params = USER_analyse();
-	
+
 	// abort if user dialog cancelled
 	if(params[0] == "-1")
 	{
@@ -210,7 +210,7 @@ void analyse()
 	// map source parameters
 	int methodInt     = atoi(params[0]);
 	int sourceTypeInt = atoi(params[1]);
-	
+
 	// get targets
 	Worksheet     activeWks;
 	WorksheetPage activeWb;
@@ -222,7 +222,7 @@ void analyse()
 	for(int i = 0; i < sourceWksInts.GetSize(); i++)
 	{
 		wks = activeWb.Layers(sourceWksInts[i]);
-		
+
 		// skip existing result sheets
 		if(wks.GetName() == ANALYSIS_TARGET)
 		{
@@ -235,13 +235,13 @@ void analyse()
 			case 0: // spectral analysis
 				ANALYSE_spectra(wks);
 				break;
-			
+
 			case 1: // 4D linescan
 				MAP_4D_Linescan(wks);
 				break;
 		}
 	}
-	
+
 	// user information
 	printf(ANALYSIS_STOP);
 }
@@ -253,24 +253,24 @@ void convert(){
 	// get parameters from user
 	vector<string> params;
 	params = USER_convert();
-	
+
 	// abort if user dialog cancelled
 	if(params[0] == "-1")
 	{
 		printf(USER_PARAMS_EMPTY);
 		return;
 	}
-	
+
 	// user information
 	printf(CONVERSION_START);
 
 	// map user parameters
 	int methodInt = atoi(params[0]);
-			
+
 	// get targets
 	Worksheet activeWks = Project.ActiveLayer();
-	
-    // abort if not a worksheet
+
+	// abort if not a worksheet
 	if(!activeWks)
 	{
 		printf(ANALYSIS_NO_WKS);
@@ -295,9 +295,87 @@ void convert(){
 			CONVERT_XYZtoMatrix(activeWks, mapParams);
 			break;
 	}
-	
+
 	// user information
 	printf(CONVERSION_STOP);
+}
+
+
+/**
+ * Project all data in the current worksheet onto a new x-axis.
+ **/
+void interpolate(){
+	// get active page
+	Worksheet     activeWks;
+	WorksheetPage activeWb;
+	ORIGIN_getActiveWorksheets(0, activeWb, activeWks);
+
+	// get parameters from user
+	vector<string> params;
+	params = USER_interpolate(activeWks);
+
+	// abort if user dialog cancelled
+	if(params[0] == "-1")
+	{
+		printf(USER_PARAMS_EMPTY);
+		return;
+	}
+
+	// map user parameters
+	int newXInt = atoi(params[0]);
+
+	// generate x-range string
+	string str_xRange = activeWks.GetName() + "!" + newXInt;
+
+	// store new x-data for replication
+	vector<double> newXData;
+	newXData = activeWks.Columns(newXInt).GetDataObject();
+
+	// duplicate data sheet
+	Worksheet tgtWks;
+	tgtWks = ORIGIN_createWks(activeWb, "Interpolated", true);
+	wks_copy(tgtWks, activeWks, CREATE_VISIBLE_SAME, DCTRL_COPY_GRID | DCTRL_COPY_DATA);
+
+	// store sheet name
+	string tgtSheet = tgtWks.GetName();
+
+	// loop through all columns
+	int numCols = tgtWks.GetNumCols();
+	for(int colInt = 0; colInt < numCols ; colInt++)
+	{
+		// skip x/z-data, new x-axis and empty columns
+		if(tgtWks.Columns(colInt).GetType() != OKDATAOBJ_DESIGNATION_Y || colInt == newXInt || tgtWks.Columns(colInt).GetUpperBound() == -1)
+		{
+			continue;
+		}
+
+		// perform interpolation with LabTalk
+		string src_str         = tgtSheet + "!" + (colInt + 1);
+		string str_interpolate = "interp1 -r 0 ix:=" + str_xRange + " iy:=" + src_str + " method:=linear option:=1 ox:=" + src_str;
+		LT_execute(str_interpolate);
+
+		// add comment to interpolated data
+		tgtWks.Columns(colInt).SetComments("Interpolated to new X-axis.");
+	}
+
+	// replace old x-data with new axis
+	for(colInt = 0; colInt < numCols ; colInt++)
+	{
+		// skip y/z-data and source of new x-data
+		if(tgtWks.Columns(colInt).GetType() != OKDATAOBJ_DESIGNATION_X || colInt == newXInt)
+		{
+			continue;
+		}
+
+		// get target data object
+		vectorbase& xColObj = tgtWks.Columns(colInt).GetDataObject();
+
+		// paste new x-data
+		xColObj = newXData;
+	}
+
+	// remove old x-data column
+	tgtWks.DeleteCol(newXInt);
 }
 
 /**
@@ -320,24 +398,24 @@ void peaks(){
 			sheetNames.Add(tmpName);
 		}
 	}
-	
+
 	// abort if no valid sheets available
 	if(sheetNames.GetSize() < 1){
 		printf(PEAKS_NO_WKS);
 		return;
 	}
-	
+
 	// get parameters from user
 	vector<string> params;
 	params = USER_peaks(activeWb, sheetNames);
-	
+
 	// abort if user dialog cancelled
 	if(params[0] == "-1")
 	{
 		printf(USER_PARAMS_EMPTY);
 		return;
 	}
-	
+
 	// user information
 	printf(PEAKS_START);
 
@@ -357,17 +435,17 @@ void peaks(){
  **/
 void renameWbs(){
 	// get active folder
-    Folder fld = Project.ActiveFolder();
+	Folder fld = Project.ActiveFolder();
 
-    // loop through workbook pages in folder
-    PageBase pb;
-    foreach(pb in fld.Pages)
-    {
-      pb.Rename(page_get_display_name(pb, FALSE), TRUE, TRUE);
-    }
+	// loop through workbook pages in folder
+	PageBase pb;
+	foreach(pb in fld.Pages)
+	{
+		pb.Rename(page_get_display_name(pb, FALSE), TRUE, TRUE);
+	}
 
-    // user information
-    printf(RENAME_STOP);
+	// user information
+	printf(RENAME_STOP);
 }
 
 
@@ -383,13 +461,13 @@ void setLowerBound(double lowerBound = 0){
 	ORIGIN_getActiveWorksheets(0, activeWb, activeWks);
 
 	// user information
-    printf(LOWERBOUND_START);
+	printf(LOWERBOUND_START);
 
-    // run method
-    WORKSHEET_setLowerBound(activeWks, lowerBound);
-    
-    // user information
-    printf(LOWERBOUND_STOP, lowerBound);
+	// run method
+	WORKSHEET_setLowerBound(activeWks, lowerBound);
+
+	// user information
+	printf(LOWERBOUND_STOP, lowerBound);
 }
 
 /**
@@ -397,99 +475,22 @@ void setLowerBound(double lowerBound = 0){
  **/
 void reduce(){
 	// loop through all pages
-    foreach(PageBase pb in Project.Pages){
-    	if(pb.GetName().Find("sparkline") > -1)
-    	{
+	foreach(PageBase pb in Project.Pages){
+		if(pb.GetName().Find("sparkline") > -1)
+		{
 			// delete sparkline
-		    pb.Destroy();
+			pb.Destroy();
 		}
-		else 
+		else
 		{
 			// hide other pages
 			pb.Show = false;
-        }
-    }
-    
-    // save project
-    Project.Save();
-    
-    // user information
-    printf(REDUCE_STOP);
-}
-
-/**
- * Project all data in the current worksheet onto a new x-axis.
- **/
- void interpolate(){
-	// get active page
-	Worksheet     activeWks;
-	WorksheetPage activeWb;
-	ORIGIN_getActiveWorksheets(0, activeWb, activeWks);
-
-	// get parameters from user
-	vector<string> params;
-	params = USER_interpolate(activeWks);
-	
-	// abort if user dialog cancelled
-	if(params[0] == "-1")
-	{
-		printf(USER_PARAMS_EMPTY);
-		return;
-	}
-	
-	// map user parameters
-	int newXInt = atoi(params[0]);
-	
-	// generate x-range string
-	string str_xRange = activeWks.GetName() + "!" + newXInt;
-
-	// store new x-data for replication
-	vector<double> newXData;
-	newXData = activeWks.Columns(newXInt).GetDataObject();
-
-	// duplicate data sheet
-	Worksheet tgtWks;
-	tgtWks = ORIGIN_createWks(activeWb, "Interpolated", true);
-	wks_copy(tgtWks, activeWks, CREATE_VISIBLE_SAME, DCTRL_COPY_GRID | DCTRL_COPY_DATA);
-	
-	// store sheet name
-	string tgtSheet = tgtWks.GetName();
-	
-	// loop through all columns
-	int numCols = tgtWks.GetNumCols();
-	for(int colInt = 0; colInt < numCols ; colInt++)
-	{
-		// skip x/z-data, new x-axis and empty columns
-		if(tgtWks.Columns(colInt).GetType() != OKDATAOBJ_DESIGNATION_Y || colInt == newXInt || tgtWks.Columns(colInt).GetUpperBound() == -1)
-		{
-			continue;
-		}		
-
-		// perform interpolation with LabTalk
-		string src_str         = tgtSheet + "!" + (colInt + 1);
-		string str_interpolate = "interp1 -r 0 ix:=" + str_xRange + " iy:=" + src_str + " method:=linear option:=1 ox:=" + src_str;
-		LT_execute(str_interpolate);					
-							
-		// add comment to interpolated data
-		tgtWks.Columns(colInt).SetComments("Interpolated to new X-axis.");
-	}
-	
-	// replace old x-data with new axis
-	for(colInt = 0; colInt < numCols ; colInt++)
-	{
-		// skip y/z-data and source of new x-data
-		if(tgtWks.Columns(colInt).GetType() != OKDATAOBJ_DESIGNATION_X || colInt == newXInt)
-		{
-			continue;
 		}
-		
-		// get target data object
-		vectorbase& xColObj = tgtWks.Columns(colInt).GetDataObject();
-
-		// paste new x-data
-		xColObj = newXData;
 	}
-	
-	// remove old x-data column
-	tgtWks.DeleteCol(newXInt);
-}	
+
+	// save project
+	Project.Save();
+
+	// user information
+	printf(REDUCE_STOP);
+}

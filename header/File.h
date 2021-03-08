@@ -1,12 +1,12 @@
 /*------------------------------------------------------------------------------*
- * File Name:	File.h		 													*
- * Creation: 	Alexander Schmitz												*
- * Purpose: 	Provides methods for text file manipulation.    				*
- * Copyright(c) 2021, Alexander Schmitz         								*
- * All Rights Reserved															*
- * 																				*
- * Last Modified::	08.13.2019		    										*
- * Tasks:           				    										*
+ * File Name:	File.h                                                          *
+ * Creation:	Alexander Schmitz                                               *
+ * Purpose:		Provides methods for text file manipulation.                    *
+ * Copyright(c) 2021, Alexander Schmitz                                         *
+ * All Rights Reserved                                                          *
+ *                                                                              *
+ * Last Modified::	08.03.2021                                                  *
+ * Tasks:                                                                       *
  *------------------------------------------------------------------------------*/
 #ifndef _FILE_ // include once
 #define _FILE_
@@ -22,10 +22,10 @@
  **/
 void FILE_openRead(stdioFile &fileObj, string fileName)
 {
-    if(!fileObj.Open(fileName, file::modeRead))
-    {
-        printf("File not found!"); // invalid file
-    }
+	if(!fileObj.Open(fileName, file::modeRead))
+	{
+		printf("File not found!"); // invalid file
+	}
 }
 
 /**

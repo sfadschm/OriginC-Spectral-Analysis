@@ -1,12 +1,12 @@
 /*------------------------------------------------------------------------------*
- * File Name:	Curve.h  	 													*
- * Creation: 	Alexander Schmitz												*
- * Purpose: 	Provides basic curve handling methods.  						*
- * Copyright(c) 2021, Alexander Schmitz         								*
- * All Rights Reserved															*
- * 																				*
- * Last Modified::	08.13.2019											    	*
- * Tasks:           				    										*
+ * File Name:	Curve.h                                                         *
+ * Creation:	Alexander Schmitz                                               *
+ * Purpose:		Provides basic curve handling methods.                          *
+ * Copyright(c) 2021, Alexander Schmitz                                         *
+ * All Rights Reserved                                                          *
+ *                                                                              *
+ * Last Modified::	08.03.2021                                                  *
+ * Tasks:                                                                       *
  *------------------------------------------------------------------------------*/
 #ifndef _CURVE_ // include once
 #define _CURVE_

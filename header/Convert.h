@@ -1,12 +1,12 @@
 /*------------------------------------------------------------------------------*
- * File Name:	Convert.h 														*
- * Creation: 	Alexander Schmitz												*
- * Purpose: 	Provide user functions to convert matrix data.					*
- * Copyright(c) 2021, Alexander Schmitz         								*
- * All Rights Reserved															*
- * 																				*
- * Last Modified:	14.11.2019			    									* 
- * Tasks:           				    										*
+ * File Name:	Convert.h                                                       *
+ * Creation:	Alexander Schmitz                                               *
+ * Purpose:		Provide user functions to convert matrix data.                  *
+ * Copyright(c) 2021, Alexander Schmitz                                         *
+ * All Rights Reserved                                                          *
+ *                                                                              *
+ * Last Modified:	08.03.2021                                                  *
+ * Tasks:                                                                       *
  *------------------------------------------------------------------------------*/
 #ifndef _CONVERT_ // include once
 #define _CONVERT_
@@ -22,7 +22,7 @@
 void CONVERT_XYZtoMatrix(Worksheet wks, vector<string> params)
 {
 	// dummy variable
-    int empty; 
+	int empty;
 
 	// map user parameters
 	string zRangeName = params[0];
@@ -70,7 +70,7 @@ void CONVERT_XYZtoMatrix(Worksheet wks, vector<string> params)
 		int xColNum, yColNum;
 		find_input_range_bounding_box(xRange, empty, xColNum, empty, empty, wks, "X");
 		find_input_range_bounding_box(yRange, empty, yColNum, empty, empty, wks, "X");
-			
+
 		// get XY columns
 		Column xCol = wks.Columns(xColNum);
 		Column yCol = wks.Columns(yColNum);
@@ -118,7 +118,7 @@ void CONVERT_XYZtoMatrix(Worksheet wks, vector<string> params)
 		yName = "Y";
 		xUnit = yUnit = stepUnit;
 	}
-	
+
 	// resize matrix layer
 	ml.SetSize(zColNums.GetSize()); 
 

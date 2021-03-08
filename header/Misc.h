@@ -1,12 +1,12 @@
 /*------------------------------------------------------------------------------*
- * File Name:	Misc.h  	 													*
- * Creation: 	Alexander Schmitz												*
- * Purpose: 	Provides basic variable/string handling methods.  				*
- * Copyright(c) 2021, Alexander Schmitz         								*
- * All Rights Reserved															*
- * 																				*
- * Last Modified:	08.03.2021											    	*
- * Tasks:           				    										*
+ * File Name:	Misc.h                                                          *
+ * Creation:	Alexander Schmitz                                               *
+ * Purpose:		Provides basic variable/string handling methods.                *
+ * Copyright(c) 2021, Alexander Schmitz                                         *
+ * All Rights Reserved                                                          *
+ *                                                                              *
+ * Last Modified:	08.03.2021                                                  *
+ * Tasks:                                                                       *
  *------------------------------------------------------------------------------*/
 #ifndef _MISC_ // include once
 #define _MISC_
@@ -33,7 +33,7 @@ string MISC_stripName(string name)
 		int extSize = name.GetLength() - name.ReverseFind('.');
 		name = name.Mid(0, name.GetLength() - extSize);
 	}
-	
+
 	return name;
 }
 
@@ -50,7 +50,7 @@ vector<string> MISC_arrayUnique(vector<string> rawData)
 	vector<int> dupI;
 	vector<uint> R1s;
 	rawData.FindDuplicates(dupI, R1s);
-	
+
 	// remove duplicates
 	vector<string> unique;
 	for(int i = 0; i < R1s.GetSize(); i++)
