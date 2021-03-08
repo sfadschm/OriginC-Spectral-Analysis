@@ -8,4 +8,4 @@ Feel free to submit additions/corrections and thoughts at any time.
 ## Licence
 This project is published unter the `MIT License`.
 
-For more information, please refer to the `LICENCE` file.
+For more information, please refer to the `LICENSE` file.
