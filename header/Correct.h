@@ -27,7 +27,7 @@
 void CORRECT_backgroundRef(Worksheet tgtWks, Worksheet refWks, string userLabelName)
 {
 	// user information
-	out_str("Background Subtraction started ...");
+	printf("Background Subtraction started ...");
 
 	// get user labels of reference and source
 	vector<string> refLabelData, tgtLabelData;
@@ -37,7 +37,7 @@ void CORRECT_backgroundRef(Worksheet tgtWks, Worksheet refWks, string userLabelN
 	// abort if no label data found
 	if(refLabelData.GetSize() == 0 || tgtLabelData.GetSize() == 0)
 	{
-		out_str("No label data found. Aborting ...");
+		printf("No label data found. Aborting ...");
 		return;
 	}
 
@@ -111,14 +111,14 @@ void CORRECT_backgroundRef(Worksheet tgtWks, Worksheet refWks, string userLabelN
 		XFBase xf("subtract_ref");
 		if(!xf.SetArg("iy1", data) | !xf.SetArg("iy2", ref) | !xf.SetArg("common", 1) | !xf.SetArg("oy", dataTgt))
 		{
-			out_str("Failed to set parameters!");
+			printf("Failed to set parameters!");
 			continue;
 		}
 
 		// run X-Function
 		if(!xf.Evaluate())
 		{
-			out_str("Failed to evaluate the subtract_ref X-Function.");
+			printf("Failed to evaluate the subtract_ref X-Function.");
 			continue;
 		}
 
@@ -130,7 +130,7 @@ void CORRECT_backgroundRef(Worksheet tgtWks, Worksheet refWks, string userLabelN
 	tgtWks.DeleteCol(xTempInt);
 
 	// user information
-	out_str("Background Subtraction finished.\n");
+	printf("Background Subtraction finished.\n");
 }
 
 
@@ -144,7 +144,7 @@ void CORRECT_backgroundRef(Worksheet tgtWks, Worksheet refWks, string userLabelN
 void CORRECT_backgroundMedian(Worksheet tgtWks, double xStart, double xStop)
 {
 	// user information
-	out_str("Background Subtraction started ...");
+	printf("Background Subtraction started ...");
 
 	// get column designations
 	string colTypes = tgtWks.GetColDesignations();
@@ -200,7 +200,7 @@ void CORRECT_backgroundMedian(Worksheet tgtWks, double xStart, double xStop)
 	}
 
 	// user information
-	out_str("Background Subtraction finished.\n");
+	printf("Background Subtraction finished.\n");
 }
 
 /**
@@ -210,7 +210,7 @@ void CORRECT_backgroundMedian(Worksheet tgtWks, double xStart, double xStop)
  */
 void CORRECT_masked(Worksheet wks){
 	// user information
-	out_str("Cleaning masked data ...");
+	printf("Cleaning masked data ...");
 
 	// get column designations
 	string colTypes = wks.GetColDesignations();
@@ -280,7 +280,7 @@ void CORRECT_masked(Worksheet wks){
 	}
 
 	// user information
-	out_str("Masked data have been cleaned.\n");
+	printf("Masked data have been cleaned.\n");
 }
 
 
@@ -387,7 +387,7 @@ void CORRECT_spikes(Worksheet wks, double threshold, int width)
 void CORRECT_setup(Worksheet tgtWks, Worksheet refWks)
 {
 	// user information
-	out_str("Setup Correction started ...");
+	printf("Setup Correction started ...");
 
 	// set reference data range (assume only one dataset)
 	XYRange ref;
@@ -441,14 +441,14 @@ void CORRECT_setup(Worksheet tgtWks, Worksheet refWks)
 		XFBase xf("mathtool");
 		if(!xf.SetArg("iy1", data) || !xf.SetArg("operator", 2) || !xf.SetArg("operand", 1) || !xf.SetArg("iy2", ref) || !xf.SetArg("oy", dataTgt) || !xf.SetArg("common", 1) || !xf.SetArg("rescale", 0))
 		{
-			out_str("Failed to set parameters!");
+			printf("Failed to set parameters!");
 			continue;
 		}
 
 		// run X-Function
 		if(!xf.Evaluate())
 		{
-			out_str("Failed to evaluate the mathtool X-Function.");
+			printf("Failed to evaluate the mathtool X-Function.");
 			continue;
 		}
 
@@ -460,7 +460,7 @@ void CORRECT_setup(Worksheet tgtWks, Worksheet refWks)
 	tgtWks.DeleteCol(xTempInt);
 
 	// user information
-	out_str("Setup Correction finished.\n");
+	printf("Setup Correction finished.\n");
 }
 
 /**
@@ -473,7 +473,7 @@ void CORRECT_setup(Worksheet tgtWks, Worksheet refWks)
 void CORRECT_filters(Worksheet tgtWks, Worksheet refWks, string userLabelName)
 {
 	// user information
-	out_str("Filter Correction started ...");
+	printf("Filter Correction started ...");
 
 	// get user labels of reference and source
 	vector<string> refLabelData, tgtLabelData;
@@ -483,7 +483,7 @@ void CORRECT_filters(Worksheet tgtWks, Worksheet refWks, string userLabelName)
 	// abort if no label data found
 	if(refLabelData.GetSize() == 0 || tgtLabelData.GetSize() == 0)
 	{
-		out_str("No label data found. Aborting ...");
+		printf("No label data found. Aborting ...");
 		return;
 	}
 
@@ -558,14 +558,14 @@ void CORRECT_filters(Worksheet tgtWks, Worksheet refWks, string userLabelName)
 		XFBase xf("mathtool");
 		if(!xf.SetArg("iy1", data) || !xf.SetArg("operator", 2) || !xf.SetArg("operand", 1) || !xf.SetArg("iy2", ref) || !xf.SetArg("oy", dataTgt) || !xf.SetArg("common", 1))
 		{
-			out_str("Failed to set parameters!");
+			printf("Failed to set parameters!");
 			continue;
 		}
 
 		// run X-Function
 		if(!xf.Evaluate())
 		{
-			out_str("Failed to evaluate the mathtool X-Function.");
+			printf("Failed to evaluate the mathtool X-Function.");
 			continue;
 		}
 
@@ -577,7 +577,7 @@ void CORRECT_filters(Worksheet tgtWks, Worksheet refWks, string userLabelName)
 	tgtWks.DeleteCol(xTempInt);
 
 	// user information
-	out_str("Filter Correction finished.\n");
+	printf("Filter Correction finished.\n");
 }
 
 /**
@@ -589,7 +589,7 @@ void CORRECT_filters(Worksheet tgtWks, Worksheet refWks, string userLabelName)
 void CORRECT_integrationTime(Worksheet tgtWks, string userLabelName)
 {
 	// user information
-	out_str("Integration Time Correction started ...");
+	printf("Integration Time Correction started ...");
 
 	// get user labels of source
 	vector<string> tgtLabelData;
@@ -598,7 +598,7 @@ void CORRECT_integrationTime(Worksheet tgtWks, string userLabelName)
 	// abort if no label data found
 	if(tgtLabelData.GetSize() == 0)
 	{
-		out_str("No label data found. Aborting ...");
+		printf("No label data found. Aborting ...");
 		return;
 	}
 
@@ -642,14 +642,14 @@ void CORRECT_integrationTime(Worksheet tgtWks, string userLabelName)
 		XFBase xf("mathtool");
 		if(!xf.SetArg("iy1", data) || !xf.SetArg("operator", 2) || !xf.SetArg("operand", 0) || !xf.SetArg("const", intTime) || !xf.SetArg("oy", data))
 		{
-			out_str("Failed to set parameters!\n");
+			printf("Failed to set parameters!\n");
 			continue;
 		}
 
 		// run X-Function
 		if(!xf.Evaluate())
 		{
-			out_str("Failed to evaluate the mathtool X-Function.\n");
+			printf("Failed to evaluate the mathtool X-Function.\n");
 			continue;
 		}
 
@@ -661,7 +661,7 @@ void CORRECT_integrationTime(Worksheet tgtWks, string userLabelName)
 	}
 
 	// user information
-	out_str("Integration Time Correction finished.\n");
+	printf("Integration Time Correction finished.\n");
 }
 
 /**
@@ -672,7 +672,7 @@ void CORRECT_integrationTime(Worksheet tgtWks, string userLabelName)
 void CORRECT_transform(Worksheet tgtWks)
 {
 	// user information
-	out_str("Jacobian Transformation started ...");
+	printf("Jacobian Transformation started ...");
 
 	// get column designations
 	string colTypes = tgtWks.GetColDesignations();
@@ -716,7 +716,7 @@ void CORRECT_transform(Worksheet tgtWks)
 	}
 
 	// user information
-	out_str("Jacobian Transformation finished.\n");
+	printf("Jacobian Transformation finished.\n");
 }
 
 /**
@@ -727,7 +727,7 @@ void CORRECT_transform(Worksheet tgtWks)
 void CORRECT_normalise(Worksheet tgtWks)
 {
 	// user information
-	out_str("Normalisation started ...");
+	printf("Normalisation started ...");
 
 	// get column designations
 	string colTypes = tgtWks.GetColDesignations();
@@ -759,14 +759,14 @@ void CORRECT_normalise(Worksheet tgtWks)
 		XFBase xf("normalize ");
 		if(!xf.SetArg("iy", data) || !xf.SetArg("method", 3) || !xf.SetArg("oy", data))
 		{
-			out_str("Failed to set parameters!");
+			printf("Failed to set parameters!");
 			continue;
 		}
 
 		// run X-Function
 		if(!xf.Evaluate())
 		{
-			out_str("Failed to evaluate the normalize X-Function.");
+			printf("Failed to evaluate the normalize X-Function.");
 			continue;
 		}  
 
@@ -777,7 +777,7 @@ void CORRECT_normalise(Worksheet tgtWks)
 	}
 
 	// user information
-	out_str("Normalisation finished.\n");
+	printf("Normalisation finished.\n");
 }
 
 void CORRECT_interpolate(WorksheetPage wb, Worksheet wks, int newXInt)
