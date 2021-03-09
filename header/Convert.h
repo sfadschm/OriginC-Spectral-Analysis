@@ -50,7 +50,7 @@ void CONVERT_XYZtoMatrix(Worksheet wks, vector<string> params)
 
 	// create new matrixpage
 	MatrixPage mp;
-	mp = ORIGIN_createMp("Maps");
+	mp = ORIGIN_createMp(USER_XYZ_TARGET_NAME);
 
 	// create new matrix layer
 	MatrixLayer ml;

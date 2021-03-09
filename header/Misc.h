@@ -62,4 +62,20 @@ vector<string> MISC_arrayUnique(vector<string> rawData)
 	return unique;
 }
 
+/**
+ * Format and return a string (like printf).
+ *
+ * @param string base    the format string
+ * @param string str1... the replacement values
+ *
+ * @return string result the formatted string
+ */
+string MISC_formatString(string base, string str1 = "", string str2 = "", string str3 = "", string str4 = "")
+{
+	string result;
+	result.Format(base, str1, str2, str3, str4);
+
+	return result;
+}
+
 #endif

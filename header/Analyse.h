@@ -124,7 +124,7 @@ void ANALYSE_spectra(Worksheet wks)
 	if(paramInt == 0)
 	{
 		// create numeric index 
-		labelName = "Index";
+		labelName = ANALYSE_GENERIC_INDEX;
 		labelData.Data(1, result.GetSize(), 1);
 	}
 	else
@@ -193,7 +193,7 @@ void ANALYSE_collectPeaks(WorksheetPage wb, vector<string> srcNames, string colu
 	string wbName = wb.GetName();
 
 	// create worksheet for appended data
-	Worksheet colWks = ORIGIN_createWks(wb, identifier + "Cols");
+	Worksheet colWks = ORIGIN_createWks(wb, identifier + PEAKS_COLUMN_SHEET_SUFFIX);
 
 	// generate source data range
 	DataRange srcRange;
@@ -219,7 +219,7 @@ void ANALYSE_collectPeaks(WorksheetPage wb, vector<string> srcNames, string colu
 	set_active_layer(colWks);
 
 	// create worksheet for transposed data
-	Worksheet rowWks = ORIGIN_createWks(wb, identifier + "Rows");
+	Worksheet rowWks = ORIGIN_createWks(wb, identifier + PEAKS_ROW_SHEET_SUFFIX);
 
 	// transpose peak data with LabTalk
 	string str_transpose = "wTranspose -r 1 iw:=\"" + colWks.GetName() + "\" ow:=\"" + rowWks.GetName() + "\" exchange:=0;";
@@ -230,15 +230,15 @@ void ANALYSE_collectPeaks(WorksheetPage wb, vector<string> srcNames, string colu
 
 	// create worksheet for re-using data
 	Worksheet tgtWks = ORIGIN_createWks(wb, identifier);
-	tgtWks.AddCol("Peak Index");
-	tgtWks.AddCol("Mean");
-	tgtWks.AddCol("Std. Deviation");
+	tgtWks.AddCol();
+	tgtWks.AddCol();
+	tgtWks.AddCol();
 
 	// set column designations and names
 	tgtWks.SetColDesignations("XYE");
-	tgtWks.Columns(0).SetLongName("Peak Index");
-	tgtWks.Columns(1).SetLongName("Mean");
-	tgtWks.Columns(2).SetLongName("Std. Deviation");
+	tgtWks.Columns(0).SetLongName(PEAKS_HEADER_INDEX);
+	tgtWks.Columns(1).SetLongName(PEAKS_HEADER_MEAN);
+	tgtWks.Columns(2).SetLongName(PEAKS_HEADER_STDDEV);
 
 	// fill result sheet with basic statistical data
 	int srcCol = 1;
@@ -248,8 +248,8 @@ void ANALYSE_collectPeaks(WorksheetPage wb, vector<string> srcNames, string colu
 		tgtWks.SetCell(srcCol - 1, 0, srcCol);
 
 		// set mean and stddev by formula
-		tgtWks.SetCell(srcCol - 1, 1, "=mean("+ identifier + "Rows" + "!" + srcCol + ")");
-		tgtWks.SetCell(srcCol - 1, 2, "=stddev("+ identifier + "Rows" + "!" + srcCol + ")");
+		tgtWks.SetCell(srcCol - 1, 1, "=mean("   + identifier + PEAKS_ROW_SHEET_SUFFIX + "!" + srcCol + ")");
+		tgtWks.SetCell(srcCol - 1, 2, "=stddev(" + identifier + PEAKS_ROW_SHEET_SUFFIX + "!" + srcCol + ")");
 
 		srcCol++;
 	}

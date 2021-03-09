@@ -77,13 +77,13 @@ Worksheet IMPORT_spectra(vector<string> params, vector<string> strFiles){
 				{
 					if(j == existingCols)
 					{
-						wks.Columns(j).SetLongName("Wavelength");
-						wks.Columns(j).SetUnits("nm");
+						wks.Columns(j).SetLongName(USER_IMPORT_XNAME_PRE);
+						wks.Columns(j).SetUnits(USER_IMPORT_XUNIT_PRE);
 					}
 					else
 					{
-						wks.Columns(j).SetLongName("Intensity");
-						wks.Columns(j).SetUnits("cts");
+						wks.Columns(j).SetLongName(USER_IMPORT_YNAME_PRE);
+						wks.Columns(j).SetUnits(USER_IMPORT_YUNIT_PRE);
 					}
 				}
 			}
@@ -134,7 +134,6 @@ Worksheet IMPORT_spectra(vector<string> params, vector<string> strFiles){
 	// generate sparklines
 	if(addSparks == 1)
 	{
-		printf(SPARKS_START);
 		WORKSHEET_addSparklines(wks);
 	}
 
@@ -200,31 +199,31 @@ WorksheetPage IMPORT_3dMaps(vector<string> params, vector<string> strFiles){
 			// Streak images
 			if(strExt.CompareNoCase("DAC") == 0)
 			{
-				xParam = "Time";
+				xParam = USER_LABELS_NAME_PRE;
 
 				string cellText;
 				wks.GetCell(0, 0, cellText);
 				xUnit = cellText.Mid(0, cellText.ReverseFind('|'));
 
-				yParam = "Wavelenght";
-				yUnit = "nm";
+				yParam = USER_IMPORT_XNAME_PRE;
+				yUnit  = USER_IMPORT_XUNIT_PRE;
 			}
 
 			// LabSpec TimeTrace
 			if(strExt.CompareNoCase("TXT") == 0)
 			{
-				xParam = "Time";
-				xUnit  = "s";
-				yParam = "Wavelength";
-				yUnit  = "nm";
+				xParam = USER_LABELS_NAME_PRE;
+				xUnit  = USER_LABELS_UNIT_PRE;
+				yParam = USER_IMPORT_XNAME_PRE;
+				yUnit  = USER_IMPORT_XUNIT_PRE;
 			}
 
 			// Raman image
 			if(strExt.CompareNoCase("TSV") == 0){
 				xParam = "X";
-				xUnit  = "µm";
+				xUnit  = USER_XYZ_MATRIX_STEPU_PRE;
 				yParam = "Y";
-				yUnit  = "µm";
+				yUnit  = USER_XYZ_MATRIX_STEPU_PRE;
 			}
 
 			// add user parameter row
@@ -247,8 +246,8 @@ WorksheetPage IMPORT_3dMaps(vector<string> params, vector<string> strFiles){
 			wks.Columns(0).SetUnits(yUnit);
 			for(int ii = 1; ii < wks.GetNumCols(); ii++)
 			{
-				wks.Columns(ii).SetLongName("Intensity");
-				wks.Columns(ii).SetUnits("cts.");
+				wks.Columns(ii).SetLongName(USER_IMPORT_XNAME_PRE);
+				wks.Columns(ii).SetUnits(USER_IMPORT_XUNIT_PRE);
 			}
 		}
 	}
@@ -282,7 +281,7 @@ WorksheetPage IMPORT_4dMaps(vector<string> params, vector<string> strFiles){
 	for(int i = 0; i < strFiles.GetSize(); i++)
 	{
 		// progress info
-		printf("\n\nFile %d of %d", i + 1, strFiles.GetSize());
+		printf(USER_IMPORT_PROGRESS_INFO, i + 1, strFiles.GetSize());
 
 		// create target worksheet for import
 		Worksheet wks = ORIGIN_createWks(wb, MISC_stripName(strFiles[i]), true); 
@@ -320,8 +319,8 @@ WorksheetPage IMPORT_4dMaps(vector<string> params, vector<string> strFiles){
 		yCalib = yCalib - yCalib[0];
 
 		// add user parameter rows
-		WOKRSHEET_addUserParameter(wks, "X (µm)");
-		WOKRSHEET_addUserParameter(wks, "Y (µm)", 1);
+		WOKRSHEET_addUserParameter(wks, "X (" + USER_XYZ_MATRIX_STEPU_PRE + ")", 0);
+		WOKRSHEET_addUserParameter(wks, "Y (" + USER_XYZ_MATRIX_STEPU_PRE + ")", 1);
 
 		// write calibration to parameters
 		for(int jj = 2; jj < xCalib.GetSize() * yCalib.GetSize() + 2; jj++)
@@ -393,19 +392,19 @@ WorksheetPage IMPORT_4dMaps(vector<string> params, vector<string> strFiles){
 
 		// set wavelength as X
 		wks.Columns(0).SetType(OKDATAOBJ_DESIGNATION_X);
-		wks.Columns(0).SetLongName("Wavelength");
-		wks.Columns(0).SetUnits("nm");
+		wks.Columns(0).SetLongName(USER_IMPORT_XNAME_PRE);
+		wks.Columns(0).SetUnits(USER_IMPORT_XUNIT_PRE);
 
 		// set raman shift as X
 		wks.Columns(1).SetType(OKDATAOBJ_DESIGNATION_X);
-		wks.Columns(1).SetLongName("Raman Shift");
-		wks.Columns(1).SetUnits("1/cm");
+		wks.Columns(1).SetLongName(USER_IMPORT_X2NAME_PRE);
+		wks.Columns(1).SetUnits(USER_IMPORT_X2UNIT_PRE);
 
 		// set intensities
 		for(int ii = 2; ii < wks.GetNumCols(); ii++ )
 		{
-			wks.Columns(ii).SetLongName("Intensity");
-			wks.Columns(ii).SetUnits("cts");
+			wks.Columns(ii).SetLongName(USER_IMPORT_YNAME_PRE);
+			wks.Columns(ii).SetUnits(USER_IMPORT_YUNIT_PRE);
 		}
 
 		// generate sparklines
@@ -460,8 +459,8 @@ WorksheetPage IMPORT_LabViewMaps(vector<string> params, vector<string> strFiles)
 
 			// add user parameter rows
 			string paramUnit;
-			WOKRSHEET_addUserParameter(wks, "X (µm)", 0);
-			WOKRSHEET_addUserParameter(wks, "Y (µm)", 1);
+			WOKRSHEET_addUserParameter(wks, "X (" + USER_XYZ_MATRIX_STEPU_PRE + ")", 0);
+			WOKRSHEET_addUserParameter(wks, "Y (" + USER_XYZ_MATRIX_STEPU_PRE + ")", 1);
 
 			// write coordinates to parameters
 			string xLabel, yLabel;
@@ -479,12 +478,12 @@ WorksheetPage IMPORT_LabViewMaps(vector<string> params, vector<string> strFiles)
 
 			// finalize worksheet
 			wks.Columns(0).SetType(OKDATAOBJ_DESIGNATION_X); // set wavelength as X
-			wks.Columns(0).SetLongName("Wavelength");
-			wks.Columns(0).SetUnits("nm");
+			wks.Columns(0).SetLongName(USER_IMPORT_XNAME_PRE);
+			wks.Columns(0).SetUnits(USER_IMPORT_XUNIT_PRE);
 			for(int ii = 1; ii < wks.GetNumCols(); ii++ )
 			{
-				wks.Columns(ii).SetLongName("Intensity");
-				wks.Columns(ii).SetUnits("cts.");
+				wks.Columns(ii).SetLongName(USER_IMPORT_YNAME_PRE);
+				wks.Columns(ii).SetUnits(USER_IMPORT_YUNIT_PRE);
 			}
 		}
 	}
@@ -520,7 +519,7 @@ void IMPORT_Tracks(vector<string> params, vector<string> strFiles){
 		if( tr.Load(strFiles[i]))
 		{
 			// progress info
-			printf("\n\nFile %d of %d", i + 1, strFiles.GetSize());
+			printf(USER_IMPORT_PROGRESS_INFO, i + 1, strFiles.GetSize());
 
 			// create target worksheet for import
 			Worksheet wks = ORIGIN_createWks(wb, MISC_stripName(strFiles[i]), true); 
@@ -573,7 +572,7 @@ void IMPORT_Tracks(vector<string> params, vector<string> strFiles){
 					{
 						case 0:
 							colType = OKDATAOBJ_DESIGNATION_X;
-							colName = "Time";
+							colName = USER_LABELS_NAME_PRE;
 							colUnit = tUnits;
 							convert_double_vector_to_string_vector(partT, curData, partT.GetSize());
 							break;

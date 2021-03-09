@@ -62,6 +62,9 @@ void WOKRSHEET_addUserParameter(Worksheet wks, string paramName, int offset = 0)
  */
 bool WORKSHEET_addSparklines(Worksheet &wks)
 {
+	// user information
+	printf(SPARKS_START);
+
 	// create an instance of the X-Function
 	XFBase xf("sparklines");
 
@@ -83,8 +86,8 @@ bool WORKSHEET_addSparklines(Worksheet &wks)
 		return false;
 	}
 
-	//user information
-	printf("\nDone.");
+	// user information
+	printf(SPARKS_STOP);
 
 	return true;
 }
@@ -148,7 +151,7 @@ vector<string> WORKSHEET_getUserLabelData(Worksheet wks, string labelName)
 	// abort if user label does not exist
 	if(labelIndex < 0)
 	{
-		printf("User Label '" + labelName + "' not found in worksheet '" + wks.GetName() + "'.\n");
+		printf(USER_LABELS_NOT_FOUND, labelName, wks.GetName());
 		return labelData;
 	}
 

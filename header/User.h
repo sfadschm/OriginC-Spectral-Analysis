@@ -25,7 +25,7 @@
  */
 vector<string> USER_selectFiles()
 {
-	// "explode" file types
+	// explode file types
 	vector<string> fileTypes;
 	str_separate(USER_FILES_TYPES, "|", fileTypes);
 
@@ -125,8 +125,8 @@ vector<string> USER_readLabels()
 {
 	// setup N_BOX
 	GETN_BOX(tr);
-	GETN_STR(Parameter, USER_LABELS_NAME, "Time");
-	GETN_STR(Unit,      USER_LABELS_STEP, "s");
+	GETN_STR(Parameter, USER_LABELS_NAME, USER_LABELS_NAME_PRE);
+	GETN_STR(Unit,      USER_LABELS_STEP, USER_LABELS_UNIT_PRE);
 	GETN_NUM(Stepsize,  USER_LABELS_STEP, 1);
 
 	// store results
@@ -419,19 +419,23 @@ vector<string> USER_correctDataSource(WorksheetPage wb, Worksheet dataWks, int m
 		case 1: // clean masked data
 		case 7: // energy transformation
 		case 8: // normalise data
-			GETN_STR(STR, "Confirm with OK or abort with Cancel!", "") GETN_HINT;
+			GETN_STR(STR, USER_CORRECT_MSG_CONFIRM, "") GETN_HINT;
 			break;
 
 		case 2: // subtract background
+			// explode methods
+			vector<string> methods;
+			str_separate(USER_CORRECT_BACKGROUND_METHODS, "|", methods);
+
 			switch(step)
 			{
 				case 1: // pre-select correction method
-					GETN_STR(STR, "Choose background correction method:", "") GETN_HINT;
-					GETN_RADIO_INDEX(bgMethod, 1, "Reference|Median");
+					GETN_STR(STR, USER_CORRECT_MSG_BACKGROUND_METHOD, "") GETN_HINT;
+					GETN_RADIO_INDEX(bgMethod, 1, USER_CORRECT_BACKGROUND_METHODS);
 					GETN_OPTION_DISPLAY_FORMAT(DISPLAY_EDITOR_LEFT);
 
 					// call second dialogue step with recursion
-					if(GetNBox(tr, title, "Choose background correction method:")){
+					if(GetNBox(tr, title, USER_CORRECT_BACKGROUND)){
 						return USER_correctDataSource(wb, dataWks, method, title, tr.bgMethod.dVal + 2);
 					} else { // user input failed or cancelled
 						params.Add("-1");
@@ -440,13 +444,13 @@ vector<string> USER_correctDataSource(WorksheetPage wb, Worksheet dataWks, int m
 					break;
 
 				case 2: // reference mode
-					GETN_STR(STR, "Reference:", "") GETN_HINT;
+					GETN_STR(STR, methods[step - 2] + ":", "") GETN_HINT;
 					GETN_STRLIST(wksName, USER_ANALYSE_WKS,         "", wksNames);
 					GETN_LIST(userParam,  ANALYSIS_LABEL_PARAMETER, -1, labelList);
 					break;
 
 				case 3: // median mode
-					GETN_STR(STR, "Median:", "") GETN_HINT;
+					GETN_STR(STR, methods[step - 2] + ":", "") GETN_HINT;
 					GETN_NUM(bgStart, USER_CORRECT_BACKGROUND_PARAM_START, 0);
 					GETN_NUM(bgStop,  USER_CORRECT_BACKGROUND_PARAM_STOP,  0);
 					break;
@@ -473,7 +477,7 @@ vector<string> USER_correctDataSource(WorksheetPage wb, Worksheet dataWks, int m
 	}
 
 	// store results
-	if(GetNBox(tr, title, "Please select source for '" + title + "'."))
+	if(GetNBox(tr, title, USER_CORRECT_MSG_SOURCE))
 	{
 		switch(method)
 		{
@@ -590,7 +594,7 @@ vector<string> USER_xyzMatrix()
 	GETN_OPTION_INTERACTIVE_CONTROL(ICOPT_RESTRICT_TO_ONE_DATA);
 
 	GETN_NUM(NumCols,   USER_XYZ_MATRIX_COLC,  10) GETN_BEGIN_GROUP(USER_XYZ_MATRIX_TITLE);;
-	GETN_STR(StepUnit,  USER_XYZ_MATRIX_STEPU, "µm");
+	GETN_STR(StepUnit,  USER_XYZ_MATRIX_STEPU, USER_XYZ_MATRIX_STEPU_PRE);
 	GETN_NUM(XStep,     USER_XYZ_MATRIX_XSTEP, 1);
 	GETN_NUM(YStep,     USER_XYZ_MATRIX_YSTEP, 1)  GETN_END_GROUP;
 
@@ -638,8 +642,8 @@ vector<string> USER_peaks(WorksheetPage wb, vector<string> sheetNames)
 
 	// setup N_BOX
 	GETN_BOX(tr);
-	GETN_STR(    Identifier, "Name:",        "");
-	GETN_STRLIST(colName,    LABEL_COL_NAME, "", wksCols);
+	GETN_STR(    Identifier, LABEL_TARGET_NAME, "");
+	GETN_STRLIST(colName,    LABEL_COL_NAME,    "", wksCols);
 
 	// store results
 	vector<string> params;

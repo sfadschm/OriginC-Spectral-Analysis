@@ -27,7 +27,7 @@
 void CORRECT_backgroundRef(Worksheet tgtWks, Worksheet refWks, string userLabelName)
 {
 	// user information
-	printf("Background Subtraction started ...");
+	printf(MISC_formatString(USER_CORRECT_MSG_START, USER_CORRECT_BACKGROUND));
 
 	// get user labels of reference and source
 	vector<string> refLabelData, tgtLabelData;
@@ -37,7 +37,7 @@ void CORRECT_backgroundRef(Worksheet tgtWks, Worksheet refWks, string userLabelN
 	// abort if no label data found
 	if(refLabelData.GetSize() == 0 || tgtLabelData.GetSize() == 0)
 	{
-		printf("No label data found. Aborting ...");
+		printf(USER_CORRECT_MSG_NO_LABEL);
 		return;
 	}
 
@@ -91,7 +91,7 @@ void CORRECT_backgroundRef(Worksheet tgtWks, Worksheet refWks, string userLabelN
 		// skip if no reference data found
 		if(refYInt < 0 || tgtLabelData[yInt] == "")
 		{
-			tgtWks.Columns(yInt).SetComments("No reference data found!");
+			tgtWks.Columns(yInt).SetComments(USER_CORRECT_COMMENT_NO_REF);
 			continue;
 		}
 
@@ -111,26 +111,26 @@ void CORRECT_backgroundRef(Worksheet tgtWks, Worksheet refWks, string userLabelN
 		XFBase xf("subtract_ref");
 		if(!xf.SetArg("iy1", data) | !xf.SetArg("iy2", ref) | !xf.SetArg("common", 1) | !xf.SetArg("oy", dataTgt))
 		{
-			printf("Failed to set parameters!");
+			printf(X_PARAM_FAILED);
 			continue;
 		}
 
 		// run X-Function
 		if(!xf.Evaluate())
 		{
-			printf("Failed to evaluate the subtract_ref X-Function.");
+			printf(X_EVAL_FAILED);
 			continue;
 		}
 
 		// set comment
-		tgtWks.Columns(yInt).SetComments("Subtracted '" + refWks.GetName() + "!" + refXInt + "," + refYInt + "'.");
+		tgtWks.Columns(yInt).SetComments(MISC_formatString(USER_CORRECT_COMMENT_BACKGROUND_REF, refWks.GetName(), ftoa(refXInt), ftoa(refYInt)));
 	}
 
 	// remove temporary X-Column
 	tgtWks.DeleteCol(xTempInt);
 
 	// user information
-	printf("Background Subtraction finished.\n");
+	printf(MISC_formatString(USER_CORRECT_MSG_STOP, USER_CORRECT_BACKGROUND));
 }
 
 
@@ -144,7 +144,7 @@ void CORRECT_backgroundRef(Worksheet tgtWks, Worksheet refWks, string userLabelN
 void CORRECT_backgroundMedian(Worksheet tgtWks, double xStart, double xStop)
 {
 	// user information
-	printf("Background Subtraction started ...");
+	printf(MISC_formatString(USER_CORRECT_MSG_START, USER_CORRECT_BACKGROUND));
 
 	// get column designations
 	string colTypes = tgtWks.GetColDesignations();
@@ -196,11 +196,11 @@ void CORRECT_backgroundMedian(Worksheet tgtWks, double xStart, double xStop)
 		dataCurve = dataCurve - res.Median;
 
 		// set comment
-		tgtWks.Columns(colInt).SetComments("Subtracted '" + res.Median + "'.");
+		tgtWks.Columns(colInt).SetComments(MISC_formatString(USER_CORRECT_COMMENT_BACKGROUND_MED, ftoa(res.Median)));
 	}
 
 	// user information
-	printf("Background Subtraction finished.\n");
+	printf(MISC_formatString(USER_CORRECT_MSG_STOP, USER_CORRECT_BACKGROUND));
 }
 
 /**
@@ -208,9 +208,10 @@ void CORRECT_backgroundMedian(Worksheet tgtWks, double xStart, double xStop)
  *
  * @param Worksheet wks the worksheet
  */
-void CORRECT_masked(Worksheet wks){
+void CORRECT_masked(Worksheet wks)
+{
 	// user information
-	printf("Cleaning masked data ...");
+	printf(MISC_formatString(USER_CORRECT_MSG_START, USER_CORRECT_CLEAN));
 
 	// get column designations
 	string colTypes = wks.GetColDesignations();
@@ -276,11 +277,11 @@ void CORRECT_masked(Worksheet wks){
 		}
 
 		// add comment
-		wks.Columns(colInt).SetComments("Cleaned.");
+		wks.Columns(colInt).SetComments(USER_CORRECT_COMMENT_CLEAN);
 	}
 
 	// user information
-	printf("Masked data have been cleaned.\n");
+	printf(MISC_formatString(USER_CORRECT_MSG_STOP, USER_CORRECT_CLEAN));
 }
 
 
@@ -293,6 +294,9 @@ void CORRECT_masked(Worksheet wks){
  */
 void CORRECT_spikes(Worksheet wks, double threshold, int width)
 {
+	// user information
+	printf(MISC_formatString(USER_CORRECT_MSG_START, USER_CORRECT_SPIKES));
+
 	// get column designations
 	string colTypes = wks.GetColDesignations();
 
@@ -372,8 +376,11 @@ void CORRECT_spikes(Worksheet wks, double threshold, int width)
 		}
 
 		// set comment
-		dataCol.SetComments("Removed spikes (" + ftoa(threshold) + ", " + ftoa(width) + ").");
+		dataCol.SetComments(MISC_formatString(USER_CORRECT_COMMENT_SPIKES, ftoa(threshold), ftoa(width)));
 	}
+	
+	// user information
+	printf(MISC_formatString(USER_CORRECT_MSG_STOP, USER_CORRECT_SPIKES));
 }
 
 /**
@@ -387,7 +394,7 @@ void CORRECT_spikes(Worksheet wks, double threshold, int width)
 void CORRECT_setup(Worksheet tgtWks, Worksheet refWks)
 {
 	// user information
-	printf("Setup Correction started ...");
+	printf(MISC_formatString(USER_CORRECT_MSG_START, USER_CORRECT_SETUP));
 
 	// set reference data range (assume only one dataset)
 	XYRange ref;
@@ -441,26 +448,26 @@ void CORRECT_setup(Worksheet tgtWks, Worksheet refWks)
 		XFBase xf("mathtool");
 		if(!xf.SetArg("iy1", data) || !xf.SetArg("operator", 2) || !xf.SetArg("operand", 1) || !xf.SetArg("iy2", ref) || !xf.SetArg("oy", dataTgt) || !xf.SetArg("common", 1) || !xf.SetArg("rescale", 0))
 		{
-			printf("Failed to set parameters!");
+			printf(X_PARAM_FAILED);
 			continue;
 		}
 
 		// run X-Function
 		if(!xf.Evaluate())
 		{
-			printf("Failed to evaluate the mathtool X-Function.");
+			printf(X_EVAL_FAILED);
 			continue;
 		}
 
 		// set comment
-		tgtWks.Columns(yInt).SetComments("Corrected with '" + refWks.GetName() + "!0,1'.");
+		tgtWks.Columns(yInt).SetComments(MISC_formatString(USER_CORRECT_COMMENT_REF, refWks.GetName(), "0", "1"));
 	}
 
 	// remove temporary x-column
 	tgtWks.DeleteCol(xTempInt);
 
 	// user information
-	printf("Setup Correction finished.\n");
+	printf(MISC_formatString(USER_CORRECT_MSG_STOP, USER_CORRECT_SETUP));
 }
 
 /**
@@ -473,7 +480,7 @@ void CORRECT_setup(Worksheet tgtWks, Worksheet refWks)
 void CORRECT_filters(Worksheet tgtWks, Worksheet refWks, string userLabelName)
 {
 	// user information
-	printf("Filter Correction started ...");
+	printf(MISC_formatString(USER_CORRECT_MSG_START, USER_CORRECT_FILTERS));
 
 	// get user labels of reference and source
 	vector<string> refLabelData, tgtLabelData;
@@ -483,7 +490,7 @@ void CORRECT_filters(Worksheet tgtWks, Worksheet refWks, string userLabelName)
 	// abort if no label data found
 	if(refLabelData.GetSize() == 0 || tgtLabelData.GetSize() == 0)
 	{
-		printf("No label data found. Aborting ...");
+		printf(USER_CORRECT_MSG_NO_LABEL);
 		return;
 	}
 
@@ -538,7 +545,7 @@ void CORRECT_filters(Worksheet tgtWks, Worksheet refWks, string userLabelName)
 		if(refYInt < 0 && tgtLabelData[yInt] == "")
 		{
 			// set comment
-			tgtWks.Columns(yInt).SetComments("No reference data found!");
+			tgtWks.Columns(yInt).SetComments(USER_CORRECT_COMMENT_NO_REF);
 			continue;
 		}
 
@@ -558,26 +565,26 @@ void CORRECT_filters(Worksheet tgtWks, Worksheet refWks, string userLabelName)
 		XFBase xf("mathtool");
 		if(!xf.SetArg("iy1", data) || !xf.SetArg("operator", 2) || !xf.SetArg("operand", 1) || !xf.SetArg("iy2", ref) || !xf.SetArg("oy", dataTgt) || !xf.SetArg("common", 1))
 		{
-			printf("Failed to set parameters!");
+			printf(X_PARAM_FAILED);
 			continue;
 		}
 
 		// run X-Function
 		if(!xf.Evaluate())
 		{
-			printf("Failed to evaluate the mathtool X-Function.");
+			printf(X_EVAL_FAILED);
 			continue;
 		}
 
 		// set comment
-		tgtWks.Columns(yInt).SetComments("Corrected with '" + refWks.GetName() + "!" + refXInt + "," + refYInt + "'.");
+		tgtWks.Columns(yInt).SetComments(MISC_formatString(USER_CORRECT_COMMENT_REF, refWks.GetName(), ftoa(refXInt), ftoa(refYInt)));
 	}
 
 	// remove temporary X-Column
 	tgtWks.DeleteCol(xTempInt);
 
 	// user information
-	printf("Filter Correction finished.\n");
+	printf(MISC_formatString(USER_CORRECT_MSG_STOP, USER_CORRECT_FILTERS));
 }
 
 /**
@@ -589,7 +596,7 @@ void CORRECT_filters(Worksheet tgtWks, Worksheet refWks, string userLabelName)
 void CORRECT_integrationTime(Worksheet tgtWks, string userLabelName)
 {
 	// user information
-	printf("Integration Time Correction started ...");
+	printf(MISC_formatString(USER_CORRECT_MSG_START, USER_CORRECT_INTEGRATION));
 
 	// get user labels of source
 	vector<string> tgtLabelData;
@@ -598,7 +605,7 @@ void CORRECT_integrationTime(Worksheet tgtWks, string userLabelName)
 	// abort if no label data found
 	if(tgtLabelData.GetSize() == 0)
 	{
-		printf("No label data found. Aborting ...");
+		printf(USER_CORRECT_MSG_NO_LABEL);
 		return;
 	}
 
@@ -631,7 +638,7 @@ void CORRECT_integrationTime(Worksheet tgtWks, string userLabelName)
 		// skip empty labels
 		if(tgtLabelData[yInt] == "")
 		{
-			tgtWks.Columns(yInt).SetComments("No reference data found!");
+			tgtWks.Columns(yInt).SetComments(USER_CORRECT_COMMENT_NO_REF);
 			continue;
 		}
 
@@ -642,26 +649,26 @@ void CORRECT_integrationTime(Worksheet tgtWks, string userLabelName)
 		XFBase xf("mathtool");
 		if(!xf.SetArg("iy1", data) || !xf.SetArg("operator", 2) || !xf.SetArg("operand", 0) || !xf.SetArg("const", intTime) || !xf.SetArg("oy", data))
 		{
-			printf("Failed to set parameters!\n");
+			printf(X_PARAM_FAILED);
 			continue;
 		}
 
 		// run X-Function
 		if(!xf.Evaluate())
 		{
-			printf("Failed to evaluate the mathtool X-Function.\n");
+			printf(X_EVAL_FAILED);
 			continue;
 		}
 
 		// set units
-		tgtWks.Columns(yInt).SetUnits("cts./s");
+		tgtWks.Columns(yInt).SetUnits(USER_CORRECT_INTEGRATION_UNIT);
 
 		// set comment
-		tgtWks.Columns(yInt).SetComments("Divided by '" +  tgtLabelData[yInt] + "'.");
+		tgtWks.Columns(yInt).SetComments(MISC_formatString(USER_CORRECT_COMMENT_INTEGRATION, tgtLabelData[yInt]));
 	}
 
 	// user information
-	printf("Integration Time Correction finished.\n");
+	printf(MISC_formatString(USER_CORRECT_MSG_STOP, USER_CORRECT_INTEGRATION));
 }
 
 /**
@@ -672,7 +679,7 @@ void CORRECT_integrationTime(Worksheet tgtWks, string userLabelName)
 void CORRECT_transform(Worksheet tgtWks)
 {
 	// user information
-	printf("Jacobian Transformation started ...");
+	printf(MISC_formatString(USER_CORRECT_MSG_START, USER_CORRECT_TRANSFORM));
 
 	// get column designations
 	string colTypes = tgtWks.GetColDesignations();
@@ -696,7 +703,7 @@ void CORRECT_transform(Worksheet tgtWks)
 			yDataO = yDataV;
 
 			// set comments
-			tgtWks.Columns(colInt).SetComments("Transformed.");
+			tgtWks.Columns(colInt).SetComments(USER_CORRECT_COMMENT_TRANSFORM);
 		}
 		if(colTypes.GetAt(colInt) == 'X')
 		{
@@ -710,13 +717,13 @@ void CORRECT_transform(Worksheet tgtWks)
 			xDataO = 1239.841857 / xDataV;
 
 			// set labels
-			tgtWks.Columns(colInt).SetLongName("Energy");
-			tgtWks.Columns(colInt).SetUnits("eV");
+			tgtWks.Columns(colInt).SetLongName(USER_CORRECT_TRANSFORM_XNAME);
+			tgtWks.Columns(colInt).SetUnits(USER_CORRECT_TRANSFORM_XUNIT);
 		}
 	}
 
 	// user information
-	printf("Jacobian Transformation finished.\n");
+	printf(MISC_formatString(USER_CORRECT_MSG_STOP, USER_CORRECT_TRANSFORM));
 }
 
 /**
@@ -727,7 +734,7 @@ void CORRECT_transform(Worksheet tgtWks)
 void CORRECT_normalise(Worksheet tgtWks)
 {
 	// user information
-	printf("Normalisation started ...");
+	printf(MISC_formatString(USER_CORRECT_MSG_START, USER_CORRECT_NORMALISE));
 
 	// get column designations
 	string colTypes = tgtWks.GetColDesignations();
@@ -756,34 +763,41 @@ void CORRECT_normalise(Worksheet tgtWks)
 		data.Add(tgtWks, yInt, "Y");
 
 		// prepare X-Function
-		XFBase xf("normalize ");
+		XFBase xf("normalize");
 		if(!xf.SetArg("iy", data) || !xf.SetArg("method", 3) || !xf.SetArg("oy", data))
 		{
-			printf("Failed to set parameters!");
+			printf(X_PARAM_FAILED);
 			continue;
 		}
 
 		// run X-Function
 		if(!xf.Evaluate())
 		{
-			printf("Failed to evaluate the normalize X-Function.");
+			printf(X_EVAL_FAILED);
 			continue;
 		}  
 
 		// set labels
-		tgtWks.Columns(yInt).SetLongName("Normalised Intensity");
-		tgtWks.Columns(yInt).SetUnits("");
-		tgtWks.Columns(yInt).SetComments("Normalised.");
+		tgtWks.Columns(yInt).SetLongName(USER_CORRECT_NORMALISE_YNAME);
+		tgtWks.Columns(yInt).SetUnits(USER_CORRECT_NORMALISE_YUNIT);
+		tgtWks.Columns(yInt).SetComments(USER_CORRECT_COMMENT_NORMALISE);
 	}
 
 	// user information
-	printf("Normalisation finished.\n");
+	printf(MISC_formatString(USER_CORRECT_MSG_STOP, USER_CORRECT_NORMALISE));
 }
 
+/**
+ * Interpolate xy-datasets over new x-axis.
+ *
+ * @param WorksheetPage wb      the source worksheetpage
+ * @param Worksheet     wks     the source worksheet
+ * @param int           newXInt the column index of the new x-axis
+ */
 void CORRECT_interpolate(WorksheetPage wb, Worksheet wks, int newXInt)
 {
 	// user information
-	printf("Starting data interpolation...");
+	printf(MISC_formatString(USER_CORRECT_MSG_START, USER_CORRECT_INTERPOLATE));
 
 	// generate x-range string
 	string str_xRange = wks.GetName() + "!" + newXInt;
@@ -794,7 +808,7 @@ void CORRECT_interpolate(WorksheetPage wb, Worksheet wks, int newXInt)
 
 	// duplicate data sheet
 	Worksheet tgtWks;
-	tgtWks = ORIGIN_createWks(wb, "Interpolated", true);
+	tgtWks = ORIGIN_createWks(wb, USER_CORRECT_SHEET_INTERPOLATE, true);
 	wks_copy(tgtWks, wks, CREATE_VISIBLE_SAME, DCTRL_COPY_GRID | DCTRL_COPY_DATA);
 
 	// store sheet name
@@ -839,7 +853,7 @@ void CORRECT_interpolate(WorksheetPage wb, Worksheet wks, int newXInt)
 	tgtWks.DeleteCol(newXInt);
 
 	// user information
-	printf("Data interpolation finished.");
+	printf(MISC_formatString(USER_CORRECT_MSG_STOP, USER_CORRECT_INTERPOLATE));
 }
 
 #endif
