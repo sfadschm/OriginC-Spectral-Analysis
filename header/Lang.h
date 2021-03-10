@@ -80,6 +80,7 @@
 // data interpolation
 #define USER_INTERPOLATE_TITLE "Interpolate XY from X"
 #define USER_INTERPOLATE_DESC  "Project datasets on new X-axis."
+#define USER_INTERPOLATE_COL   "New X-Axis:"
 
 // worksheet labels
 #define USER_LABELS_TITLE     "Data Import Labels"

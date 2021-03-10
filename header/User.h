@@ -692,7 +692,7 @@ vector<string> USER_interpolate(Worksheet wks)
 
 	// setup N_BOX
 	GETN_BOX(tr);
-	GETN_STRLIST(colName, LABEL_COL_NAME, "", wksCols);
+	GETN_STRLIST(colName, USER_INTERPOLATE_COL, "", wksCols);
 
 	// store results
 	vector<string> params;
