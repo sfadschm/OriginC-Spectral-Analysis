@@ -134,7 +134,7 @@ vector<int> ORIGIN_getActiveWorksheets(int sourceType, WorksheetPage& wb, Worksh
 	// abort if not a valid worksheet
 	if(!wks)
 	{
-		printf(ANALYSIS_NO_WKS);
+		printf(ANALYSE_NO_WKS);
 		return sourceWksInts;
 	}
 

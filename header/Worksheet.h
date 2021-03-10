@@ -151,7 +151,7 @@ vector<string> WORKSHEET_getUserLabelData(Worksheet wks, string labelName)
 	// abort if user label does not exist
 	if(labelIndex < 0)
 	{
-		printf(USER_LABELS_NOT_FOUND, labelName, wks.GetName());
+		printf(CORRECT_NO_LABELS, labelName, wks.GetName());
 		return labelData;
 	}
 

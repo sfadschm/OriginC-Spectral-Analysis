@@ -28,7 +28,7 @@ void MAP_4D_Linescan(Worksheet wks)
 	// abort if user dialog cancelled
 	if(params[0] == "-1")
 	{
-		printf(USER_PARAMS_EMPTY);
+		printf(PARAMS_EMPTY);
 		return;
 	}
 
@@ -72,7 +72,7 @@ void MAP_4D_Linescan(Worksheet wks)
 	}
 
 	// create new result worksheetpage if neccessary
-	WorksheetPage tgtWb = ORIGIN_createWb(USER_LINESCAN_NAME);
+	WorksheetPage tgtWb = ORIGIN_createWb(ANALYSE_LINESCAN_NAME);
 
 	// create target woksheet
 	vector<string> axes       = {"X", "Y"};

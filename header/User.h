@@ -27,17 +27,17 @@ vector<string> USER_selectFiles()
 {
 	// explode file types
 	vector<string> fileTypes;
-	str_separate(USER_FILES_TYPES, "|", fileTypes);
+	str_separate(FILES_TYPES, "|", fileTypes);
 
 	// open user dialog
 	int numFiles;
 	vector<string> strFiles;
-	numFiles = GetMultiOpenBox(strFiles, fileTypes, NULL, NULL, USER_FILES_TITLE);
+	numFiles = GetMultiOpenBox(strFiles, fileTypes, NULL, NULL, FILES_TITLE);
 
 	// check for user cancel
 	if(numFiles == 0)
 	{
-		printf(USER_FILES_EMPTY);
+		printf(FILES_EMPTY);
 		strFiles.RemoveAt(0);
 	}
 
@@ -71,7 +71,7 @@ vector<string> USER_importData()
 		p = (Page) pb;
 		foreach(Layer lay in p.Layers)
 		{
-			wksNames = wksNames + "|" + pb.GetName() + " - " + lay.GetName();		
+			wksNames = wksNames + "|" + pb.GetName() + " - " + lay.GetName();
 		}
 	}
 
@@ -79,16 +79,16 @@ vector<string> USER_importData()
 	GETN_BOX(tr);
 	GETN_STRLIST(wbName,      LABEL_WB_NAME,      "", wbNames);
 	GETN_STRLIST(wksName,     LABEL_WKS_NAME,     "", wksNames);
-	GETN_LIST(   Method,      USER_IMPORT_METHOD, 0,  USER_IMPORT_METHODS);
-	GETN_LIST(   Delimiter,   USER_IMPORT_DELIM,  2,  USER_IMPORT_DELIMS);
-	GETN_LIST(   Separator,   USER_IMPORT_SEPAR,  3,  USER_IMPORT_SEPARS);
-	GETN_CHECK(  RemoveX,     USER_IMPORT_XAXIS,  false);
-	GETN_CHECK(  Sparklines,  USER_IMPORT_SPARKL, false);
-	GETN_CHECK(  SeriesLabel, USER_IMPORT_SERIES, false);
+	GETN_LIST(   Method,      IMPORT_METHOD, 0,  IMPORT_METHODS);
+	GETN_LIST(   Delimiter,   IMPORT_DELIM,  2,  IMPORT_DELIMS);
+	GETN_LIST(   Separator,   IMPORT_SEPAR,  3,  IMPORT_SEPARS);
+	GETN_CHECK(  RemoveX,     IMPORT_XAXIS,  false);
+	GETN_CHECK(  Sparklines,  IMPORT_SPARKL, false);
+	GETN_CHECK(  SeriesLabel, IMPORT_SERIES, false);
 
 	// store results
 	vector<string> params;
-	if(GetNBox(tr, USER_IMPORT_TITLE, USER_IMPORT_DESC))
+	if(GetNBox(tr, IMPORT_TITLE, IMPORT_DESC))
 	{
 		params.Add(tr.Method.strVal);
 		params.Add(tr.wbName.strVal);
@@ -125,13 +125,13 @@ vector<string> USER_readLabels()
 {
 	// setup N_BOX
 	GETN_BOX(tr);
-	GETN_STR(Parameter, USER_LABELS_NAME, USER_LABELS_NAME_PRE);
-	GETN_STR(Unit,      USER_LABELS_STEP, USER_LABELS_UNIT_PRE);
-	GETN_NUM(Stepsize,  USER_LABELS_STEP, 1);
+	GETN_STR(Parameter, IMPORT_LABELS_NAME, X_NAME_TIME);
+	GETN_STR(Unit,      IMPORT_LABELS_STEP, X_UNIT_TIME);
+	GETN_NUM(Stepsize,  IMPORT_LABELS_STEP, 1);
 
 	// store results
 	vector<string> params;
-	if(GetNBox(tr, USER_LABELS_TITLE, USER_LABELS_DESC))
+	if(GetNBox(tr, IMPORT_LABELS_TITLE, IMPORT_LABELS_DESC))
 	{
 		params.Add(tr.Parameter.strVal);
 		params.Add(tr.Unit.strVal);
@@ -155,12 +155,12 @@ vector<string> USER_analyse()
 {
 	// setup N_BOX
 	GETN_BOX(tr);
-	GETN_LIST(Method, USER_ANALYSE_METHOD, 0, USER_ANALYSE_METHODS);
-	GETN_LIST(Target, USER_ANALYSE_TARGET, 1, USER_ANALYSE_TARGETS);
+	GETN_LIST(Method, ANALYSE_METHOD, 0, ANALYSE_METHODS);
+	GETN_LIST(Target, ANALYSE_TARGET, 1, ANALYSE_TARGETS);
 
 	// store results
 	vector<string> params;
-	if(GetNBox(tr, USER_ANALYSE_TITLE, USER_ANALYSE_DESC))
+	if(GetNBox(tr, ANALYSE_TITLE, ANALYSE_DESC))
 	{
 		params.Add(tr.Method.strVal);
 		params.Add(tr.Target.strVal);
@@ -185,25 +185,25 @@ vector<string> USER_analyseSpectra(Worksheet wks)
 {
 	// read worksheet user labels
 	Grid gg;
-	gg.Attach(wks);	
+	gg.Attach(wks);
 	vector<string> labelNames;
 	gg.GetUserDefinedLabelNames(labelNames);
 
 	// implode labels for GETN
-	labelNames.InsertAt(0, "Index");
+	labelNames.InsertAt(0, ANALYSE_GENERIC_INDEX);
 	string labelList = str_combine(labelNames, "|");
 
 	// setup N_BOX
 	GETN_BOX(tr);
-	GETN_STR( DataName, ANALYSIS_LABEL_TARGET,    ANALYSIS_TARGET);
-	GETN_LIST(Method,   ANALYSIS_LABEL_METHOD,    0, ANALYSIS_SPECTRA_METHODS);
-	GETN_LIST(Param,    ANALYSIS_LABEL_PARAMETER, 0, labelList);
-	GETN_NUM( StartX,   ANALYSIS_LABEL_XSTART,    0);
-	GETN_NUM( StopX,    ANALYSIS_LABEL_XSTOP,     0);
+	GETN_STR( DataName, ANALYSE_SPECTRA_LABEL_TARGET,    ANALYSE_SPECTRA_TARGET);
+	GETN_LIST(Method,   ANALYSE_SPECTRA_LABEL_METHOD,    0, ANALYSE_SPECTRA_METHODS);
+	GETN_LIST(Param,    LABEL_USERPARAMETER, 0, labelList);
+	GETN_NUM( StartX,   ANALYSE_SPECTRA_LABEL_XSTART,    0);
+	GETN_NUM( StopX,    ANALYSE_SPECTRA_LABEL_XSTOP,     0);
 
 	// store results
 	vector<string> params;
-	if(GetNBox(tr, ANALYSIS_TITLE, ANALYSIS_DESC + " (\"" + wks.GetName() + "\")"))
+	if(GetNBox(tr, ANALYSE_SPECTRA_TITLE, ANALYSE_SPECTRA_DESC + " (\"" + wks.GetName() + "\")"))
 	{
 		params.Add(tr.Method.strVal);
 		params.Add(tr.DataName.strVal);
@@ -244,7 +244,7 @@ vector<string> USER_map4dLinescan(Worksheet wks)
 
 	// store results
 	vector<string> params;
-	if(GetNBox(tr, USER_LINESCAN_TITLE, USER_LINESCAN_DESC))
+	if(GetNBox(tr, ANALYSE_LINESCAN_TITLE, ANALYSE_LINESCAN_DESC))
 	{
 		params.Add(tr.ScanAxis.strVal);
 		params.Add(tr.XParam.strVal);
@@ -316,12 +316,12 @@ vector<string> USER_linescan(vector<string> coordStrV)
 
 	// setup N_BOX
 	GETN_BOX(tr);
-	GETN_LIST(Coord, USER_LINESCAN_COORD, 0, coordStr);
-	GETN_LIST(Width, USER_LINESCAN_WIDTH, 0, widths);
+	GETN_LIST(Coord, ANALYSE_LINESCAN_COORD, 0, coordStr);
+	GETN_LIST(Width, ANALYSE_LINESCAN_WIDTH, 0, widths);
 
 	// store results
 	vector<string> params;
-	if(GetNBox(tr, USER_LINESCAN_TITLE, USER_LINESCAN_DESC))
+	if(GetNBox(tr, ANALYSE_LINESCAN_TITLE, ANALYSE_LINESCAN_DESC))
 	{
 		params.Add(coordStrV[tr.Coord.nVal]);
 		params.Add(widthsV[tr.Width.nVal]);
@@ -352,19 +352,19 @@ vector<string> USER_correctData(WorksheetPage wb)
 
 	// setup N_BOX
 	GETN_BOX(tr);
-	GETN_STRLIST(wksName,       USER_CORRECT_DATAWKS_LABEL, wb.Layers(0).GetName(), wksNames);
-	GETN_CHECK(  Clean,         USER_CORRECT_CLEAN,         false);
-	GETN_CHECK(  Background,    USER_CORRECT_BACKGROUND,    false);
-	GETN_CHECK(  Spikes,        USER_CORRECT_SPIKES,        false);
-	GETN_CHECK(  Setup,         USER_CORRECT_SETUP,         false);
-	GETN_CHECK(  Filters,       USER_CORRECT_FILTERS,       false);
-	GETN_CHECK(  Integration,   USER_CORRECT_INTEGRATION,   false);
-	GETN_CHECK(  Transform,     USER_CORRECT_TRANSFORM,     false);
-	GETN_CHECK(  Normalise,     USER_CORRECT_NORMALISE,     false);
+	GETN_STRLIST(wksName,       CORRECT_DATAWKS_LABEL, wb.Layers(0).GetName(), wksNames);
+	GETN_CHECK(  Clean,         CORRECT_CLEAN,         false);
+	GETN_CHECK(  Background,    CORRECT_BACKGROUND,    false);
+	GETN_CHECK(  Spikes,        CORRECT_SPIKES,        false);
+	GETN_CHECK(  Setup,         CORRECT_SETUP,         false);
+	GETN_CHECK(  Filters,       CORRECT_FILTERS,       false);
+	GETN_CHECK(  Integration,   CORRECT_INTEGRATION,   false);
+	GETN_CHECK(  Transform,     CORRECT_TRANSFORM,     false);
+	GETN_CHECK(  Normalise,     CORRECT_NORMALISE,     false);
 
 	// store results
 	vector<string> params;
-	if(GetNBox(tr, USER_CORRECT_TITLE, USER_CORRECT_DESC))
+	if(GetNBox(tr, CORRECT_TITLE, CORRECT_DESC))
 	{
 		params.Add(tr.wksName.strVal);
 		params.Add(tr.Clean.strVal);
@@ -419,25 +419,26 @@ vector<string> USER_correctDataSource(WorksheetPage wb, Worksheet dataWks, int m
 		case 1: // clean masked data
 		case 7: // energy transformation
 		case 8: // normalise data
-			GETN_STR(STR, USER_CORRECT_MSG_CONFIRM, "") GETN_HINT;
+			GETN_STR(STR, CORRECT_CONFIRM, "") GETN_HINT;
 			break;
 
 		case 2: // subtract background
 			// explode methods
 			vector<string> methods;
-			str_separate(USER_CORRECT_BACKGROUND_METHODS, "|", methods);
+			str_separate(CORRECT_BACKGROUND_METHODS, "|", methods);
 
 			switch(step)
 			{
 				case 1: // pre-select correction method
-					GETN_STR(STR, USER_CORRECT_MSG_BACKGROUND_METHOD, "") GETN_HINT;
-					GETN_RADIO_INDEX(bgMethod, 1, USER_CORRECT_BACKGROUND_METHODS);
+					GETN_STR(STR, CORRECT_BACKGROUND_HINT, "") GETN_HINT;
+					GETN_RADIO_INDEX(bgMethod, 1, CORRECT_BACKGROUND_METHODS);
 					GETN_OPTION_DISPLAY_FORMAT(DISPLAY_EDITOR_LEFT);
 
 					// call second dialogue step with recursion
-					if(GetNBox(tr, title, USER_CORRECT_BACKGROUND)){
+					if(GetNBox(tr, title, CORRECT_BACKGROUND)){
 						return USER_correctDataSource(wb, dataWks, method, title, tr.bgMethod.dVal + 2);
-					} else { // user input failed or cancelled
+					} else {
+						// user input failed or cancelled
 						params.Add("-1");
 						return params;
 					}
@@ -445,39 +446,39 @@ vector<string> USER_correctDataSource(WorksheetPage wb, Worksheet dataWks, int m
 
 				case 2: // reference mode
 					GETN_STR(STR, methods[step - 2] + ":", "") GETN_HINT;
-					GETN_STRLIST(wksName, USER_ANALYSE_WKS,         "", wksNames);
-					GETN_LIST(userParam,  ANALYSIS_LABEL_PARAMETER, -1, labelList);
+					GETN_STRLIST(wksName, ANALYSE_WKS,         "", wksNames);
+					GETN_LIST(userParam,  LABEL_USERPARAMETER, -1, labelList);
 					break;
 
 				case 3: // median mode
 					GETN_STR(STR, methods[step - 2] + ":", "") GETN_HINT;
-					GETN_NUM(bgStart, USER_CORRECT_BACKGROUND_PARAM_START, 0);
-					GETN_NUM(bgStop,  USER_CORRECT_BACKGROUND_PARAM_STOP,  0);
+					GETN_NUM(bgStart, CORRECT_BACKGROUND_PARAM_START, 0);
+					GETN_NUM(bgStop,  CORRECT_BACKGROUND_PARAM_STOP,  0);
 					break;
 			}
 			break;
 
 		case 3: // correct spikes
-			GETN_NUM(spikeTh, USER_CORRECT_SPIKES_PARAM_THRESHOLD, 5);
-			GETN_NUM(spikeW,  USER_CORRECT_SPIKES_PARAM_WIDTH,     5);
+			GETN_NUM(spikeTh, CORRECT_SPIKES_PARAM_THRESHOLD, 5);
+			GETN_NUM(spikeW,  CORRECT_SPIKES_PARAM_WIDTH,     5);
 			break;
 
-		case 4: // correct Setup
-			GETN_STRLIST(wksName,	USER_ANALYSE_WKS, "", wksNames);
+		case 4: // correct setup
+			GETN_STRLIST(wksName,	ANALYSE_WKS, "", wksNames);
 			break;
 
-		case 5: // correct Filters
-			GETN_STRLIST(wksName,	USER_ANALYSE_WKS,         "", wksNames);
-			GETN_LIST(userParam,	ANALYSIS_LABEL_PARAMETER, -1, labelList);
+		case 5: // correct filters
+			GETN_STRLIST(wksName,	ANALYSE_WKS,         "", wksNames);
+			GETN_LIST(userParam,	LABEL_USERPARAMETER, -1, labelList);
 			break;
 
 		case 6: // correct integration time
-			GETN_LIST(userParam,	ANALYSIS_LABEL_PARAMETER, -1,  labelList);
+			GETN_LIST(userParam,	LABEL_USERPARAMETER, -1,  labelList);
 			break;
 	}
 
 	// store results
-	if(GetNBox(tr, title, USER_CORRECT_MSG_SOURCE))
+	if(GetNBox(tr, title, CORRECT_SOURCE))
 	{
 		switch(method)
 		{
@@ -561,11 +562,11 @@ vector<string> USER_convert()
 {
 	// setup N_BOX
 	GETN_BOX(tr);
-	GETN_LIST(Method, USER_CONVERT_METHOD, 0, USER_CONVERT_METHODS);
+	GETN_LIST(Method, CONVERT_METHOD, 0, CONVERT_METHODS);
 
 	// store results
 	vector<string> params;
-	if(GetNBox(tr, USER_CONVERT_TITLE, USER_CONVERT_DESC))
+	if(GetNBox(tr, CONVERT_TITLE, CONVERT_DESC))
 	{
 		params.Add(tr.Method.strVal);
 	}
@@ -587,20 +588,20 @@ vector<string> USER_xyzMatrix()
 {
 	// setup N_BOX
 	GETN_BOX(tr);
-	GETN_INTERACTIVE(ZRange, USER_XYZ_MATRIX_ZCOL, "")
+	GETN_INTERACTIVE(ZRange, XYZ_MATRIX_ZCOL, "")
 	GETN_OPTION_INTERACTIVE_CONTROL(ICOPT_ALLOW_MULTIPLE_DATA_1);
-	GETN_CHECK(UseCols,   USER_XYZ_MATRIX_USECOLS, true)
-	GETN_XYRANGE(XyRange, USER_XYZ_MATRIX_XYCOL,   1, "") ;
+	GETN_CHECK(UseCols,   XYZ_MATRIX_USECOLS, true)
+	GETN_XYRANGE(XyRange, XYZ_MATRIX_XYCOL,   1, "") ;
 	GETN_OPTION_INTERACTIVE_CONTROL(ICOPT_RESTRICT_TO_ONE_DATA);
 
-	GETN_NUM(NumCols,   USER_XYZ_MATRIX_COLC,  10) GETN_BEGIN_GROUP(USER_XYZ_MATRIX_TITLE);;
-	GETN_STR(StepUnit,  USER_XYZ_MATRIX_STEPU, USER_XYZ_MATRIX_STEPU_PRE);
-	GETN_NUM(XStep,     USER_XYZ_MATRIX_XSTEP, 1);
-	GETN_NUM(YStep,     USER_XYZ_MATRIX_YSTEP, 1)  GETN_END_GROUP;
+	GETN_NUM(NumCols,   XYZ_MATRIX_COLC,  10) GETN_BEGIN_GROUP(XYZ_MATRIX_TITLE);;
+	GETN_STR(StepUnit,  XYZ_MATRIX_STEPU, XYZ_MATRIX_STEPU_PRE);
+	GETN_NUM(XStep,     XYZ_MATRIX_XSTEP, 1);
+	GETN_NUM(YStep,     XYZ_MATRIX_YSTEP, 1)  GETN_END_GROUP;
 
 	// store results
 	vector<string> params;
-	if(GetNBox(tr, USER_XYZ_MATRIX_TITLE, USER_XYZ_MATRIX_DESC))
+	if(GetNBox(tr, XYZ_MATRIX_TITLE, XYZ_MATRIX_DESC))
 	{
 		params.Add(tr.ZRange.strVal);
 		params.Add(tr.UseCols.strVal);
@@ -625,7 +626,7 @@ vector<string> USER_xyzMatrix()
  *
  * @param WorksheetPage  wb         the workbook to evaluate
  * @param vector<string> sheetNames an array of sheet names with valid data for collection
- * 
+ *
  * @return vector<string> params the user input parameters
  */
 vector<string> USER_peaks(WorksheetPage wb, vector<string> sheetNames)
@@ -647,13 +648,13 @@ vector<string> USER_peaks(WorksheetPage wb, vector<string> sheetNames)
 
 	// store results
 	vector<string> params;
-	if(GetNBox(tr, USER_PEAKS_TITLE, USER_PEAKS_DESC))
+	if(GetNBox(tr, PEAKS_TITLE, PEAKS_DESC))
 	{
 		params.Add(tr.Identifier.strVal);
 		params.Add(tr.colName.strVal);
 	}
 	else
-	{ 
+	{
 		// user input failed or cancelled
 		params.Add("-1");
 	}
@@ -676,7 +677,7 @@ vector<string> USER_peaks(WorksheetPage wb, vector<string> sheetNames)
  *
  * @param Worksheet wks the worksheet to evaluate
  * @param vector<string> sheetNames an array of sheet names with valid data for collection
- * 
+ *
  * @return vector<string> params the user input parameters
  */
 vector<string> USER_interpolate(Worksheet wks)
@@ -692,16 +693,16 @@ vector<string> USER_interpolate(Worksheet wks)
 
 	// setup N_BOX
 	GETN_BOX(tr);
-	GETN_STRLIST(colName, USER_INTERPOLATE_COL, "", wksCols);
+	GETN_STRLIST(colName, INTERPOLATE_COL, "", wksCols);
 
 	// store results
 	vector<string> params;
-	if(GetNBox(tr, USER_INTERPOLATE_TITLE, USER_INTERPOLATE_DESC))
+	if(GetNBox(tr, INTERPOLATE_TITLE, INTERPOLATE_DESC))
 	{
 		params.Add(tr.colName.strVal);
 	}
 	else
-	{ 
+	{
 		// user input failed or cancelled
 		params.Add("-1");
 	}

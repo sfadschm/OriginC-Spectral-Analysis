@@ -31,7 +31,7 @@ void import()
 	// abort if user dialog cancelled
 	if(params[0] == "-1")
 	{
-		printf(USER_PARAMS_EMPTY);
+		printf(PARAMS_EMPTY);
 		return;
 	}
 
@@ -96,7 +96,7 @@ void correct()
 	// abort if user dialog cancelled
 	if(params[0] == "-1")
 	{
-		printf(USER_PARAMS_EMPTY);
+		printf(PARAMS_EMPTY);
 		return;
 	}
 
@@ -106,13 +106,13 @@ void correct()
 	// abort if not a worksheet
 	if(!dataWks)
 	{
-		printf(USER_CORRECT_NODATAWKS);
+		printf(CORRECT_NODATAWKS);
 		return;
 	}
 
 	// prepare dialog titles/texts
-	vector<string> dialogTitles = {USER_CORRECT_CLEAN, USER_CORRECT_BACKGROUND, USER_CORRECT_SPIKES, USER_CORRECT_SETUP, USER_CORRECT_FILTERS, USER_CORRECT_INTEGRATION, USER_CORRECT_TRANSFORM, USER_CORRECT_NORMALISE};
-	vector<string> sheetTitles  = {USER_CORRECT_SHEET_CLEAN, USER_CORRECT_SHEET_BACKGROUND, USER_CORRECT_SHEET_SPIKES, USER_CORRECT_SHEET_SETUP, USER_CORRECT_SHEET_FILTERS, USER_CORRECT_SHEET_INTEGRATION, USER_CORRECT_SHEET_TRANSFORM, USER_CORRECT_SHEET_NORMALISE};
+	vector<string> dialogTitles = {CORRECT_CLEAN,       CORRECT_BACKGROUND,       CORRECT_SPIKES,       CORRECT_SETUP,       CORRECT_FILTERS,       CORRECT_INTEGRATION,       CORRECT_TRANSFORM,       CORRECT_NORMALISE};
+	vector<string> sheetTitles  = {CORRECT_SHEET_CLEAN, CORRECT_SHEET_BACKGROUND, CORRECT_SHEET_SPIKES, CORRECT_SHEET_SETUP, CORRECT_SHEET_FILTERS, CORRECT_SHEET_INTEGRATION, CORRECT_SHEET_TRANSFORM, CORRECT_SHEET_NORMALISE};
 
 	// run through methods
 	Worksheet tgtWks;
@@ -127,7 +127,7 @@ void correct()
 			// abort if parameter dialogue cancelled
 			if(userParams[0] == "-1")
 			{
-				printf(USER_PARAMS_EMPTY + " (" + dialogTitles[i - 1] + ")");
+				printf(PARAMS_EMPTY + " (" + dialogTitles[i - 1] + ")");
 				return;
 			}
 
@@ -203,12 +203,12 @@ void analyse()
 	// abort if user dialog cancelled
 	if(params[0] == "-1")
 	{
-		printf(USER_PARAMS_EMPTY);
+		printf(PARAMS_EMPTY);
 		return;
 	}
 
 	// user information
-	printf(ANALYSIS_START);
+	printf(ANALYSE_START);
 
 	// map source parameters
 	int methodInt     = atoi(params[0]);
@@ -227,7 +227,7 @@ void analyse()
 		wks = activeWb.Layers(sourceWksInts[i]);
 
 		// skip existing result sheets
-		if(wks.GetName() == ANALYSIS_TARGET)
+		if(wks.GetName() == ANALYSE_TARGET)
 		{
 			continue;
 		}
@@ -246,7 +246,7 @@ void analyse()
 	}
 
 	// user information
-	printf(ANALYSIS_STOP);
+	printf(ANALYSE_STOP);
 }
 
 /**
@@ -260,12 +260,12 @@ void convert(){
 	// abort if user dialog cancelled
 	if(params[0] == "-1")
 	{
-		printf(USER_PARAMS_EMPTY);
+		printf(PARAMS_EMPTY);
 		return;
 	}
 
 	// user information
-	printf(CONVERSION_START);
+	printf(CONVERT_START);
 
 	// map user parameters
 	int methodInt = atoi(params[0]);
@@ -276,7 +276,7 @@ void convert(){
 	// abort if not a worksheet
 	if(!activeWks)
 	{
-		printf(ANALYSIS_NO_WKS);
+		printf(ANALYSE_NO_WKS);
 		return;
 	}
 
@@ -290,7 +290,7 @@ void convert(){
 
 			// abort if parameter dialogue cancelled
 			if(mapParams[0] == "-1"){
-				printf(USER_PARAMS_EMPTY);
+				printf(PARAMS_EMPTY);
 				return;
 			}
 
@@ -300,7 +300,7 @@ void convert(){
 	}
 
 	// user information
-	printf(CONVERSION_STOP);
+	printf(CONVERT_STOP);
 }
 
 /**
@@ -319,7 +319,7 @@ void interpolate(){
 	// abort if user dialog cancelled
 	if(params[0] == "-1")
 	{
-		printf(USER_PARAMS_EMPTY);
+		printf(PARAMS_EMPTY);
 		return;
 	}
 
@@ -364,7 +364,7 @@ void peaks(){
 	// abort if user dialog cancelled
 	if(params[0] == "-1")
 	{
-		printf(USER_PARAMS_EMPTY);
+		printf(PARAMS_EMPTY);
 		return;
 	}
 

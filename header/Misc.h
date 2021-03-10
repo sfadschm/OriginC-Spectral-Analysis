@@ -63,7 +63,7 @@ vector<string> MISC_arrayUnique(vector<string> rawData)
 }
 
 /**
- * Format and return a string (like printf).
+ * Format and return a string (like printf().
  *
  * @param string base    the format string
  * @param string str1... the replacement values

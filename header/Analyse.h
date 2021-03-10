@@ -6,8 +6,8 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-#ifndef _ANALYSIS_ // include once
-#define _ANALYSIS_
+#ifndef _ANALYSE_ // include once
+#define _ANALYSE_
 
 /**
  * This file provides methods for analysing spectral datasets.
@@ -33,7 +33,7 @@ void ANALYSE_spectra(Worksheet wks)
 	// abort if dialogue cancelled
 	if(params[0] == "-1")
 	{
-		printf(USER_PARAMS_EMPTY);
+		printf(PARAMS_EMPTY);
 		return;
 	}
 
@@ -46,7 +46,7 @@ void ANALYSE_spectra(Worksheet wks)
 
 	// create new result worksheet if necessary
 	WorksheetPage wb  = wks.GetPage();
-	Worksheet evalWks = ORIGIN_createWks(wb, ANALYSIS_TARGET);
+	Worksheet evalWks = ORIGIN_createWks(wb, ANALYSE_TARGET);
 
 	// create new temporary sheet for calculations
 	Worksheet tmpWks = ORIGIN_createWks(wb, "temp");
@@ -104,7 +104,7 @@ void ANALYSE_spectra(Worksheet wks)
 				break;
 
 			default: // user cansel
-				printf(ANALYSIS_NO_METHOD);
+				printf(ANALYSE_NO_METHOD);
 		}
 	}
 
