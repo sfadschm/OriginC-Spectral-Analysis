@@ -11,8 +11,6 @@
 
 /**
  * This file provides text constants for user and status messages.
- *
- * @toDo Use MISC_formatString( for IMPORT messages.
  */
 // general
 #define LABEL_TARGET_NAME   "Name:"
@@ -65,7 +63,7 @@
 
 #define IMPORT_LABELS_TITLE     "Data Import Labels"
 #define IMPORT_LABELS_DESC      "Define Data Column Labeling"
-#define IMPORT_LABELS_NAME     "Parameter Name"
+#define IMPORT_LABELS_NAME      "Parameter Name"
 #define IMPORT_LABELS_UNIT      "Parameter Unit"
 #define IMPORT_LABELS_STEP      "Stepsize"
 
