@@ -63,17 +63,21 @@ vector<string> MISC_arrayUnique(vector<string> rawData)
 }
 
 /**
- * Format and return a string (like printf().
+ * Format and return a string (like printf()).
+ *
+ * This function is a wrapper function for the string.Format
+ * method. Its parameters must be hard-coded as long as OriginC
+ * does not support <stdarg.h> with variadic argument list support.
  *
  * @param string base    the format string
  * @param string str1... the replacement values
  *
  * @return string result the formatted string
  */
-string MISC_formatString(string base, string str1 = "", string str2 = "", string str3 = "", string str4 = "")
+string MISC_formatString(string base, string str1 = "", string str2 = "", string str3 = "")
 {
 	string result;
-	result.Format(base, str1, str2, str3, str4);
+	result.Format(base, str1, str2, str3);
 
 	return result;
 }
