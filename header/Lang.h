@@ -68,10 +68,14 @@
 #define IMPORT_LABELS_STEP      "Stepsize"
 
 // correct
-#define CORRECT_START     "\nModifying datasets ..."
-#define CORRECT_STOP      "\nModificaton complete.\n"
-#define CORRECT_NO_LABEL  "No label data found. Aborting ..."
-#define CORRECT_NO_LABELS "User Label '%s' not found in worksheet '%s'.\n"
+#define CORRECT_START             "\nModifying datasets ..."
+#define CORRECT_STOP              "\nModificaton complete.\n"
+#define CORRECT_NO_LABEL          "No label data found. Aborting ..."
+#define CORRECT_NO_LABELS         "User label '%s' not found in worksheet '%s'.\n"
+#define CORRECT_NO_LABEL_SELECTED "No user label was selcted. Aborting ..."
+
+#define CORRECT_MSG_START "%s started ...\n"
+#define CORRECT_MSG_STOP  "%s finished.\n\n"
 
 #define CORRECT_TITLE         "Data Manipulation"
 #define CORRECT_DESC          "Run several manipulation methods on worksheets in active workbook."
@@ -118,8 +122,7 @@
 #define CORRECT_BACKGROUND_PARAM_START "Start"
 #define CORRECT_BACKGROUND_PARAM_STOP  "Stop"
 
-#define CORRECT_MSG_START "%s started ...\n"
-#define CORRECT_MSG_STOP  "%s finished.\n\n"
+#define CORRECT_SETUP_DEFAULTING "No label data found for '%s'. Defaulting to (0,1)...\n"
 
 #define CORRECT_CONFIRM "Confirm with OK or abort with Cancel!"
 #define CORRECT_SOURCE  "Please select reference source."

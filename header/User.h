@@ -464,9 +464,6 @@ vector<string> USER_correctDataSource(WorksheetPage wb, Worksheet dataWks, int m
 			break;
 
 		case 4: // correct setup
-			GETN_STRLIST(wksName,	ANALYSE_WKS, "", wksNames);
-			break;
-
 		case 5: // correct filters
 			GETN_STRLIST(wksName,	ANALYSE_WKS,         "", wksNames);
 			GETN_LIST(userParam,	LABEL_USERPARAMETER, -1, labelList);
@@ -517,9 +514,6 @@ vector<string> USER_correctDataSource(WorksheetPage wb, Worksheet dataWks, int m
 				break;
 
 			case 4: // correct setup
-				params.Add(tr.wksName.strVal);
-				break;
-
 			case 5: // correct filters
 				params.Add(tr.wksName.strVal);
 				if(tr.userParam.dVal >= 0)
@@ -528,7 +522,7 @@ vector<string> USER_correctDataSource(WorksheetPage wb, Worksheet dataWks, int m
 				}
 				else
 				{
-					params.Add(0);
+					params.Add(-1);
 				}
 				break;
 
@@ -539,7 +533,7 @@ vector<string> USER_correctDataSource(WorksheetPage wb, Worksheet dataWks, int m
 				}
 				else
 				{
-					params.Add(0);
+					params.Add(-1);
 				}
 				break;
 		}

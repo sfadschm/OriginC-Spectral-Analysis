@@ -160,7 +160,7 @@ void correct()
 					break;
 
 				case 4: // correct setup efficiency
-					CORRECT_setup(tgtWks, activeWb.Layers(userParams[0]));
+					CORRECT_setup(tgtWks, activeWb.Layers(userParams[0]), userParams[1]);
 					break;
 
 				case 5: // correct filter transmission
