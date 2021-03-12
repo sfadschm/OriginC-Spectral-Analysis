@@ -419,7 +419,7 @@ vector<string> USER_correctDataSource(WorksheetPage wb, Worksheet dataWks, int m
 		case 1: // clean masked data
 		case 7: // energy transformation
 		case 8: // normalise data
-			GETN_STR(STR, CORRECT_CONFIRM, "") GETN_HINT;
+			GETN_STR(STR, CORRECT_CONFIRM_HINT, "") GETN_HINT;
 			break;
 
 		case 2: // subtract background
@@ -445,13 +445,15 @@ vector<string> USER_correctDataSource(WorksheetPage wb, Worksheet dataWks, int m
 					break;
 
 				case 2: // reference mode
-					GETN_STR(STR, methods[step - 2] + ":", "") GETN_HINT;
+					title = methods[step - 2];
+					GETN_STR(STR, CORRECT_REFERENCE_HINT, "") GETN_HINT;
 					GETN_STRLIST(wksName, ANALYSE_WKS,         "", wksNames);
 					GETN_LIST(userParam,  LABEL_USERPARAMETER, -1, labelList);
 					break;
 
 				case 3: // median mode
-					GETN_STR(STR, methods[step - 2] + ":", "") GETN_HINT;
+					title = methods[step - 2];
+					GETN_STR(STR, CORRECT_BACKGROUND_MEDIAN_HINT, "") GETN_HINT;
 					GETN_NUM(bgStart, CORRECT_BACKGROUND_PARAM_START, 0);
 					GETN_NUM(bgStop,  CORRECT_BACKGROUND_PARAM_STOP,  0);
 					break;
@@ -459,23 +461,26 @@ vector<string> USER_correctDataSource(WorksheetPage wb, Worksheet dataWks, int m
 			break;
 
 		case 3: // correct spikes
+			GETN_STR(STR, CORRECT_SPIKES_HINT, "") GETN_HINT;
 			GETN_NUM(spikeTh, CORRECT_SPIKES_PARAM_THRESHOLD, 5);
 			GETN_NUM(spikeW,  CORRECT_SPIKES_PARAM_WIDTH,     5);
 			break;
 
 		case 4: // correct setup
 		case 5: // correct filters
+			GETN_STR(STR, CORRECT_REFERENCE_HINT, "") GETN_HINT;
 			GETN_STRLIST(wksName,	ANALYSE_WKS,         "", wksNames);
 			GETN_LIST(userParam,	LABEL_USERPARAMETER, -1, labelList);
 			break;
 
 		case 6: // correct integration time
+			GETN_STR(STR, 			CORRECT_USERLABEL_HINT, "") GETN_HINT;
 			GETN_LIST(userParam,	LABEL_USERPARAMETER, -1,  labelList);
 			break;
 	}
 
 	// store results
-	if(GetNBox(tr, title, CORRECT_SOURCE))
+	if(GetNBox(tr, title, title))
 	{
 		switch(method)
 		{

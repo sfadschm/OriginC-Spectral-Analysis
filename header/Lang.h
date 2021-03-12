@@ -70,9 +70,9 @@
 // correct
 #define CORRECT_START             "\nModifying datasets ..."
 #define CORRECT_STOP              "\nModificaton complete.\n"
-#define CORRECT_NO_LABEL          "No label data found. Aborting ..."
+#define CORRECT_NO_LABEL          "No label data found. Aborting ...\n\n"
 #define CORRECT_NO_LABELS         "User label '%s' not found in worksheet '%s'.\n"
-#define CORRECT_NO_LABEL_SELECTED "No user label was selcted. Aborting ..."
+#define CORRECT_NO_LABEL_SELECTED "No user label was selected. Aborting ..."
 
 #define CORRECT_MSG_START "%s started ...\n"
 #define CORRECT_MSG_STOP  "%s finished.\n\n"
@@ -114,18 +114,22 @@
 #define CORRECT_COMMENT_TRANSFORM      "Transformed."
 #define CORRECT_COMMENT_INTERPOLATE    "Interpolated to new X-axis."
 
+#define CORRECT_CONFIRM_HINT   "Confirm with OK or abort with Cancel!"
+#define CORRECT_REFERENCE_HINT "Choose reference data source:"
+#define CORRECT_USERLABEL_HINT "Choose reference label:"
+
+#define CORRECT_SPIKES_HINT            "Set parameters for Whitaker Hayes Algorithm:"
 #define CORRECT_SPIKES_PARAM_THRESHOLD "Z-Threshold"
 #define CORRECT_SPIKES_PARAM_WIDTH     "Averaging Width"
 
 #define CORRECT_BACKGROUND_HINT        "Choose background correction method:"
-#define CORRECT_BACKGROUND_METHODS     "Reference|Median"
 #define CORRECT_BACKGROUND_PARAM_START "Start"
 #define CORRECT_BACKGROUND_PARAM_STOP  "Stop"
 
-#define CORRECT_SETUP_DEFAULTING "No label data found for '%s'. Defaulting to (0,1)...\n"
+#define CORRECT_BACKGROUND_METHODS        "Reference|Median"
+#define CORRECT_BACKGROUND_MEDIAN_HINT    "Set median calculation boundaries:"
 
-#define CORRECT_CONFIRM "Confirm with OK or abort with Cancel!"
-#define CORRECT_SOURCE  "Please select reference source."
+#define CORRECT_SETUP_DEFAULTING "No label data found for '%s'. Defaulting to (0,1)...\n"
 
 // analyse
 #define ANALYSE_START     "\nAnalysing data ..."
