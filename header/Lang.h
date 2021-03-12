@@ -61,15 +61,12 @@
 #define IMPORT_SPARKL  "Create Spaklines? (Slow!!!)"
 #define IMPORT_SERIES  "Add Series Labels (User)?"
 
-#define IMPORT_LABELS_TITLE     "Data Import Labels"
-#define IMPORT_LABELS_DESC      "Define Data Column Labeling"
-#define IMPORT_LABELS_NAME      "Parameter Name"
-#define IMPORT_LABELS_UNIT      "Parameter Unit"
-#define IMPORT_LABELS_STEP      "Stepsize"
+#define IMPORT_LABELS_TITLE "Data Import Labels"
+#define IMPORT_LABELS_DESC  "Define Data Column Labeling"
+#define IMPORT_LABELS_NAME  "Parameter Name"
+#define IMPORT_LABELS_STEP  "Stepsize"
 
 // correct
-#define CORRECT_START             "\nModifying datasets ..."
-#define CORRECT_STOP              "\nModificaton complete.\n"
 #define CORRECT_NO_LABEL          "No label data found. Aborting ...\n\n"
 #define CORRECT_NO_LABELS         "User label '%s' not found in worksheet '%s'.\n"
 #define CORRECT_NO_LABEL_SELECTED "No user label was selected. Aborting ..."
@@ -82,7 +79,6 @@
 #define CORRECT_NODATAWKS     "No valid worksheet selected."
 #define CORRECT_DATAWKS_LABEL "Data Source"
 
-#define CORRECT_METHODS     "Clean Sheet|Background Subtraction|Spike Removal|Setup Correction|Filter Correction|Integration Time|Energy Transformation|Data Normalisation"
 #define CORRECT_CLEAN       "Masked Data Removal"
 #define CORRECT_BACKGROUND  "Background Subtraction"
 #define CORRECT_SPIKES      "Spike Removal"
@@ -135,12 +131,10 @@
 #define ANALYSE_START     "\nAnalysing data ..."
 #define ANALYSE_STOP      "\nAnalysis complete.\n"
 #define ANALYSE_NO_WKS    "Active layer is not a worksheet!"
-#define ANALYSE_NO_WB     "Could not grab workbook!"
 #define ANALYSE_NO_METHOD "Method does not exist!"
 
 #define ANALYSE_TITLE   "Data Analysis"
 #define ANALYSE_DESC    "Setup Data Analysis of Active Window"
-#define ANALYSE_WB      "Workbook"
 #define ANALYSE_WKS     "Worksheet"
 #define ANALYSE_TARGET  "Source Type"
 #define ANALYSE_TARGETS "Workbook|Worksheet"
@@ -182,7 +176,6 @@
 #define XYZ_MATRIX_USECOLS "Use XY-Columns?"
 #define XYZ_MATRIX_ZCOL    "Choose Datasets"
 #define XYZ_MATRIX_XYCOL   "Choose XY-Range"
-#define XYZ_MATRIX_INVDR   "Invalid Data Range"
 
 #define XYZ_MATRIX_COLC       "Column Count"
 #define XYZ_MATRIX_STEPU      "Step Unit"
@@ -226,7 +219,6 @@
 #define REDUCE_STOP "\nAll sparklines have been deleted.\n"
 
 // X-Functions
-#define X_INIT_FAILED  "Could not initialise X-Function!\n"
 #define X_PARAM_FAILED "Could not set parameter for X-Function!\n"
 #define X_EVAL_FAILED  "Could not evaluate X-Function!\n"
 
