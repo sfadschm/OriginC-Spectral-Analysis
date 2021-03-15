@@ -602,6 +602,9 @@ void IMPORT_Tracks(vector<string> params, vector<string> strFiles){
 			}
 		}
 	}
+	
+	// remove default worksheet
+	wb.Layers("Sheet1").Destroy();
 }
 
 #endif

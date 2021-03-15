@@ -23,7 +23,7 @@
 // file selection
 #define FILES_TITLE     "\nSelect File(s)"
 #define FILES_EMPTY     "\nNo File(s) selected!"
-#define FILES_TYPES     "[Data Files (*.txt, *.tsv, *.dac, *.m)] *.txt; *.tsv; *.dac; *.m|[All Files (*.*)] *.*"
+#define FILES_TYPES     "[Data Files (*.txt, *.tsv, *.dac, *.m, *.xml)] *.txt; *.tsv; *.dac; *.m; *.xml|[All Files (*.*)] *.*"
 #define FILES_NOT_FOUND "File not found!"
 
 // column names and units
@@ -47,7 +47,7 @@
 #define IMPORT_READING  "\nReading files ..."
 #define IMPORT_LABELING "\nCreating labels ..."
 #define IMPORT_STOP     "\nImport complete.\n"
-#define IMPORT_PROGRESS "\n\nFile %d of %d"
+#define IMPORT_PROGRESS "\nFile %d of %d"
 
 #define IMPORT_TITLE   "Data Import"
 #define IMPORT_DESC    "Setup Data Import"
