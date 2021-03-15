@@ -71,8 +71,9 @@
 #define CORRECT_NO_LABELS         "User label '%s' not found in worksheet '%s'.\n"
 #define CORRECT_NO_LABEL_SELECTED "No user label was selected. Aborting ..."
 
-#define CORRECT_MSG_START "%s started ...\n"
-#define CORRECT_MSG_STOP  "%s finished.\n\n"
+#define CORRECT_MSG_START  "%s started ...\n"
+#define CORRECT_MSG_NO_REF "No reference data found for '%s'.\n"
+#define CORRECT_MSG_STOP   "%s finished.\n\n"
 
 #define CORRECT_TITLE         "Data Manipulation"
 #define CORRECT_DESC          "Run several manipulation methods on worksheets in active workbook."

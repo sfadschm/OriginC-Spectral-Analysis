@@ -11,11 +11,92 @@
 
 /**
  * This file provides methods for manipulating (correcting) worksheet data.
- *
- * @toDo Outsource reference data collection.
  */
 #include <Origin.h>
 #include <XFBase.h>
+
+/**
+ * Collect reference data from another worksheet by matching user parameters.
+ *
+ * @param Worksheet tgtWks        the worksheet holding the data
+ * @param Worksheet refWks        the worksheet holding the background data
+ * @param string    userLabelName the user label to connect data and reference dataset
+ *
+ * @return maxtrix<int> refData a (x, 2) matrix containing the x- and y-indices of the reference data
+ */
+matrix<int> CORRECT_getRefData(Worksheet tgtWks, Worksheet refWks, string userLabelName)
+{
+	// initialise return array
+	matrix<int> refData(1,1) = {1};
+
+	// abort if parameter dialog cancelled
+	if(userLabelName == "-1")
+	{
+		return refData;
+	}
+
+	// get user labels of reference and source
+	vector<string> refLabelData, tgtLabelData;
+	refLabelData = WORKSHEET_getUserLabelData(refWks, userLabelName);
+	tgtLabelData = WORKSHEET_getUserLabelData(tgtWks, userLabelName);
+
+	// abort if no label data found
+	if(refLabelData.GetSize() == 0 || tgtLabelData.GetSize() == 0)
+	{
+		printf(CORRECT_NO_LABEL);
+		return refData;
+	}
+
+	// get column designations
+	string colTypes    = tgtWks.GetColDesignations();
+	string refColTypes = refWks.GetColDesignations();
+
+	// resize matrix
+	refData.SetSize(colTypes.GetLength(), 2);
+
+	// set helpers
+	Column xCol, xTempCol;
+	int xInt = -1, yInt = -1, refXInt = -1, refYInt = -1;
+
+	// loop through all columns
+	for(int colInt = 0; colInt < colTypes.GetLength(); colInt++)
+	{
+		// set column indexes
+		if(colTypes.GetAt(colInt) == 'Y')
+		{
+			yInt = colInt;
+		}
+		if(colTypes.GetAt(colInt) == 'X')
+		{
+			// set new X-data column index
+			xInt = colInt;
+			continue;
+		}
+
+		// get reference data range by user label
+		refYInt = refLabelData.Find(tgtLabelData[yInt]);
+
+		// skip if no reference data found
+		if(refYInt < 0 || tgtLabelData[yInt] == "")
+		{
+			refData[colInt][0] = refData[colInt][1] = -1;
+			continue;
+		}
+
+		// search reference X-axis
+		refXInt = refColTypes.Find('X');
+		while(refColTypes.Find('X', refXInt + 1) < refYInt && refColTypes.Find('X', refXInt + 1) >= 0)
+		{
+			refXInt = refColTypes.Find('X', refXInt + 1);
+		}
+
+		refData[colInt][0] = refXInt;
+		refData[colInt][1] = refYInt;
+
+	}
+
+	return refData;
+}
 
 /**
  * Subtracts reference background data from a datasheet.
@@ -29,26 +110,23 @@ void CORRECT_backgroundRef(Worksheet tgtWks, Worksheet refWks, string userLabelN
 	// user information
 	printf(MISC_formatString(CORRECT_MSG_START, CORRECT_BACKGROUND));
 
-	// get user labels of reference and source
-	vector<string> refLabelData, tgtLabelData;
-	refLabelData = WORKSHEET_getUserLabelData(refWks, userLabelName);
-	tgtLabelData = WORKSHEET_getUserLabelData(tgtWks, userLabelName);
+	// get reference indices from labels
+	matrix<int> refInts;
+	refInts = CORRECT_getRefData(tgtWks, refWks, userLabelName);
 
-	// abort if no label data found
-	if(refLabelData.GetSize() == 0 || tgtLabelData.GetSize() == 0)
+	// abort if no reference data found
+	if(refInts.GetNumCols() < 2)
 	{
-		printf(CORRECT_NO_LABEL);
 		return;
 	}
+
+	// get column designations
+	string colTypes = tgtWks.GetColDesignations();
 
 	// set helpers
 	Column xCol, xTempCol;
 	int xInt = -1, yInt = -1, refXInt = -1, refYInt = -1, xTempInt = tgtWks.AddCol();
 	tgtWks.Columns(xTempInt).SetType(OKDATAOBJ_DESIGNATION_X);
-
-	// get column designations
-	string colTypes    = tgtWks.GetColDesignations();
-	string refColTypes = refWks.GetColDesignations();
 
 	// loop through all columns
 	for(int colInt = 0; colInt < colTypes.GetLength(); colInt++)
@@ -83,23 +161,18 @@ void CORRECT_backgroundRef(Worksheet tgtWks, Worksheet refWks, string userLabelN
 		// set target data range
 		XYRange dataTgt;
 		dataTgt.Add(tgtWks, xTempInt, "X");
-		dataTgt.Add(tgtWks, yInt, "Y");
+		dataTgt.Add(tgtWks, yInt,     "Y");
 
-		// get reference data range by user label
-		refYInt = refLabelData.Find(tgtLabelData[yInt]);
+		// get reference data indices
+		refXInt = refInts[colInt][0];
+		refYInt = refInts[colInt][1];
 
 		// skip if no reference data found
-		if(refYInt < 0 || tgtLabelData[yInt] == "")
+		if(refXInt < 0 || refYInt < 0)
 		{
+			printf(CORRECT_MSG_NO_REF, tgtWks.Columns(yInt).GetName());
 			tgtWks.Columns(yInt).SetComments(CORRECT_COMMENT_NO_REF);
 			continue;
-		}
-
-		// search reference X-axis
-		refXInt = refColTypes.Find('X');
-		while(refColTypes.Find('X', refXInt + 1) < refYInt && refColTypes.Find('X', refXInt + 1) >= 0)
-		{
-			refXInt = refColTypes.Find('X', refXInt + 1);
 		}
 
 		// get reference data range
@@ -395,20 +468,9 @@ void CORRECT_setup(Worksheet tgtWks, Worksheet refWks, string userLabelName)
 	// user information
 	printf(MISC_formatString(CORRECT_MSG_START, CORRECT_SETUP));
 
-	// get user labels of reference and source
-	vector<string> refLabelData, tgtLabelData;
-	if(userLabelName != "-1")
-	{
-		refLabelData = WORKSHEET_getUserLabelData(refWks, userLabelName);
-		tgtLabelData = WORKSHEET_getUserLabelData(tgtWks, userLabelName);
-	}
-
-	// abort if no label data found but required
-	if(userLabelName != "-1" && (refLabelData.GetSize() == 0 || tgtLabelData.GetSize() == 0))
-	{
-		printf(CORRECT_NO_LABEL);
-		return;
-	}
+	// get reference indices from labels
+	matrix<int> refInts;
+	refInts = CORRECT_getRefData(tgtWks, refWks, userLabelName);
 
 	// set helpers
 	Column xCol, xTempCol;
@@ -416,8 +478,7 @@ void CORRECT_setup(Worksheet tgtWks, Worksheet refWks, string userLabelName)
 	tgtWks.Columns(xTempInt).SetType(OKDATAOBJ_DESIGNATION_X);
 
 	// get column designations
-	string colTypes    = tgtWks.GetColDesignations();
-	string refColTypes = refWks.GetColDesignations();
+	string colTypes = tgtWks.GetColDesignations();
 
 	// loop through all columns
 	for(int colInt = 0; colInt < colTypes.GetLength(); colInt++)
@@ -455,31 +516,24 @@ void CORRECT_setup(Worksheet tgtWks, Worksheet refWks, string userLabelName)
 		dataTgt.Add(tgtWks, yInt,     "Y");
 
 		// try grabbing the reference range if label is set
-		if(userLabelName != "-1")
+		if(refInts.GetNumCols() == 2)
 		{
-			// get reference data range by user label
-			refYInt = refLabelData.Find(tgtLabelData[yInt]);
-
-			// abort if no reference data found
-			if(refYInt < 0)
-			{
-				// defaulting message
-				printf(CORRECT_SETUP_DEFAULTING, tgtWks.Columns(yInt).GetName());
-			}
-			else
-			{
-				// find reference X-axis
-				refXInt = refColTypes.Find('X');
-				while(refColTypes.Find('X', refXInt + 1) < refYInt && refColTypes.Find('X', refXInt + 1) >= 0)
-				{
-					refXInt = refColTypes.Find('X', refXInt + 1);
-				}
-			}
+			// get reference data indices
+			refXInt = refInts[colInt][0];
+			refYInt = refInts[colInt][1];
+		}
+		else
+		{
+			refXInt = -1;
+			refYInt = -1;
 		}
 
 		// default to first dataset if no reference data set found
-		if(refXInt < 0 || refYInt <0)
+		if(refXInt < 0 || refYInt < 0)
 		{
+			// defaulting message
+			printf(CORRECT_SETUP_DEFAULTING, tgtWks.Columns(yInt).GetName());
+
 			refXInt = 0;
 			refYInt = 1;
 		}
@@ -527,33 +581,23 @@ void CORRECT_filters(Worksheet tgtWks, Worksheet refWks, string userLabelName)
 	// user information
 	printf(MISC_formatString(CORRECT_MSG_START, CORRECT_FILTERS));
 
-	// abort if no label selected
-	if(userLabelName == "-1")
-	{
-		printf(CORRECT_NO_LABEL_SELECTED);
-		return;
-	}
-	
-	// get user labels of reference and source
-	vector<string> refLabelData, tgtLabelData;
-	refLabelData = WORKSHEET_getUserLabelData(refWks, userLabelName);
-	tgtLabelData = WORKSHEET_getUserLabelData(tgtWks, userLabelName);
+	// get reference indices from labels
+	matrix<int> refInts;
+	refInts = CORRECT_getRefData(tgtWks, refWks, userLabelName);
 
-	// abort if no label data found
-	if(refLabelData.GetSize() == 0 || tgtLabelData.GetSize() == 0)
+	// abort if no reference data found
+	if(refInts.GetNumCols() < 2)
 	{
-		printf(CORRECT_NO_LABEL);
 		return;
 	}
+
+	// get column designations
+	string colTypes    = tgtWks.GetColDesignations();
 
 	// set helpers
 	Column xCol, xTempCol;
 	int xInt = -1, yInt = -1, refXInt = -1, refYInt = -1, xTempInt = tgtWks.AddCol();
 	tgtWks.Columns(xTempInt).SetType(OKDATAOBJ_DESIGNATION_X);
-
-	// get column designations
-	string colTypes    = tgtWks.GetColDesignations();
-	string refColTypes = refWks.GetColDesignations();
 
 	// loop through all columns
 	for(int colInt = 0; colInt < colTypes.GetLength(); colInt++)
@@ -590,22 +634,16 @@ void CORRECT_filters(Worksheet tgtWks, Worksheet refWks, string userLabelName)
 		dataTgt.Add(tgtWks, xTempInt, "X");
 		dataTgt.Add(tgtWks, yInt, "Y");
 
-		// get reference data range by user label
-		refYInt = refLabelData.Find(tgtLabelData[yInt]);
+		// get reference data indices
+		refXInt = refInts[colInt][0];
+		refYInt = refInts[colInt][1];
 
-		// abort if no reference data found
-		if(refYInt < 0 && tgtLabelData[yInt] == "")
+		// skip if no reference data found
+		if(refXInt < 0 || refYInt < 0)
 		{
-			// set comment
+			printf(CORRECT_MSG_NO_REF, tgtWks.Columns(yInt).GetName());
 			tgtWks.Columns(yInt).SetComments(CORRECT_COMMENT_NO_REF);
 			continue;
-		}
-
-		// find reference X-axis
-		refXInt = refColTypes.Find('X');
-		while(refColTypes.Find('X', refXInt + 1) < refYInt && refColTypes.Find('X', refXInt + 1) >= 0)
-		{
-			refXInt = refColTypes.Find('X', refXInt + 1);
 		}
 
 		// get reference data range
