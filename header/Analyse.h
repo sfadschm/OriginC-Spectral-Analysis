@@ -46,7 +46,7 @@ void ANALYSE_spectra(Worksheet wks)
 
 	// create new result worksheet if necessary
 	WorksheetPage wb  = wks.GetPage();
-	Worksheet evalWks = ORIGIN_createWks(wb, ANALYSE_TARGET);
+	Worksheet evalWks = ORIGIN_createWks(wb, ANALYSE_SPECTRA_TARGET);
 
 	// create new temporary sheet for calculations
 	Worksheet tmpWks = ORIGIN_createWks(wb, "temp");
