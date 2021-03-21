@@ -186,9 +186,10 @@
 #define XYZ_MATRIX_SHEET_NAME "Maps"
 
 // peaks
-#define PEAKS_START  "\nCollecting peak data ..."
-#define PEAKS_STOP   "\nPeak data completed.\n"
-#define PEAKS_NO_WKS "No valid worksheets found in current workbook!"
+#define PEAKS_START    "\nCollecting peak data ..."
+#define PEAKS_STOP     "\nPeak data completed.\n"
+#define PEAKS_NO_WKS   "\nNo valid worksheets found in current workbook!"
+#define PEAKS_TOO_LONG "\nCommand string is too long, please reduce the number of worksheets!\nAborting ..."
 
 #define PEAKS_TITLE "Peak Collection"
 #define PEAKS_DESC  "Collect peaks from fitting results."

@@ -213,6 +213,13 @@ void ANALYSE_collectPeaks(WorksheetPage wb, vector<string> srcNames, string colu
 
 	// extract peak columns with LabTalk
 	string str_append = "wAppend -r 1 irng:=" + str_range + " ow:=\"" + colWks.GetName() + "\" id:=0;";
+	
+	// abort if command string is too long for execution
+	if(str_append.GetLength() >= 3000)
+	{
+		printf(PEAKS_TOO_LONG);
+		return;
+	}
 	LT_execute(str_append);
 
 	// focus on result sheet
