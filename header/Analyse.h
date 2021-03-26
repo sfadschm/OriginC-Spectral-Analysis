@@ -217,7 +217,8 @@ void ANALYSE_collectPeaks(WorksheetPage wb, vector<string> srcNames, string colu
 	// abort if command string is too long for execution
 	if(str_append.GetLength() >= 3000)
 	{
-		printf(PEAKS_TOO_LONG);
+		printf(PEAKS_TOO_LONG, str_append.GetLength());
+		colWks.Delete();
 		return;
 	}
 	LT_execute(str_append);
