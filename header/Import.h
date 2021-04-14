@@ -417,7 +417,7 @@ WorksheetPage IMPORT_4dMaps(vector<string> params, vector<string> strFiles){
 }
 
 /**
- * Import and format spectra data from a one or more 3D Map ASCII files (e.g., Streak).
+ * Import and format spectra data from a one or more 4D Map ASCII files (e.g., Streak, LabView, XY-LI).
  *
  * @param vector<string> params the user parameters
  * @param vector<string> strFiles the names of the input data files
