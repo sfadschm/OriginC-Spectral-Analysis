@@ -210,11 +210,15 @@ MatrixPage ORIGIN_createMp(string mpName = "")
 MatrixLayer ORIGIN_createMl(MatrixPage mp, string mlName = "", bool forceNew = false)
 {
 	// layer index
-	int mlInt;
+	int mlInt = -1;
 
 	// strip layer name
 	string strippedName = MISC_stripName(mlName);
-
+	if(strippedName == "")
+	{
+		strippedName = "MSheet1";
+	}
+	
 	// create new layer if invalid name
 	if(!strippedName.IsEmpty())
 	{
@@ -248,7 +252,10 @@ MatrixLayer ORIGIN_createMl(MatrixPage mp, string mlName = "", bool forceNew = f
 	else
 	{
 		// use existing worksheet
-		mlInt = ml.GetIndex();
+		if(mlInt == -1)
+		{
+			mlInt = ml.GetIndex();
+		}
 	}
 
 	return mp.Layers(mlInt);
