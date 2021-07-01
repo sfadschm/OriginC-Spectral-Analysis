@@ -57,7 +57,10 @@ vector<string> MISC_arrayUnique(vector<string> rawData)
 	vector<string> unique;
 	for(int i = 0; i < R1s.GetSize(); i++)
 	{
-		unique.Add(rawData[R1s[i]]);
+		if(rawData[R1s[i]] != "")
+		{
+			unique.Add(rawData[R1s[i]]);
+		}
 	}
 
 	return unique;
