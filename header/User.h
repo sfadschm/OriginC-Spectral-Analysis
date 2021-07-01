@@ -457,6 +457,13 @@ vector<string> USER_correctDataSource(WorksheetPage wb, Worksheet dataWks, int m
 					GETN_NUM(bgStart, CORRECT_BACKGROUND_PARAM_START, 0);
 					GETN_NUM(bgStop,  CORRECT_BACKGROUND_PARAM_STOP,  0);
 					break;
+
+				case 4: // constant mode
+					title = methods[step - 2];
+					GETN_STR(STR, CORRECT_BACKGROUND_CONSTANT_HINT, "") GETN_HINT;
+					GETN_NUM(bgValue, CORRECT_BACKGROUND_PARAM_VALUE, 0);
+					break;
+
 			}
 			break;
 
@@ -509,6 +516,10 @@ vector<string> USER_correctDataSource(WorksheetPage wb, Worksheet dataWks, int m
 					case 3: // median mode
 						params.Add(tr.bgStart.dVal);
 						params.Add(tr.bgStop.dVal);
+						break;
+
+					case 4: // constant mode
+						params.Add(tr.bgValue.dVal);
 						break;
 				}
 				break;

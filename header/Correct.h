@@ -206,13 +206,12 @@ void CORRECT_backgroundRef(Worksheet tgtWks, Worksheet refWks, string userLabelN
 	printf(MISC_formatString(CORRECT_MSG_STOP, CORRECT_BACKGROUND));
 }
 
-
 /**
  * Subtracts an averaged background from each column of a datasheet (using Median).
  *
- * @param Worksheet tgtWks        the worksheet holding the data
- * @param Worksheet refWks        the worksheet holding the background data
- * @param string    userLabelName the user label to connect data and reference dataset
+ * @param Worksheet tgtWks the worksheet holding the data
+ * @param double    xStart the start value of the median area
+ * @param double    xStop  the end value of the median area
  */
 void CORRECT_backgroundMedian(Worksheet tgtWks, double xStart, double xStop)
 {
@@ -269,7 +268,44 @@ void CORRECT_backgroundMedian(Worksheet tgtWks, double xStart, double xStop)
 		dataCurve = dataCurve - res.Median;
 
 		// set comment
-		tgtWks.Columns(colInt).SetComments(MISC_formatString(CORRECT_COMMENT_BACKGROUND_MED, ftoa(res.Median)));
+		tgtWks.Columns(colInt).SetComments(MISC_formatString(CORRECT_COMMENT_BACKGROUND_VAL, ftoa(res.Median)));
+	}
+
+	// user information
+	printf(MISC_formatString(CORRECT_MSG_STOP, CORRECT_BACKGROUND));
+}
+
+/**
+ * Subtracts a constant background from each column of a datasheet.
+ *
+ * @param Worksheet tgtWks  the worksheet holding the data
+ * @param double    bgValue the background level
+ */
+void CORRECT_backgroundConstant(Worksheet tgtWks, double bgValue)
+{
+	// user information
+	printf(MISC_formatString(CORRECT_MSG_START, CORRECT_BACKGROUND));
+
+	// get column designations
+	string colTypes = tgtWks.GetColDesignations();
+
+	// loop through all columns
+	for(int colInt = 0; colInt < colTypes.GetLength(); colInt++)
+	{
+		// only process y-data
+		if(colTypes.GetAt(colInt) != 'Y')
+		{
+			continue;
+		}
+
+		// get curve
+		Curve dataCurve(tgtWks, colInt);
+
+		// subtract background
+		dataCurve = dataCurve - bgValue;
+
+		// set comment
+		tgtWks.Columns(colInt).SetComments(MISC_formatString(CORRECT_COMMENT_BACKGROUND_VAL, ftoa(bgValue)));
 	}
 
 	// user information

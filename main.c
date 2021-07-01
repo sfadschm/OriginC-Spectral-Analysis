@@ -152,6 +152,10 @@ void correct()
 						case 1: // median mode
 							CORRECT_backgroundMedian(tgtWks, atof(userParams[1]), atof(userParams[2]));
 							break;
+
+						case 2: // constant mode
+							CORRECT_backgroundConstant(tgtWks, atof(userParams[1]));
+							break;
 					}
 					break;
 

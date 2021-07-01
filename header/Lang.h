@@ -104,7 +104,7 @@
 #define CORRECT_COMMENT_CLEAN          "Cleaned."
 #define CORRECT_COMMENT_NORMALISE      "Normalised."
 #define CORRECT_COMMENT_BACKGROUND_REF "Subtracted '%s!%s,%s'."
-#define CORRECT_COMMENT_BACKGROUND_MED "Subtracted '%s'."
+#define CORRECT_COMMENT_BACKGROUND_VAL "Subtracted '%s'."
 #define CORRECT_COMMENT_SPIKES         "Removed spikes (%s, %s)."
 #define CORRECT_COMMENT_REF            "Corrected with '%s!%s,%s'."
 #define CORRECT_COMMENT_INTEGRATION    "Divided by '%s'."
@@ -119,12 +119,14 @@
 #define CORRECT_SPIKES_PARAM_THRESHOLD "Z-Threshold"
 #define CORRECT_SPIKES_PARAM_WIDTH     "Averaging Width"
 
-#define CORRECT_BACKGROUND_HINT        "Choose background correction method:"
-#define CORRECT_BACKGROUND_PARAM_START "Start"
-#define CORRECT_BACKGROUND_PARAM_STOP  "Stop"
+#define CORRECT_BACKGROUND_HINT         "Choose background correction method:"
+#define CORRECT_BACKGROUND_PARAM_START  "Start"
+#define CORRECT_BACKGROUND_PARAM_STOP   "Stop"
+#define CORRECT_BACKGROUND_PARAM_VALUE  "Value"
 
-#define CORRECT_BACKGROUND_METHODS        "Reference|Median"
-#define CORRECT_BACKGROUND_MEDIAN_HINT    "Set median calculation boundaries:"
+#define CORRECT_BACKGROUND_METHODS          "Reference|Median|Constant"
+#define CORRECT_BACKGROUND_MEDIAN_HINT      "Set median calculation boundaries:"
+#define CORRECT_BACKGROUND_CONSTANT_HINT    "Set the constant background value:"
 
 #define CORRECT_SETUP_DEFAULTING "No label data found for '%s'. Defaulting to (0,1)...\n"
 
