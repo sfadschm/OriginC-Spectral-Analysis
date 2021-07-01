@@ -38,6 +38,7 @@ D Aktuell verfügbare Funktionen
            "3D-Maps":        z. B. NTMDT-Auswertungen oder LabSpec-Maps (XY-I), die Dateinamen werden zu den Blattnamen
            "4D-Maps":        z. B. NT-MDT-Rohdaten (XY-l-I), die Dateinamen werden zu den Blattnamen
                              NT-MDT-Rohdaten müssen in "Image Analysis" als Matlab-Datei ("*.m"!!!) exportiert werden.
+           "Tracks"          XML-Dateien mit Tracking-Informationen aus Analysen mit dem ImageJ TrackMate
            Die Meta-Daten aus Maps (z. B. Zeit-Achse und XY-Koordinaten werden automatisch als User-Parameter angelegt).
   2.  "correct" <- manipuliert die Daten in der aktuellen Arbeitsmappe/Arbeitsblatt
         a  Parameter (je nach Methode)
