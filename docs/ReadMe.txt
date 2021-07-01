@@ -82,3 +82,6 @@ D Aktuell verfügbare Funktionen
   7.  "setLowerBound XXX" <- ersetzt alle Werte im aktiven Datenblatt, die kleiner als "XXX" sind, durch "0"
         a  Parameter
            "XXX":  Die Untergrenze für zu ersetzende Werte ("0", wenn nicht angegeben)
+  8.  "reduce" <- Reduziert die CPU-Auslastung, indem alle Sparklines gelöscht (!) und alle Fenster versteckt werden.
+        a  Parameter
+           keine
