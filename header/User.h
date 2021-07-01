@@ -307,9 +307,9 @@ vector<string> USER_linescan(vector<string> coordStrV)
 	for(int i = 0; i < coordStrV.GetSize(); i++)
 	{
 		// only symmetric widths
-		if(i % 2 == 0)
+		if((i-1) % 2 == 0)
 		{
-			widthsV.Add(ftoa(i + 1));
+			widthsV.Add(ftoa(i));
 		}
 	}
 	string widths = str_combine(widthsV, "|");
@@ -328,7 +328,7 @@ vector<string> USER_linescan(vector<string> coordStrV)
 	}
 	else
 	{
-		// only symmetric widths
+		params.Add("-1");
 		params.Add("-1");
 	}
 
