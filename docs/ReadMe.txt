@@ -1,5 +1,5 @@
 A Funktion und Hinweise
-  Stand: 27.02.2020
+  Stand: 03.03.2020
   Dies ist eine kleine OriginC-Bibliothek mit Skripten für Import und Verarbeitung spektroskopischer Messdaten.
   Zudem sind ein paar der simpelsten Analyse- und Auswertungsfunktionen implementiert.
   Für Funktion und Richtigkeit wird keine Gewähr übernommen, von daher bitte immer alle Ergebnisse kurz gegenchecken :)
@@ -45,8 +45,9 @@ D Aktuell verfügbare Funktionen
            "Worksheet":    Auswahlfeld der Referenzquelle (Arbeitsblatt, nicht bei jeder Methode)
            "Parameter":    Auswahlfeld des verbindenden Nutzerparameters (muss in Quelle und Referenz vorhanden sein, nicht bei jeder Methode)
         b  Methoden (Auswahl mittels Checkboxen in Dialog)
-           "Background Subtraction":  Subtrahiert die zugehörigen Hintergrundsprekten von den Daten (Parameter: "Worksheet", "Parameter").
-                                      (Die Label-Daten in beiden Arbeitsblättern müssen exakt übereinstimmen!)
+           "Background Subtraction":  a)  "Reference" Mode: Subtrahiert die zugehörigen Hintergrundsprekten von den Daten (Parameter: "Worksheet", "Parameter").
+                                          Subtraktion von ReferenzdatenDie Label-Daten in beiden Arbeitsblättern müssen exakt übereinstimmen!)
+                                      b)  "Average" Mode: Subtrahiert den Mittelwert eines Teilspektrums von den Daten (Parameter: "Start", "Stop").
            "Spike Removal":           Entfernt automatisiert kosmische Spikes aus allen Spektren (Parameter: "Z-Threshold", "Averaging Width").
                                       (Basiert auf dem Whitaker-Hayer-Algorithmus, 10.1016/j.chemolab.2018.06.009. Vorsicht mit dem Threshold!)
            "Setup Correction":        Korrigiert die Daten mit der Kalibrationskurve des Messplatzes mittels Division (Parameter: "Worksheet").
