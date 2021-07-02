@@ -352,7 +352,7 @@ vector<string> USER_correctData(WorksheetPage wb)
 
 	// setup N_BOX
 	GETN_BOX(tr);
-	GETN_STRLIST(wksName,       CORRECT_DATAWKS_LABEL, wb.Layers(0).GetName(), wksNames);
+	GETN_STRLIST(wksName,       CORRECT_DATAWKS_LABEL, Project.ActiveLayer().GetName(), wksNames);
 	GETN_CHECK(  Clean,         CORRECT_CLEAN,         false);
 	GETN_CHECK(  Background,    CORRECT_BACKGROUND,    false);
 	GETN_CHECK(  Spikes,        CORRECT_SPIKES,        false);
