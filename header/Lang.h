@@ -162,14 +162,13 @@
 #define ANALYSE_LINESCAN_NAME  "Linescans"
 
 // convert
-#define CONVERT_START "\nProcessing data ..."
-#define CONVERT_STOP  "\nConversion completed.\n"
+#define MAP_START "\nProcessing data ..."
+#define MAP_STOP  "\nProcess completed.\n"
 
-#define CONVERT_TITLE   "Data Conversion"
-#define CONVERT_DESC    "Choose Processing Method"
-#define CONVERT_METHOD  "Method"
-#define CONVERT_METHODS "XYZ-Data to Matrix"
-#define CONVERT_SELCOL  "Please select a single range of data in the active worksheet first!"
+#define MAP_TITLE       "Map Data Handling"
+#define MAP_DESC        "Choose Processing Method"
+#define MAP_METHOD      "Method"
+#define MAP_METHODS     "XYZ-Data to Matrix|4D-Linescan"
 
 // convert XYZ to matrix
 #define XYZ_MATRIX_TITLE   "Setup Map Dimensions"

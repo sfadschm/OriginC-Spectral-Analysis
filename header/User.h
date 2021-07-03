@@ -591,19 +591,19 @@ vector<string> USER_correctDataSource(WorksheetPage wb, Worksheet dataWks, int m
 }
 
 /**
- * Open a multiple input box to setup data conversion.
+ * Open a multiple input box to setup map data handling.
  *
  * @return vector<string> params the user input parameters
  */
-vector<string> USER_convert()
+vector<string> USER_map()
 {
 	// setup N_BOX
 	GETN_BOX(tr);
-	GETN_LIST(Method, CONVERT_METHOD, 0, CONVERT_METHODS);
+	GETN_LIST(Method, MAP_METHOD, 0, MAP_METHODS);
 
 	// store results
 	vector<string> params;
-	if(GetNBox(tr, CONVERT_TITLE, CONVERT_DESC))
+	if(GetNBox(tr, MAP_TITLE, MAP_DESC))
 	{
 		params.Add(tr.Method.strVal);
 	}

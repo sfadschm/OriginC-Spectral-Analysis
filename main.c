@@ -7,12 +7,12 @@
  * file that was distributed with this source code.
  */
 #include <Origin.h>
-#include "header\Lang.h"
-#include "header\User.h"
-#include "header\Import.h"
 #include "header\Analyse.h"
-#include "header\Convert.h"
 #include "header\Correct.h"
+#include "header\Import.h"
+#include "header\Lang.h"
+#include "header\Map.h"
+#include "header\User.h"
 
 /**
  * This is the package's main file.
@@ -244,12 +244,12 @@ void analyse()
 }
 
 /**
- * Convert data to or from maps (3D/4D).
+ * Handle, convert or extract data from maps.
  */
 void map(){
 	// get parameters from user
 	vector<string> params;
-	params = USER_convert();
+	params = USER_map();
 
 	// abort if user dialog cancelled
 	if(params[0] == "-1")
@@ -259,7 +259,7 @@ void map(){
 	}
 
 	// user information
-	printf(CONVERT_START);
+	printf(MAP_START);
 
 	// map user parameters
 	int methodInt = atoi(params[0]);
@@ -278,23 +278,18 @@ void map(){
 	switch(methodInt)
 	{
 		case 0: // convert XYZ data to matrix
-			// get conversion parameters
-			vector<string> mapParams;
-			mapParams = USER_xyzMatrix();
-
-			// abort if parameter dialogue cancelled
-			if(mapParams[0] == "-1"){
-				printf(PARAMS_EMPTY);
-				return;
-			}
-
 			// run conversion
-			CONVERT_XYZtoMatrix(activeWks, mapParams);
+			MAP_XYZtoMatrix(activeWks);
 			break;
+			
+		case 1: // 4D linescan
+			MAP_4D_Linescan(activeWks);
+			break;
+
 	}
 
 	// user information
-	printf(CONVERT_STOP);
+	printf(MAP_STOP);
 }
 
 /**
