@@ -7,6 +7,7 @@
 - Create Changelog :smile:
 - The global method `convert` is now named `map`.
 - The `MAP_4D_Linescan` functionality was moved from `analyse` to `map`.
+- Dropped support for running `analyse` on whole workbooks as this is hard to handle and barely used.
 
 **Fixed bugs:**
 
