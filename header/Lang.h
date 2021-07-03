@@ -141,8 +141,6 @@
 #define ANALYSE_WKS     "Worksheet"
 #define ANALYSE_TARGET  "Source Type"
 #define ANALYSE_TARGETS "Workbook|Worksheet"
-#define ANALYSE_METHOD  "Method"
-#define ANALYSE_METHODS "Spectra|4D-Linescan"
 
 #define ANALYSE_GENERIC_INDEX "Index"
 
@@ -169,7 +167,7 @@
 
 #define CONVERT_TITLE   "Data Conversion"
 #define CONVERT_DESC    "Choose Processing Method"
-#define CONVERT_METHOD  ANALYSE_METHOD
+#define CONVERT_METHOD  "Method"
 #define CONVERT_METHODS "XYZ-Data to Matrix"
 #define CONVERT_SELCOL  "Please select a single range of data in the active worksheet first!"
 

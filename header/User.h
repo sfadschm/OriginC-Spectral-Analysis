@@ -155,14 +155,12 @@ vector<string> USER_analyse()
 {
 	// setup N_BOX
 	GETN_BOX(tr);
-	GETN_LIST(Method, ANALYSE_METHOD, 0, ANALYSE_METHODS);
 	GETN_LIST(Target, ANALYSE_TARGET, 1, ANALYSE_TARGETS);
 
 	// store results
 	vector<string> params;
 	if(GetNBox(tr, ANALYSE_TITLE, ANALYSE_DESC))
 	{
-		params.Add(tr.Method.strVal);
 		params.Add(tr.Target.strVal);
 	}
 	else

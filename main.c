@@ -215,8 +215,7 @@ void analyse()
 	printf(ANALYSE_START);
 
 	// map source parameters
-	int methodInt     = atoi(params[0]);
-	int sourceTypeInt = atoi(params[1]);
+	int sourceTypeInt = atoi(params[0]);
 
 	// get targets
 	Worksheet     activeWks;
@@ -236,17 +235,8 @@ void analyse()
 			continue;
 		}
 
-		// call analysis method
-		switch(methodInt)
-		{
-			case 0: // spectral analysis
-				ANALYSE_spectra(wks);
-				break;
-
-			case 1: // 4D linescan
-				MAP_4D_Linescan(wks);
-				break;
-		}
+		// spectral analysis
+		ANALYSE_spectra(wks);
 	}
 
 	// user information
@@ -256,7 +246,7 @@ void analyse()
 /**
  * Convert data to or from maps (3D/4D).
  */
-void convert(){
+void map(){
 	// get parameters from user
 	vector<string> params;
 	params = USER_convert();
