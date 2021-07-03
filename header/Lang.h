@@ -139,17 +139,14 @@
 #define ANALYSE_TITLE   "Data Analysis"
 #define ANALYSE_DESC    "Setup Data Analysis of Active Window"
 #define ANALYSE_WKS     "Worksheet"
-#define ANALYSE_TARGET  "Source Type"
-#define ANALYSE_TARGETS "Workbook|Worksheet"
-
 #define ANALYSE_GENERIC_INDEX "Index"
 
 // spectral analysis
-#define ANALYSE_SPECTRA_TITLE           "Evaluation"
+#define ANALYSE_SPECTRA_TARGET          "Evaluation"
+#define ANALYSE_SPECTRA_TITLE           ANALYSE_SPECTRA_TARGET
 #define ANALYSE_SPECTRA_DESC            "Define Calculation Parameters"
 #define ANALYSE_SPECTRA_METHODS         "Peak Position|Mass Centre|Peak Intensity|Peak Area|Peak FWHM"
 #define ANALYSE_SPECTRA_LABEL_TARGET    "Dataset Name"
-#define ANALYSE_SPECTRA_TARGET          "Evaluation"
 #define ANALYSE_SPECTRA_LABEL_METHOD    "Method"
 #define ANALYSE_SPECTRA_LABEL_XSTART    "X Start Value"
 #define ANALYSE_SPECTRA_LABEL_XSTOP     "X Stop Value"

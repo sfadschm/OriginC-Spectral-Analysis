@@ -200,28 +200,14 @@ void correct()
  */
 void analyse()
 {
-	// get parameters from user
-	vector<string> params;
-	params = USER_analyse();
-
-	// abort if user dialog cancelled
-	if(params[0] == "-1")
-	{
-		printf(PARAMS_EMPTY);
-		return;
-	}
-
 	// user information
 	printf(ANALYSE_START);
-
-	// map source parameters
-	int sourceTypeInt = atoi(params[0]);
 
 	// get targets
 	Worksheet     activeWks;
 	WorksheetPage activeWb;
 	vector<int>   sourceWksInts;
-	sourceWksInts = ORIGIN_getActiveWorksheets(sourceTypeInt, activeWb, activeWks);
+	sourceWksInts = ORIGIN_getActiveWorksheets(1, activeWb, activeWks);
 
 	// loop through source layers
 	Worksheet wks;
@@ -230,7 +216,7 @@ void analyse()
 		wks = activeWb.Layers(sourceWksInts[i]);
 
 		// skip existing result sheets
-		if(wks.GetName() == ANALYSE_TARGET)
+		if(wks.GetName() == ANALYSE_SPECTRA_TARGET)
 		{
 			continue;
 		}

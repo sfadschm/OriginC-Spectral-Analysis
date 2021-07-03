@@ -147,32 +147,6 @@ vector<string> USER_readLabels()
 }
 
 /**
- * Open a multiple input box to setup data analysis.
- *
- * @return vector<string> params the user input parameters
- */
-vector<string> USER_analyse()
-{
-	// setup N_BOX
-	GETN_BOX(tr);
-	GETN_LIST(Target, ANALYSE_TARGET, 1, ANALYSE_TARGETS);
-
-	// store results
-	vector<string> params;
-	if(GetNBox(tr, ANALYSE_TITLE, ANALYSE_DESC))
-	{
-		params.Add(tr.Target.strVal);
-	}
-	else
-	{
-		// user input failed or cancelled
-		params.Add("-1");
-	}
-
-	return params;
-}
-
-/**
  * Open a multiple input box to setup spectra analysis.
  *
  * @param Worksheet wks the worksheet to read the user labels from
