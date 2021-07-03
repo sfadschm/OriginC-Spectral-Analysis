@@ -10,11 +10,11 @@
 
 **Fixed bugs:**
 
-- MAP_4D_Linescan sets wrong scanning axis name in result sheet.
+- `MAP_4D_Linescan` sets wrong scanning axis name in result sheet.
 
 **Implemented enhancements:**
 
-- MAP_4D_Linescan can now take a parameter `precision` to account for slightly varying coordinates over the map.
+- `MAP_4D_Linescan` can now take a parameter `precision` to account for slightly varying coordinates over the map.
 
 **Other Changes:**
 
