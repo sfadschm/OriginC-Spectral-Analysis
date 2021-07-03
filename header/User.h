@@ -241,7 +241,8 @@ vector<string> USER_map4dLinescan(Worksheet wks)
 	GETN_LIST(ScanAxis, "Axis", 1, "X|Y");
 	GETN_LIST(XParam,   "X",    0, labelNames);
 	GETN_LIST(YParam,   "Y",    1, labelNames);
-
+	GETN_NUM(Precision, "Precision", 1);
+	
 	// store results
 	vector<string> params;
 	if(GetNBox(tr, ANALYSE_LINESCAN_TITLE, ANALYSE_LINESCAN_DESC))
@@ -249,6 +250,7 @@ vector<string> USER_map4dLinescan(Worksheet wks)
 		params.Add(tr.ScanAxis.strVal);
 		params.Add(tr.XParam.strVal);
 		params.Add(tr.YParam.strVal);
+		params.Add(tr.Precision.strVal);
 	}
 	else
 	{
@@ -261,6 +263,30 @@ vector<string> USER_map4dLinescan(Worksheet wks)
 	gg.GetLabelsByType(xStrV, RCLT_UDL + (tr.XParam.nVal));
 	gg.GetLabelsByType(yStrV, RCLT_UDL + (tr.YParam.nVal));
 
+	// convert data to numbers
+	vector<double> xNumV, yNumV;
+	convert_str_vector_to_num_vector(xStrV, xNumV);
+	convert_str_vector_to_num_vector(yStrV, yNumV);
+	
+	// round values to precision
+	xNumV = round(xNumV, atof(tr.Precision.strVal));
+	yNumV = round(yNumV, atof(tr.Precision.strVal));
+	
+	// sort values
+	xNumV.Sort();
+	yNumV.Sort();
+
+	// recreate string vectors
+	vector<string> xStrFmt(xNumV.GetSize()), yStrFmt(yNumV.GetSize());
+	for(int ii = 0; ii < xNumV.GetSize(); ii++){
+		xStrFmt[ii] = "." + tr.Precision.strVal;
+	}
+	for(ii = 0; ii < yNumV.GetSize(); ii++){
+		yStrFmt[ii] = "*." + tr.Precision.strVal;
+	}
+	convert_double_vector_to_string_vector(xNumV, xStrV, xNumV.GetSize(), xStrFmt);
+	convert_double_vector_to_string_vector(yNumV, yStrV, yNumV.GetSize(), yStrFmt);
+	
 	// remove duplicates
 	vector<string> xStrVUnique, yStrVUnique;
 	xStrVUnique = MISC_arrayUnique(xStrV);
@@ -282,9 +308,13 @@ vector<string> USER_map4dLinescan(Worksheet wks)
 	vector<string> lineParams;
 	lineParams = USER_linescan(coordStrV);
 
-	// add coordinate and width
-	params.Add(lineParams[0]);
-	params.Add(lineParams[1]);
+	// add coordinate
+	if(lineParams[0] == "-1"){
+		params[0] = "-1";
+	} else {
+		params.Add(lineParams[0]);
+		//params.Add(lineParams[1]);
+	}
 
 	return params;
 }
@@ -317,18 +347,17 @@ vector<string> USER_linescan(vector<string> coordStrV)
 	// setup N_BOX
 	GETN_BOX(tr);
 	GETN_LIST(Coord, ANALYSE_LINESCAN_COORD, 0, coordStr);
-	GETN_LIST(Width, ANALYSE_LINESCAN_WIDTH, 0, widths);
+	//GETN_LIST(Width, ANALYSE_LINESCAN_WIDTH, 0, widths);
 
 	// store results
 	vector<string> params;
 	if(GetNBox(tr, ANALYSE_LINESCAN_TITLE, ANALYSE_LINESCAN_DESC))
 	{
 		params.Add(coordStrV[tr.Coord.nVal]);
-		params.Add(widthsV[tr.Width.nVal]);
+		//params.Add(widthsV[tr.Width.nVal]);
 	}
 	else
 	{
-		params.Add("-1");
 		params.Add("-1");
 	}
 

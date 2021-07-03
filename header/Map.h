@@ -36,8 +36,9 @@ void MAP_4D_Linescan(Worksheet wks)
 	int    scanAxisInt = atof(params[0]); // scan axis (X, Y)
 	int    xParamInt   = atof(params[1]); // user parameter index X
 	int    yParamInt   = atof(params[2]); // user parameter index Y
-	string scanCoord   = params[3];       // scan center position string
-	int    scanWidth   = atof(params[4]); // scan width in lines/rows
+	int    precision   = atof(params[3]); // the corrdinate precision
+	string scanCoord   = params[4];       // scan center position string
+	//int    scanWidth   = atof(params[5]); // scan width in lines/rows
 
 	// resolve worksheet label names
 	Grid gg;
@@ -62,13 +63,13 @@ void MAP_4D_Linescan(Worksheet wks)
 	{
 		scanAxisData  = yStrV;
 		labelAxisData = xStrV;
-		scanAxisLabel = labelNamesV[1];
+		scanAxisLabel = labelNamesV[0];
 	}
 	else
 	{
 		scanAxisData  = xStrV;
 		labelAxisData = yStrV;
-		scanAxisLabel = labelNamesV[0];
+		scanAxisLabel = labelNamesV[1];
 	}
 
 	// create new result worksheetpage if neccessary
@@ -76,7 +77,7 @@ void MAP_4D_Linescan(Worksheet wks)
 
 	// create target woksheet
 	vector<string> axes       = {"X", "Y"};
-	string         tgtWksName = wks.GetName() + "_" + axes[scanAxisInt] + scanCoord + "_" + ftoa(scanWidth);
+	string         tgtWksName = wks.GetName() + "_" + axes[scanAxisInt] + scanCoord;
 	Worksheet      tgtWks     = ORIGIN_createWks(tgtWb, tgtWksName, true);
 
 	// add user parameter
@@ -87,7 +88,7 @@ void MAP_4D_Linescan(Worksheet wks)
 	Column     tgtLCol    = tgtWks.Columns(tgtLColInt);
 
 	// transfer x-data
-	vectorbase &lData     = tgtLCol.GetDataObject();
+	vectorbase &lData = tgtLCol.GetDataObject();
 	lData = wks.Columns(0).GetDataObject();
 
 	// set column labels
@@ -99,7 +100,7 @@ void MAP_4D_Linescan(Worksheet wks)
 	int    tgtIColInt;
 	Column tgtICol;
 	for(int i = 1; i < wks.GetNumCols(); i++){
-		if(scanAxisData[i] == scanCoord){ // part of the linescan
+		if(round(atof(scanAxisData[i]), precision) == round(atof(scanCoord), precision)){ // part of the linescan
 			// create column
 			tgtIColInt = tgtWks.AddCol();
 			tgtICol    = tgtWks.Columns(tgtIColInt);
