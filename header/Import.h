@@ -318,6 +318,9 @@ WorksheetPage IMPORT_4dMaps(vector<string> params, vector<string> strFiles){
 		xCalib = xCalib - xCalib[0];
 		yCalib = yCalib - yCalib[0];
 
+		// resize worksheet to fit data
+		wks.SetSize(-1, (xCalib.GetSize() * yCalib.GetSize()) + 2);
+		
 		// add user parameter rows
 		WOKRSHEET_addUserParameter(wks, "X (" + XYZ_MATRIX_STEPU_PRE + ")", 0);
 		WOKRSHEET_addUserParameter(wks, "Y (" + XYZ_MATRIX_STEPU_PRE + ")", 1);
