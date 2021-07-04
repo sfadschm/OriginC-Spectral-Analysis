@@ -281,7 +281,6 @@ void map(){
 		case 1: // 4D linescan
 			MAP_4D_Linescan(activeWks);
 			break;
-
 	}
 
 	// user information
