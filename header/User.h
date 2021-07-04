@@ -169,13 +169,17 @@ vector<string> USER_analyzeSpectra(Worksheet wks)
 	GETN_BOX(tr);
 	GETN_STR( DataName, ANALYZE_SPECTRA_LABEL_TARGET,    ANALYZE_SPECTRA_TARGET);
 	GETN_LIST(Method,   ANALYZE_SPECTRA_LABEL_METHOD,    0, ANALYZE_SPECTRA_METHODS);
+	
 	GETN_SEPARATOR_LINE;
-	GETN_STR(STR, ANALYZE_ABSCISSA_HINT, "") GETN_HINT;
-	GETN_LIST(Param,    LABEL_USERPARAMETER, 0, labelList);
+	GETN_STR(  STR,       ANALYZE_ABSCISSA_HINT,            "") GETN_HINT;
+	GETN_CHECK(SkipParam, ANALYZE_SPECTRA_LABEL_SKIP,       false);
+	GETN_LIST( XParam,    ANALYZE_SPECTRA_LABEL_ABSCISSA_X, 0, labelList);
+	GETN_LIST( YParam,    ANALYZE_SPECTRA_LABEL_ABSCISSA_Y, 0, "none|" + labelList);
+	
 	GETN_SEPARATOR_LINE;
 	GETN_STR(STR, ANALYZE_RANGE_HINT, "") GETN_HINT;
-	GETN_NUM( StartX,   ANALYZE_SPECTRA_LABEL_XSTART,    0);
-	GETN_NUM( StopX,    ANALYZE_SPECTRA_LABEL_XSTOP,     0);
+	GETN_NUM(StartX,   ANALYZE_SPECTRA_LABEL_XSTART,    0);
+	GETN_NUM(StopX,    ANALYZE_SPECTRA_LABEL_XSTOP,     0);
 
 	// store results
 	vector<string> params;
@@ -185,7 +189,9 @@ vector<string> USER_analyzeSpectra(Worksheet wks)
 		params.Add(tr.DataName.strVal);
 		params.Add(tr.StartX.strVal);
 		params.Add(tr.StopX.strVal);
-		params.Add(tr.Param.strVal);
+		params.Add(tr.SkipParam.strVal);		
+		params.Add(tr.XParam.strVal);
+		params.Add(tr.YParam.strVal);
 	}
 	else
 	{

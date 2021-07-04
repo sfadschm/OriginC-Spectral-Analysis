@@ -2,6 +2,10 @@
 
 ## 2021-07-04
 
+**Implemented Enhancements:**
+- Added parameters `Skip Abscissae` and "Y Abscissa" to `analyze`.
+- Extract units from user label name in `analyze`.
+
 **Deprecations:**
 - Deprecated function `analyse`, use function `analyze` instead.
 

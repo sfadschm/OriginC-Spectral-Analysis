@@ -42,7 +42,9 @@ void ANALYZE_spectra(Worksheet wks)
 	string strDataname = params[1];
 	double startX      = atof(params[2]);
 	double stopX       = atof(params[3]);
-	int paramInt       = atoi(params[4]);
+	int skipParams     = atoi(params[4]);
+	int xParamInt      = atoi(params[5]);
+	int yParamInt      = atoi(params[6]);
 
 	// create new result worksheet if necessary
 	WorksheetPage wb  = wks.GetPage();
@@ -114,32 +116,95 @@ void ANALYZE_spectra(Worksheet wks)
 	// activate source worksheet
 	set_active_layer(wks);
 
-	// prepare grid for extracting x-data
+	// do we want to add abscissa data?
+	if(skipParams == 0){
+		// create x-data
+		ANALYZE_createAbscissa(wks, evalWks, OKDATAOBJ_DESIGNATION_X, xParamInt, result.GetSize());
+
+		// create y-data if desired
+		if(yParamInt > 0){
+			ANALYZE_createAbscissa(wks, evalWks, OKDATAOBJ_DESIGNATION_Y, yParamInt - 1, result.GetSize());
+		}
+	} else {
+		// fake y-abscissa if last column is a z-column
+		string colTypes = evalWks.GetColDesignations();
+		if(colTypes.Right(1) == "Z"){
+			yParamInt = 1;
+		} else {
+			yParamInt = 0;
+		}
+	}
+	
+	// create ordinate column
+	int tgtColumnInt = evalWks.AddCol();
+	evalWks.Columns(tgtColumnInt).SetLongName(strDataname);
+	if(yParamInt > 0){
+		evalWks.Columns(tgtColumnInt).SetType(OKDATAOBJ_DESIGNATION_Z);
+	} else {
+		evalWks.Columns(tgtColumnInt).SetType(OKDATAOBJ_DESIGNATION_Y);
+	}
+
+	// assign new dataobject
+	vectorbase &tgtColumnData = evalWks.Columns(tgtColumnInt).GetDataObject();
+
+	// paste ordinates
+	tgtColumnData = result;
+
+	// recursion until user cancel
+	ANALYZE_spectra(wks);
+}
+
+/**
+ * Extract abscissa data for analysis from column index or user label and paste into result sheet.
+ *
+ * @param Worksheet wks         the worksheet to analyze
+ * @param Worksheet evalWks     the worksheet holding the results
+ * @param int       designation the intended designation of the abscissa
+ * @param int       labelInt    the index of the user label holding abscissa data
+ * @param int       dataSize    the size of the evaluation results (for indexing)
+ */
+void ANALYZE_createAbscissa(Worksheet wks, Worksheet evalWks, int designation, int labelInt, int dataSize){
+	// prepare grid for extracting abscissa data
 	Grid gg;
 	gg.Attach(wks);
-	string labelName;
+	
+	// extract label names
+	vector<string> labelNames;
+	gg.GetUserDefinedLabelNames(labelNames);
+
+	// prepare abscissa holders
+	string labelName, labelUnit = "";
 	vector<double> labelData;
 
-	// generate or extract x-data
-	if(paramInt == 0)
+	// generate abscissa from index
+	if(labelInt == 0)
 	{
 		// create numeric index 
 		labelName = ANALYZE_GENERIC_INDEX;
-		labelData.Data(1, result.GetSize(), 1);
-	}
-	else
+		labelData.Data(1, dataSize, 1);
+	} 
+	
+	// extract abscissa from labels
+	if(labelInt > 0)
 	{
 		// resolve label name
-		vector<string> labelNames;
-		gg.GetUserDefinedLabelNames(labelNames);
-		labelName = labelNames[paramInt - 1];
+		labelName = labelNames[labelInt - 1];
+		
+		// try to extract label unit
+		int unitStart = labelName.Find("(");
+		int unitEnd = labelName.Find(")");
+		if(unitStart > -1 && unitEnd >  unitStart){
+			unitStart = unitStart + 1;
+			labelUnit = labelName.Mid(unitStart, unitEnd - unitStart);
+			labelName = labelName.Left(unitStart - 1);
+		}
 
 		// get label data
 		vector<string> labelDataStr;
-		gg.GetLabelsByType(labelDataStr, RCLT_UDL + (paramInt-1));
+		gg.GetLabelsByType(labelDataStr, RCLT_UDL + (labelInt - 1));
 
 		// remove x-axes
-		for(int colInt = wks.Columns().GetSize()-1; colInt >= 0; colInt--)
+		for(int colInt = wks.Columns().GetSize() - 1; colInt >= 0; colInt--)
 		{
 			// skip y-data
 			if(wks.Columns(colInt).GetType() == OKDATAOBJ_DESIGNATION_Y)
@@ -154,33 +219,17 @@ void ANALYZE_spectra(Worksheet wks)
 		convert_str_vector_to_num_vector(labelDataStr, labelData);
 	}
 
-	// paste x-labels into worksheet
-	int tgtXColumnInt = evalWks.AddCol();
-	evalWks.Columns(tgtXColumnInt).SetLongName(labelName);
-	evalWks.Columns(tgtXColumnInt).SetType(OKDATAOBJ_DESIGNATION_X);
-
-	// assign new x-dataobject
-	vectorbase &tgtXColumnData = evalWks.Columns(tgtXColumnInt).GetDataObject();
-
-	// paste x-data
-	tgtXColumnData = labelData;
-
-	// paste y-labels into worksheet
+	// paste abscicca
 	int tgtColumnInt = evalWks.AddCol();
-	evalWks.Columns(tgtColumnInt).SetLongName(strDataname);
-
-	// assign new y-dataobject
+	evalWks.Columns(tgtColumnInt).SetLongName(labelName);
+	evalWks.Columns(tgtColumnInt).SetUnits(labelUnit);
+	evalWks.Columns(tgtColumnInt).SetType(designation);
 	vectorbase &tgtColumnData = evalWks.Columns(tgtColumnInt).GetDataObject();
-
-	// paste y-data
-	tgtColumnData = result;
-
-	// recursion until user cancel
-	ANALYZE_spectra(wks);
+	tgtColumnData = labelData;
 }
 
 /**
- * Collect and resort specific data columns from multiple peak analysis result sheets.
+ * Collect and re-sort specific data columns from multiple peak analysis result sheets.
  *
  * @param WorksheetPage  wb         the active workbook page
  * @param vector<string> srcNames   the names of the data source sheets

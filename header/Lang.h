@@ -142,16 +142,19 @@
 #define ANALYZE_GENERIC_INDEX "Index"
 
 // spectral analysis
-#define ANALYZE_SPECTRA_TARGET          "Evaluation"
-#define ANALYZE_SPECTRA_TITLE           ANALYZE_SPECTRA_TARGET
-#define ANALYZE_SPECTRA_DESC            "Define Calculation Parameters"
-#define ANALYZE_SPECTRA_METHODS         "Peak Position|Mass Centre|Peak Intensity|Peak Area|Peak FWHM"
-#define ANALYZE_SPECTRA_LABEL_TARGET    "Dataset Name"
-#define ANALYZE_SPECTRA_LABEL_METHOD    "Method"
-#define ANALYZE_SPECTRA_LABEL_XSTART    "X Start Value"
-#define ANALYZE_SPECTRA_LABEL_XSTOP     "X Stop Value"
-#define ANALYZE_ABSCISSA_HINT           "Define Abscissa"
-#define ANALYZE_RANGE_HINT              "Define Source Range"
+#define ANALYZE_SPECTRA_TARGET           "Evaluation"
+#define ANALYZE_SPECTRA_TITLE            ANALYZE_SPECTRA_TARGET
+#define ANALYZE_SPECTRA_DESC             "Define Calculation Parameters"
+#define ANALYZE_SPECTRA_METHODS          "Peak Position|Mass Centre|Peak Intensity|Peak Area|Peak FWHM"
+#define ANALYZE_SPECTRA_LABEL_TARGET     "Dataset Name"
+#define ANALYZE_SPECTRA_LABEL_METHOD     "Method"
+#define ANALYZE_SPECTRA_LABEL_SKIP       "Skip Abscissa?"
+#define ANALYZE_SPECTRA_LABEL_ABSCISSA_X "X-Abscissa"
+#define ANALYZE_SPECTRA_LABEL_ABSCISSA_Y "Y-Abscissa"
+#define ANALYZE_SPECTRA_LABEL_XSTART     "X Start Value"
+#define ANALYZE_SPECTRA_LABEL_XSTOP      "X Stop Value"
+#define ANALYZE_ABSCISSA_HINT            "Define Abscissa"
+#define ANALYZE_RANGE_HINT               "Define Source Range"
 
 // map
 #define MAP_START "\nProcessing data ..."
