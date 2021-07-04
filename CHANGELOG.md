@@ -1,5 +1,13 @@
 # Changelog
 
+## 2021-07-04
+
+**Deprecations:**
+- Deprecated function `analyse`, use function `analyze` instead.
+
+**Internal Changes**
+- Replace `ANALYSE` by `ANALYZE` to unify spelling in American English.
+
 ## 2021-07-03
 
 **Important Changes:**

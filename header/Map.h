@@ -73,7 +73,7 @@ void MAP_4D_Linescan(Worksheet wks)
 	}
 
 	// create new result worksheetpage if neccessary
-	WorksheetPage tgtWb = ORIGIN_createWb(ANALYSE_LINESCAN_NAME);
+	WorksheetPage tgtWb = ORIGIN_createWb(ANALYZE_LINESCAN_NAME);
 
 	// create target woksheet
 	vector<string> axes       = {"X", "Y"};

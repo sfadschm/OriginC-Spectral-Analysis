@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 #include <Origin.h>
-#include "header\Analyse.h"
+#include "header\Analyze.h"
 #include "header\Correct.h"
 #include "header\Import.h"
 #include "header\Lang.h"
@@ -198,10 +198,10 @@ void correct()
 /**
  * Run basic data analysis on a workbook or worksheet.
  */
-void analyse()
+void analyze()
 {
 	// user information
-	printf(ANALYSE_START);
+	printf(ANALYZE_START);
 
 	// get targets
 	Worksheet     activeWks;
@@ -216,17 +216,27 @@ void analyse()
 		wks = activeWb.Layers(sourceWksInts[i]);
 
 		// skip existing result sheets
-		if(wks.GetName() == ANALYSE_SPECTRA_TARGET)
+		if(wks.GetName() == ANALYZE_SPECTRA_TARGET)
 		{
 			continue;
 		}
 
 		// spectral analysis
-		ANALYSE_spectra(wks);
+		ANALYZE_spectra(wks);
 	}
 
 	// user information
-	printf(ANALYSE_STOP);
+	printf(ANALYZE_STOP);
+}
+
+/**
+ * Alias for 'analyze'
+ *
+ * @deprecated use analyze
+ */
+void analyse()
+{
+	analyze();
 }
 
 /**
@@ -256,7 +266,7 @@ void map(){
 	// abort if not a worksheet
 	if(!activeWks)
 	{
-		printf(ANALYSE_NO_WKS);
+		printf(ANALYZE_NO_WKS);
 		return;
 	}
 
@@ -351,7 +361,7 @@ void peaks(){
 	string columnName = params[1];
 
 	// evaluate peaks
-	ANALYSE_collectPeaks(activeWb, sheetNames, columnName, identifier);
+	ANALYZE_collectPeaks(activeWb, sheetNames, columnName, identifier);
 
 	// user information
 	printf(PEAKS_STOP);

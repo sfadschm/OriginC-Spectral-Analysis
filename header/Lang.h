@@ -131,34 +131,34 @@
 #define CORRECT_SETUP_DEFAULTING "No label data found for '%s'. Defaulting to (0,1)...\n"
 
 // analyse
-#define ANALYSE_START     "\nAnalysing data ..."
-#define ANALYSE_STOP      "\nAnalysis complete.\n"
-#define ANALYSE_NO_WKS    "Active layer is not a worksheet!"
-#define ANALYSE_NO_METHOD "Method does not exist!"
+#define ANALYZE_START     "\nAnalysing data ..."
+#define ANALYZE_STOP      "\nAnalysis complete.\n"
+#define ANALYZE_NO_WKS    "Active layer is not a worksheet!"
+#define ANALYZE_NO_METHOD "Method does not exist!"
 
-#define ANALYSE_TITLE   "Data Analysis"
-#define ANALYSE_DESC    "Setup Data Analysis of Active Window"
-#define ANALYSE_WKS     "Worksheet"
-#define ANALYSE_GENERIC_INDEX "Index"
+#define ANALYZE_TITLE   "Data Analysis"
+#define ANALYZE_DESC    "Setup Data Analysis of Active Window"
+#define ANALYZE_WKS     "Worksheet"
+#define ANALYZE_GENERIC_INDEX "Index"
 
 // spectral analysis
-#define ANALYSE_SPECTRA_TARGET          "Evaluation"
-#define ANALYSE_SPECTRA_TITLE           ANALYSE_SPECTRA_TARGET
-#define ANALYSE_SPECTRA_DESC            "Define Calculation Parameters"
-#define ANALYSE_SPECTRA_METHODS         "Peak Position|Mass Centre|Peak Intensity|Peak Area|Peak FWHM"
-#define ANALYSE_SPECTRA_LABEL_TARGET    "Dataset Name"
-#define ANALYSE_SPECTRA_LABEL_METHOD    "Method"
-#define ANALYSE_SPECTRA_LABEL_XSTART    "X Start Value"
-#define ANALYSE_SPECTRA_LABEL_XSTOP     "X Stop Value"
-#define ANALYSE_ABSCISSA_HINT           "Define Abscissa"
-#define ANALYSE_RANGE_HINT              "Define Source Range"
+#define ANALYZE_SPECTRA_TARGET          "Evaluation"
+#define ANALYZE_SPECTRA_TITLE           ANALYZE_SPECTRA_TARGET
+#define ANALYZE_SPECTRA_DESC            "Define Calculation Parameters"
+#define ANALYZE_SPECTRA_METHODS         "Peak Position|Mass Centre|Peak Intensity|Peak Area|Peak FWHM"
+#define ANALYZE_SPECTRA_LABEL_TARGET    "Dataset Name"
+#define ANALYZE_SPECTRA_LABEL_METHOD    "Method"
+#define ANALYZE_SPECTRA_LABEL_XSTART    "X Start Value"
+#define ANALYZE_SPECTRA_LABEL_XSTOP     "X Stop Value"
+#define ANALYZE_ABSCISSA_HINT           "Define Abscissa"
+#define ANALYZE_RANGE_HINT              "Define Source Range"
 
 // 4D-Map analysis
-#define ANALYSE_LINESCAN_TITLE "Linescan Coordinate"
-#define ANALYSE_LINESCAN_DESC  "Set Linescan Parameters"
-#define ANALYSE_LINESCAN_COORD "Coordinate"
-#define ANALYSE_LINESCAN_WIDTH "Width"
-#define ANALYSE_LINESCAN_NAME  "Linescans"
+#define ANALYZE_LINESCAN_TITLE "Linescan Coordinate"
+#define ANALYZE_LINESCAN_DESC  "Set Linescan Parameters"
+#define ANALYZE_LINESCAN_COORD "Coordinate"
+#define ANALYZE_LINESCAN_WIDTH "Width"
+#define ANALYZE_LINESCAN_NAME  "Linescans"
 
 // convert
 #define MAP_START "\nProcessing data ..."

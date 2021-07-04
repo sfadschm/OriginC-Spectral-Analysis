@@ -6,8 +6,8 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-#ifndef _ANALYSE_ // include once
-#define _ANALYSE_
+#ifndef _ANALYZE_ // include once
+#define _ANALYZE_
 
 /**
  * This file provides methods for analysing spectral datasets.
@@ -24,7 +24,7 @@
  *
  * @param Worksheet wks the worksheet to analyse
  */
-void ANALYSE_spectra(Worksheet wks)
+void ANALYZE_spectra(Worksheet wks)
 {
 	// get analysis parameters
 	vector<string> params;
@@ -46,7 +46,7 @@ void ANALYSE_spectra(Worksheet wks)
 
 	// create new result worksheet if necessary
 	WorksheetPage wb  = wks.GetPage();
-	Worksheet evalWks = ORIGIN_createWks(wb, ANALYSE_SPECTRA_TARGET);
+	Worksheet evalWks = ORIGIN_createWks(wb, ANALYZE_SPECTRA_TARGET);
 
 	// create new temporary sheet for calculations
 	Worksheet tmpWks = ORIGIN_createWks(wb, "temp");
@@ -104,7 +104,7 @@ void ANALYSE_spectra(Worksheet wks)
 				break;
 
 			default: // user cansel
-				printf(ANALYSE_NO_METHOD);
+				printf(ANALYZE_NO_METHOD);
 		}
 	}
 
@@ -124,7 +124,7 @@ void ANALYSE_spectra(Worksheet wks)
 	if(paramInt == 0)
 	{
 		// create numeric index 
-		labelName = ANALYSE_GENERIC_INDEX;
+		labelName = ANALYZE_GENERIC_INDEX;
 		labelData.Data(1, result.GetSize(), 1);
 	}
 	else
@@ -176,7 +176,7 @@ void ANALYSE_spectra(Worksheet wks)
 	tgtColumnData = result;
 
 	// recursion until user cancel
-	ANALYSE_spectra(wks);
+	ANALYZE_spectra(wks);
 }
 
 /**
@@ -187,7 +187,7 @@ void ANALYSE_spectra(Worksheet wks)
  * @param string         columnName the name of the column to extract from the source sheets
  * @param string         identifier the base name of the result sheets to be created
  */
-void ANALYSE_collectPeaks(WorksheetPage wb, vector<string> srcNames, string columnName, string identifier)
+void ANALYZE_collectPeaks(WorksheetPage wb, vector<string> srcNames, string columnName, string identifier)
 {
 	// get workbook name
 	string wbName = wb.GetName();

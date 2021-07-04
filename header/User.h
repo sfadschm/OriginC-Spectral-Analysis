@@ -162,24 +162,24 @@ vector<string> USER_analyseSpectra(Worksheet wks)
 	gg.GetUserDefinedLabelNames(labelNames);
 
 	// implode labels for GETN
-	labelNames.InsertAt(0, ANALYSE_GENERIC_INDEX);
+	labelNames.InsertAt(0, ANALYZE_GENERIC_INDEX);
 	string labelList = str_combine(labelNames, "|");
 
 	// setup N_BOX
 	GETN_BOX(tr);
-	GETN_STR( DataName, ANALYSE_SPECTRA_LABEL_TARGET,    ANALYSE_SPECTRA_TARGET);
-	GETN_LIST(Method,   ANALYSE_SPECTRA_LABEL_METHOD,    0, ANALYSE_SPECTRA_METHODS);
+	GETN_STR( DataName, ANALYZE_SPECTRA_LABEL_TARGET,    ANALYZE_SPECTRA_TARGET);
+	GETN_LIST(Method,   ANALYZE_SPECTRA_LABEL_METHOD,    0, ANALYZE_SPECTRA_METHODS);
 	GETN_SEPARATOR_LINE;
-	GETN_STR(STR, ANALYSE_ABSCISSA_HINT, "") GETN_HINT;
+	GETN_STR(STR, ANALYZE_ABSCISSA_HINT, "") GETN_HINT;
 	GETN_LIST(Param,    LABEL_USERPARAMETER, 0, labelList);
 	GETN_SEPARATOR_LINE;
-	GETN_STR(STR, ANALYSE_RANGE_HINT, "") GETN_HINT;
-	GETN_NUM( StartX,   ANALYSE_SPECTRA_LABEL_XSTART,    0);
-	GETN_NUM( StopX,    ANALYSE_SPECTRA_LABEL_XSTOP,     0);
+	GETN_STR(STR, ANALYZE_RANGE_HINT, "") GETN_HINT;
+	GETN_NUM( StartX,   ANALYZE_SPECTRA_LABEL_XSTART,    0);
+	GETN_NUM( StopX,    ANALYZE_SPECTRA_LABEL_XSTOP,     0);
 
 	// store results
 	vector<string> params;
-	if(GetNBox(tr, ANALYSE_SPECTRA_TITLE, ANALYSE_SPECTRA_DESC + " (\"" + wks.GetName() + "\")"))
+	if(GetNBox(tr, ANALYZE_SPECTRA_TITLE, ANALYZE_SPECTRA_DESC + " (\"" + wks.GetName() + "\")"))
 	{
 		params.Add(tr.Method.strVal);
 		params.Add(tr.DataName.strVal);
@@ -221,7 +221,7 @@ vector<string> USER_map4dLinescan(Worksheet wks)
 	
 	// store results
 	vector<string> params;
-	if(GetNBox(tr, ANALYSE_LINESCAN_TITLE, ANALYSE_LINESCAN_DESC))
+	if(GetNBox(tr, ANALYZE_LINESCAN_TITLE, ANALYZE_LINESCAN_DESC))
 	{
 		params.Add(tr.ScanAxis.strVal);
 		params.Add(tr.XParam.strVal);
@@ -322,12 +322,12 @@ vector<string> USER_linescan(vector<string> coordStrV)
 
 	// setup N_BOX
 	GETN_BOX(tr);
-	GETN_LIST(Coord, ANALYSE_LINESCAN_COORD, 0, coordStr);
-	//GETN_LIST(Width, ANALYSE_LINESCAN_WIDTH, 0, widths);
+	GETN_LIST(Coord, ANALYZE_LINESCAN_COORD, 0, coordStr);
+	//GETN_LIST(Width, ANALYZE_LINESCAN_WIDTH, 0, widths);
 
 	// store results
 	vector<string> params;
-	if(GetNBox(tr, ANALYSE_LINESCAN_TITLE, ANALYSE_LINESCAN_DESC))
+	if(GetNBox(tr, ANALYZE_LINESCAN_TITLE, ANALYZE_LINESCAN_DESC))
 	{
 		params.Add(coordStrV[tr.Coord.nVal]);
 		//params.Add(widthsV[tr.Width.nVal]);
@@ -452,7 +452,7 @@ vector<string> USER_correctDataSource(WorksheetPage wb, Worksheet dataWks, int m
 				case 2: // reference mode
 					title = methods[step - 2];
 					GETN_STR(STR, CORRECT_REFERENCE_HINT, "") GETN_HINT;
-					GETN_STRLIST(wksName, ANALYSE_WKS,         "", wksNames);
+					GETN_STRLIST(wksName, ANALYZE_WKS,         "", wksNames);
 					GETN_LIST(userParam,  LABEL_USERPARAMETER, -1, labelList);
 					break;
 
@@ -481,7 +481,7 @@ vector<string> USER_correctDataSource(WorksheetPage wb, Worksheet dataWks, int m
 		case 4: // correct setup
 		case 5: // correct filters
 			GETN_STR(STR, CORRECT_REFERENCE_HINT, "") GETN_HINT;
-			GETN_STRLIST(wksName,	ANALYSE_WKS,         "", wksNames);
+			GETN_STRLIST(wksName,	ANALYZE_WKS,         "", wksNames);
 			GETN_LIST(userParam,	LABEL_USERPARAMETER, -1, labelList);
 			break;
 
