@@ -150,6 +150,8 @@
 #define ANALYSE_SPECTRA_LABEL_METHOD    "Method"
 #define ANALYSE_SPECTRA_LABEL_XSTART    "X Start Value"
 #define ANALYSE_SPECTRA_LABEL_XSTOP     "X Stop Value"
+#define ANALYSE_ABSCISSA_HINT           "Define Abscissa"
+#define ANALYSE_RANGE_HINT              "Define Source Range"
 
 // 4D-Map analysis
 #define ANALYSE_LINESCAN_TITLE "Linescan Coordinate"
