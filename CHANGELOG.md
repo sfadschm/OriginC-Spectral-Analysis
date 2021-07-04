@@ -7,6 +7,7 @@
 
 **Internal Changes**
 - Replace `ANALYSE` by `ANALYZE` to unify spelling in American English.
+- Fix license and file headers.
 
 ## 2021-07-03
 

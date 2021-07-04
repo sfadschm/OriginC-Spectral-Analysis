@@ -1,16 +1,17 @@
-/*------------------------------------------------------------------------------*
- * File Name:	MatrixPage.h													*
- * Creation: 	Alexander Schmitz												*
- * Purpose: 	Provides methods for Origin MatrixPage manipulation.			*
- * Copyright(c) 2019, Alexander Schmitz         								*
- * All Rights Reserved															*
- * 																				*
- * Last Modified::	14.11.2019													*
- * Tasks:           				    										*
- *------------------------------------------------------------------------------*/
+/**
+ * This file is part of the OriginC Spectral Analysis package.
+ *
+ * (c) Alexander Schmitz <alexander.schmitz@uni-due.de>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 #ifndef _MATRIXPAGE_ // include once
 #define _MATRIXPAGE_
 
+/**
+ * This file provides methods for Origin MatrixPage manipulation.
+ */
 #include <Origin.h>
 
 /**
