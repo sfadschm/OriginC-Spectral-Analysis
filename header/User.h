@@ -156,11 +156,9 @@ vector<string> USER_readLabels()
 vector<string> USER_analyzeSpectra(Worksheet wks)
 {
 	// read worksheet user labels
-	Grid gg;
-	gg.Attach(wks);
 	vector<string> labelNames;
-	gg.GetUserDefinedLabelNames(labelNames);
-
+	labelNames = USER_getLabelNames(wks);	
+	
 	// implode labels for GETN
 	labelNames.InsertAt(0, ANALYZE_GENERIC_INDEX);
 	string labelList = str_combine(labelNames, "|");
@@ -190,8 +188,8 @@ vector<string> USER_analyzeSpectra(Worksheet wks)
 		params.Add(tr.StartX.strVal);
 		params.Add(tr.StopX.strVal);
 		params.Add(tr.SkipParam.strVal);		
-		params.Add(tr.XParam.strVal);
-		params.Add(tr.YParam.strVal);
+		params.Add(ftoa(USER_getUserLabelIndex(wks, labelNames[tr.XParam.nVal - 0]) + 1));
+		params.Add(ftoa(USER_getUserLabelIndex(wks, labelNames[tr.YParam.nVal - 1]) + 2));
 	}
 	else
 	{
@@ -211,18 +209,16 @@ vector<string> USER_analyzeSpectra(Worksheet wks)
  */
 vector<string> USER_map4dLinescan(Worksheet wks)
 {
-	// resolve worksheet label names
-	Grid gg;
-	gg.Attach(wks);
-	vector<string> labelNamesV;
-	gg.GetUserDefinedLabelNames(labelNamesV);
-	string labelNames = str_combine(labelNamesV, "|");
+	// read worksheet user labels
+	vector<string> labelNames;
+	labelNames = USER_getLabelNames(wks);	
+	string labelList = str_combine(labelNames, "|");
 
 	// setup NBOX
 	GETN_BOX(tr);
 	GETN_LIST(ScanAxis, "Axis", 1, "X|Y");
-	GETN_LIST(XParam,   "X",    0, labelNames);
-	GETN_LIST(YParam,   "Y",    1, labelNames);
+	GETN_LIST(XParam,   "X",    0, labelList);
+	GETN_LIST(YParam,   "Y",    1, labelList);
 	GETN_NUM(Precision, "Precision", 1);
 	
 	// store results
@@ -230,20 +226,23 @@ vector<string> USER_map4dLinescan(Worksheet wks)
 	if(GetNBox(tr, MAP_LINESCAN_TITLE, MAP_LINESCAN_DESC))
 	{
 		params.Add(tr.ScanAxis.strVal);
-		params.Add(tr.XParam.strVal);
-		params.Add(tr.YParam.strVal);
+		params.Add(ftoa(USER_getUserLabelIndex(wks, labelNames[tr.XParam.nVal])));
+		params.Add(ftoa(USER_getUserLabelIndex(wks, labelNames[tr.yParam.nVal])));
 		params.Add(tr.Precision.strVal);
 	}
 	else
 	{
 		// user input failed or cancelled
 		params.Add("-1");
+		return params;
 	}
 
 	// get data from labels
+	Grid gg;
+	gg.Attach(wks);
 	vector<string> xStrV, yStrV;
-	gg.GetLabelsByType(xStrV, RCLT_UDL + (tr.XParam.nVal));
-	gg.GetLabelsByType(yStrV, RCLT_UDL + (tr.YParam.nVal));
+	gg.GetLabelsByType(xStrV, RCLT_UDL + atoi(params[1]));
+	gg.GetLabelsByType(yStrV, RCLT_UDL + atoi(params[2]));
 
 	// convert data to numbers
 	vector<double> xNumV, yNumV;
@@ -414,10 +413,8 @@ vector<string> USER_correctDataSource(WorksheetPage wb, Worksheet dataWks, int m
 	wksNames.TrimLeft("|");
 
 	// read worksheet user labels
-	Grid gg;
-	gg.Attach(dataWks);
 	vector<string> labelNames;
-	gg.GetUserDefinedLabelNames(labelNames);
+	labelNames = USER_getLabelNames(dataWks);	
 
 	// implode labels for GETN
 	labelNames.InsertAt(0, "Index");
@@ -739,6 +736,58 @@ vector<string> USER_interpolate(Worksheet wks)
 	}
 
 	return params;
+}
+
+/**
+ * Extracts all non-hidden user labels from a worksheet
+ *
+ * @param Worksheet wks the worksheet to extract labels from
+ */
+vector<string> USER_getLabelNames(Worksheet wks){	
+	// read worksheet user labels
+	Grid gg;
+	gg.Attach(wks);
+	vector<string> labelNames;
+	gg.GetUserDefinedLabelNames(labelNames);
+
+	// get visible labels
+    vector<int> vnTypes;
+    gg.GetShowLabels(vnTypes, TRUE);
+    
+    // remove hidden labels from labelNames
+    vector<string> visibleLabels;
+    for (int i = 0; i < labelNames.GetSize(); i++){
+    	// search value in visible labels
+		int nFound;
+		vector<uint> vecIndex;
+		nFound = vnTypes.Find(vecIndex, RCLT_UDL + i);
+
+		// remove label name
+		if(nFound > 0){
+			visibleLabels.Add(labelNames[i]);
+    	}
+    }
+    
+    return visibleLabels;
+}
+
+/**
+ * Extracts the index of a workshee user label from its name.
+ *
+ * @param Worksheet wks       the worksheet holding the label
+ * @param string    labelName the name of the userlabel
+ */
+int USER_getUserLabelIndex(Worksheet wks, string labelName){
+	// read worksheet user labels
+	Grid gg;
+	gg.Attach(wks);
+	vector<string> labelNames;
+	gg.GetUserDefinedLabelNames(labelNames);
+
+   	// search name in user labels
+	int labelIndex =  labelNames.Find(labelName, 0, true);
+
+	return labelIndex;
 }
 
 #endif

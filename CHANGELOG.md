@@ -2,6 +2,9 @@
 
 ## 2021-07-04
 
+**Fixed Bugs:**
+- Only show visible user labels in `analyze` and `correct`.
+
 **Implemented Enhancements:**
 - Added parameters `Skip Abscissae` and "Y Abscissa" to `analyze`.
 - Extract units from user label name in `analyze`.
