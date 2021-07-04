@@ -130,8 +130,8 @@
 
 #define CORRECT_SETUP_DEFAULTING "No label data found for '%s'. Defaulting to (0,1)...\n"
 
-// analyse
-#define ANALYZE_START     "\nAnalysing data ..."
+// analyze
+#define ANALYZE_START     "\nAnalyzing data ..."
 #define ANALYZE_STOP      "\nAnalysis complete.\n"
 #define ANALYZE_NO_WKS    "Active layer is not a worksheet!"
 #define ANALYZE_NO_METHOD "Method does not exist!"
@@ -153,14 +153,7 @@
 #define ANALYZE_ABSCISSA_HINT           "Define Abscissa"
 #define ANALYZE_RANGE_HINT              "Define Source Range"
 
-// 4D-Map analysis
-#define ANALYZE_LINESCAN_TITLE "Linescan Coordinate"
-#define ANALYZE_LINESCAN_DESC  "Set Linescan Parameters"
-#define ANALYZE_LINESCAN_COORD "Coordinate"
-#define ANALYZE_LINESCAN_WIDTH "Width"
-#define ANALYZE_LINESCAN_NAME  "Linescans"
-
-// convert
+// map
 #define MAP_START "\nProcessing data ..."
 #define MAP_STOP  "\nProcess completed.\n"
 
@@ -182,6 +175,13 @@
 #define XYZ_MATRIX_XSTEP      "X-Step"
 #define XYZ_MATRIX_YSTEP      "Y-Step"
 #define XYZ_MATRIX_SHEET_NAME "Maps"
+
+// extract 4D-Map linescan
+#define MAP_LINESCAN_TITLE "Linescan Coordinate"
+#define MAP_LINESCAN_DESC  "Set Linescan Parameters"
+#define MAP_LINESCAN_COORD "Coordinate"
+#define MAP_LINESCAN_WIDTH "Width"
+#define MAP_LINESCAN_NAME  "Linescans"
 
 // peaks
 #define PEAKS_START    "\nCollecting peak data ..."

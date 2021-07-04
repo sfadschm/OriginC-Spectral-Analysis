@@ -10,7 +10,7 @@
 #define _ANALYZE_
 
 /**
- * This file provides methods for analysing spectral datasets.
+ * This file provides methods for analyzing spectral datasets.
  */
 #include <Origin.h>
 #include "Lang.h"
@@ -22,13 +22,13 @@
 /**
  * Run spectral analysis on a worksheet layer.
  *
- * @param Worksheet wks the worksheet to analyse
+ * @param Worksheet wks the worksheet to analyze
  */
 void ANALYZE_spectra(Worksheet wks)
 {
 	// get analysis parameters
 	vector<string> params;
-	params = USER_analyseSpectra(wks);
+	params = USER_analyzeSpectra(wks);
 
 	// abort if dialogue cancelled
 	if(params[0] == "-1")

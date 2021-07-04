@@ -10,7 +10,7 @@
 #define _MAP_
 
 /**
- * This file provides helper methods for analysing map data.
+ * This file provides helper methods for analyzing map data.
  */
 #include <Origin.h>
 
@@ -73,7 +73,7 @@ void MAP_4D_Linescan(Worksheet wks)
 	}
 
 	// create new result worksheetpage if neccessary
-	WorksheetPage tgtWb = ORIGIN_createWb(ANALYZE_LINESCAN_NAME);
+	WorksheetPage tgtWb = ORIGIN_createWb(MAP_LINESCAN_NAME);
 
 	// create target woksheet
 	vector<string> axes       = {"X", "Y"};

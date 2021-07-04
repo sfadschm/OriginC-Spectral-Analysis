@@ -153,7 +153,7 @@ vector<string> USER_readLabels()
  *
  * @return vector<string> params the user input parameters
  */
-vector<string> USER_analyseSpectra(Worksheet wks)
+vector<string> USER_analyzeSpectra(Worksheet wks)
 {
 	// read worksheet user labels
 	Grid gg;
@@ -221,7 +221,7 @@ vector<string> USER_map4dLinescan(Worksheet wks)
 	
 	// store results
 	vector<string> params;
-	if(GetNBox(tr, ANALYZE_LINESCAN_TITLE, ANALYZE_LINESCAN_DESC))
+	if(GetNBox(tr, MAP_LINESCAN_TITLE, MAP_LINESCAN_DESC))
 	{
 		params.Add(tr.ScanAxis.strVal);
 		params.Add(tr.XParam.strVal);
@@ -322,12 +322,12 @@ vector<string> USER_linescan(vector<string> coordStrV)
 
 	// setup N_BOX
 	GETN_BOX(tr);
-	GETN_LIST(Coord, ANALYZE_LINESCAN_COORD, 0, coordStr);
-	//GETN_LIST(Width, ANALYZE_LINESCAN_WIDTH, 0, widths);
+	GETN_LIST(Coord, MAP_LINESCAN_COORD, 0, coordStr);
+	//GETN_LIST(Width, MAP_LINESCAN_WIDTH, 0, widths);
 
 	// store results
 	vector<string> params;
-	if(GetNBox(tr, ANALYZE_LINESCAN_TITLE, ANALYZE_LINESCAN_DESC))
+	if(GetNBox(tr, MAP_LINESCAN_TITLE, MAP_LINESCAN_DESC))
 	{
 		params.Add(coordStrV[tr.Coord.nVal]);
 		//params.Add(widthsV[tr.Width.nVal]);
