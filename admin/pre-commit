@@ -21,7 +21,7 @@ then
     echo "Linting code..."
     for FILE in $SFILES
     do
-        clang-format --verbose --style=file -i "$PROJECT/$FILE"
+        admin/tools/bin/clang-format --verbose --style=file -i "$PROJECT/$FILE"
         git add "$PROJECT/$FILE"
         FILES="$FILES $FILE"
     done
