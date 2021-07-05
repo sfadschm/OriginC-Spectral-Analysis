@@ -2,6 +2,9 @@
 
 ## 2021-07-05
 
+**Breaking Changes:**
+- All source files are now in the `src` directory.
+
 **Fixed Bugs:**
 - 3D map import did set wrong intensity axis labels.
 
