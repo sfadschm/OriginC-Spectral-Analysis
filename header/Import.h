@@ -352,12 +352,14 @@ WorksheetPage IMPORT_4dMaps(vector<string> params, vector<string> strFiles) {
                     // copy vector into column
                     if (lineInt < 5) {
                         // calibration data
-                        wks.Columns(lineInt - 3)
-                            .PutStringArray(dataStrVector, 0, true);
+                        // clang-format off
+                        wks.Columns(lineInt - 3).PutStringArray(dataStrVector, 0, true);
+                        // clang-format on
                     } else {
                         // spectra
-                        wks.Columns(lineInt - 6)
-                            .PutStringArray(dataStrVector, 2, true);
+                        // clang-format off
+                        wks.Columns(lineInt - 6).PutStringArray(dataStrVector, 2, true);
+                        // clang-format on
                     }
                     break;
             }
