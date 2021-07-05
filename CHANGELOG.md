@@ -4,10 +4,6 @@
 
 ### 2021-07-05
 
-**Breaking Changes:**
-- All source files are now in the `src` directory.
-- Changed all filenames to lowercase.
-
 **Fixed Bugs:**
 - 3D map import did set wrong intensity axis labels.
 
@@ -15,6 +11,8 @@
 - Refined and extended test data.
 
 **Internal Changes:**
+- Moved all source files into the `src` directory.
+- Changed all filenames to lowercase.
 - Introduced and applied clang-format style fixer.
 - Introduce cppcheck for static analysis. 
 
