@@ -13,12 +13,12 @@
  */
 #include <Origin.h>
 
-#include "headers\Analyze.h"
-#include "headers\Correct.h"
-#include "headers\Import.h"
-#include "headers\Lang.h"
-#include "headers\Map.h"
-#include "headers\User.h"
+#include "headers\analyze.h"
+#include "headers\correct.h"
+#include "headers\import.h"
+#include "headers\lang.h"
+#include "headers\map.h"
+#include "headers\user.h"
 
 /**
  * Import various datasets based on user input.

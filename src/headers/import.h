@@ -14,10 +14,10 @@
  */
 #include <Origin.h>
 
-#include "File.h"
-#include "Lang.h"
-#include "Misc.h"
-#include "Worksheet.h"
+#include "file.h"
+#include "lang.h"
+#include "misc.h"
+#include "worksheet.h"
 
 /**
  * Import and format a (consecutive) series of ASCII type spectra files.

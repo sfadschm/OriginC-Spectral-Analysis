@@ -14,10 +14,10 @@
  */
 #include <Origin.h>
 
-#include "Lang.h"
-#include "MatrixPage.h"
-#include "Misc.h"
-#include "Workbook.h"
+#include "lang.h"
+#include "matrixpage.h"
+#include "misc.h"
+#include "workbook.h"
 
 /**
  * Create a new workbook and rename it.

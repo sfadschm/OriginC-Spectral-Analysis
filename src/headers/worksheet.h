@@ -15,7 +15,7 @@
 #include <Origin.h>
 #include <XFBase.h>
 
-#include "User.h"
+#include "user.h"
 
 /**
  * Add and show a user defined parameter row in a worksheet.

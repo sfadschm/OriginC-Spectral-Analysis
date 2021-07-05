@@ -14,11 +14,11 @@
  */
 #include <Origin.h>
 
-#include "Curve.h"
-#include "Lang.h"
-#include "Map.h"
-#include "Origin.h"
-#include "User.h"
+#include "curve.h"
+#include "lang.h"
+#include "map.h"
+#include "origin.h"
+#include "user.h"
 
 /**
  * Run spectral analysis on a worksheet layer.

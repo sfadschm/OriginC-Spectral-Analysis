@@ -15,7 +15,7 @@
 #include <GetNBox.h>
 #include <Origin.h>
 
-#include "Lang.h"
+#include "lang.h"
 
 /**
  * Open a single file selection dialog.
