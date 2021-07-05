@@ -1,10 +1,9 @@
 @echo off
 
-cd ..
+cd ../src
 
 echo Running clang-format ...
-call clang-format --verbose --style=file -i *.c header/*.h
-echo.
+call "./../admin/tools/bin/clang-format" --verbose --style=file -i *.c header/*.h
 echo Source code formatted.
 
 echo.
