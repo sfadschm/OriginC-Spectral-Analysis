@@ -1,5 +1,13 @@
 # Changelog
 
+## 2021-07-05
+
+**Fixed Bugs:**
+- 3D map import did set wrong intensity axis labels.
+
+**Internal Changes:**
+- Introduced and applied clang-format style fixer.
+
 ## 2021-07-04
 
 **Fixed Bugs:**
@@ -12,7 +20,7 @@
 **Deprecations:**
 - Deprecated function `analyse`, use function `analyze` instead.
 
-**Internal Changes**
+**Internal Changes:**
 - Replace `ANALYSE` by `ANALYZE` to unify spelling in American English.
 - Fix license and file headers.
 
