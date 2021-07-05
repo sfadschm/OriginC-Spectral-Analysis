@@ -1,5 +1,13 @@
 BasedOnStyle: Google
+
+# indentation
 IndentWidth: 4
 TabWidth: 4
+
+# padding
 SpaceAfterLogicalNot: true
+
+# alignment
 AlignConsecutiveAssignments: true
+AlignConsecutiveMacros: true
+AlignTrailingComments: true
