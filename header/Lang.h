@@ -6,7 +6,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-#ifndef _LANG_ // include once
+#ifndef _LANG_  // include once
 #define _LANG_
 
 /**
@@ -21,9 +21,11 @@
 #define PARAMS_EMPTY        "\nNo Parameters were set!"
 
 // file selection
-#define FILES_TITLE     "\nSelect File(s)"
-#define FILES_EMPTY     "\nNo File(s) selected!"
-#define FILES_TYPES     "[Data Files (*.txt, *.tsv, *.dac, *.m, *.xml)] *.txt; *.tsv; *.dac; *.m; *.xml|[All Files (*.*)] *.*"
+#define FILES_TITLE "\nSelect File(s)"
+#define FILES_EMPTY "\nNo File(s) selected!"
+#define FILES_TYPES                                                        \
+    "[Data Files (*.txt, *.tsv, *.dac, *.m, *.xml)] *.txt; *.tsv; *.dac; " \
+    "*.m; *.xml|[All Files (*.*)] *.*"
 #define FILES_NOT_FOUND "File not found!"
 
 // column names and units
@@ -49,17 +51,20 @@
 #define IMPORT_STOP     "\nImport complete.\n"
 #define IMPORT_PROGRESS "\nFile %d of %d"
 
-#define IMPORT_TITLE   "Data Import"
-#define IMPORT_DESC    "Setup Data Import"
-#define IMPORT_METHOD  "Data Type"
-#define IMPORT_METHODS "Spectra Files|3D Maps (Streak, LabSpec, Raman)|4D Map (LabView, XY-LI)|4D Maps (NT-MDT)|Image Tracks (ImageJ)"
-#define IMPORT_DELIM   "Delimiter"
-#define IMPORT_DELIMS  "Unknown \"?\"|Comma \",\"|Tab \"  \"|Whitespace \" \"|Semicolon \";\""
-#define IMPORT_SEPAR   "Dec. Separator"
-#define IMPORT_SEPARS  "Auto|Origin Default|Windows Default|American|European"
-#define IMPORT_XAXIS   "Constant X-Axes?"
-#define IMPORT_SPARKL  "Create Spaklines? (Slow!!!)"
-#define IMPORT_SERIES  "Add Series Labels (User)?"
+#define IMPORT_TITLE  "Data Import"
+#define IMPORT_DESC   "Setup Data Import"
+#define IMPORT_METHOD "Data Type"
+#define IMPORT_METHODS                                                 \
+    "Spectra Files|3D Maps (Streak, LabSpec, Raman)|4D Map (LabView, " \
+    "XY-LI)|4D Maps (NT-MDT)|Image Tracks (ImageJ)"
+#define IMPORT_DELIM "Delimiter"
+#define IMPORT_DELIMS \
+    "Unknown \"?\"|Comma \",\"|Tab \"  \"|Whitespace \" \"|Semicolon \";\""
+#define IMPORT_SEPAR  "Dec. Separator"
+#define IMPORT_SEPARS "Auto|Origin Default|Windows Default|American|European"
+#define IMPORT_XAXIS  "Constant X-Axes?"
+#define IMPORT_SPARKL "Create Spaklines? (Slow!!!)"
+#define IMPORT_SERIES "Add Series Labels (User)?"
 
 #define IMPORT_LABELS_TITLE "Data Import Labels"
 #define IMPORT_LABELS_DESC  "Define Data Column Labeling"
@@ -75,8 +80,9 @@
 #define CORRECT_MSG_NO_REF "No reference data found for '%s'.\n"
 #define CORRECT_MSG_STOP   "%s finished.\n\n"
 
-#define CORRECT_TITLE         "Data Manipulation"
-#define CORRECT_DESC          "Run several manipulation methods on worksheets in active workbook."
+#define CORRECT_TITLE "Data Manipulation"
+#define CORRECT_DESC \
+    "Run several manipulation methods on worksheets in active workbook."
 #define CORRECT_NODATAWKS     "No valid worksheet selected."
 #define CORRECT_DATAWKS_LABEL "Data Source"
 
@@ -119,16 +125,17 @@
 #define CORRECT_SPIKES_PARAM_THRESHOLD "Z-Threshold"
 #define CORRECT_SPIKES_PARAM_WIDTH     "Averaging Width"
 
-#define CORRECT_BACKGROUND_HINT         "Choose background correction method:"
-#define CORRECT_BACKGROUND_PARAM_START  "Start"
-#define CORRECT_BACKGROUND_PARAM_STOP   "Stop"
-#define CORRECT_BACKGROUND_PARAM_VALUE  "Value"
+#define CORRECT_BACKGROUND_HINT        "Choose background correction method:"
+#define CORRECT_BACKGROUND_PARAM_START "Start"
+#define CORRECT_BACKGROUND_PARAM_STOP  "Stop"
+#define CORRECT_BACKGROUND_PARAM_VALUE "Value"
 
-#define CORRECT_BACKGROUND_METHODS          "Reference|Median|Constant"
-#define CORRECT_BACKGROUND_MEDIAN_HINT      "Set median calculation boundaries:"
-#define CORRECT_BACKGROUND_CONSTANT_HINT    "Set the constant background value:"
+#define CORRECT_BACKGROUND_METHODS       "Reference|Median|Constant"
+#define CORRECT_BACKGROUND_MEDIAN_HINT   "Set median calculation boundaries:"
+#define CORRECT_BACKGROUND_CONSTANT_HINT "Set the constant background value:"
 
-#define CORRECT_SETUP_DEFAULTING "No label data found for '%s'. Defaulting to (0,1)...\n"
+#define CORRECT_SETUP_DEFAULTING \
+    "No label data found for '%s'. Defaulting to (0,1)...\n"
 
 // analyze
 #define ANALYZE_START     "\nAnalyzing data ..."
@@ -136,16 +143,17 @@
 #define ANALYZE_NO_WKS    "Active layer is not a worksheet!"
 #define ANALYZE_NO_METHOD "Method does not exist!"
 
-#define ANALYZE_TITLE   "Data Analysis"
-#define ANALYZE_DESC    "Setup Data Analysis of Active Window"
-#define ANALYZE_WKS     "Worksheet"
+#define ANALYZE_TITLE         "Data Analysis"
+#define ANALYZE_DESC          "Setup Data Analysis of Active Window"
+#define ANALYZE_WKS           "Worksheet"
 #define ANALYZE_GENERIC_INDEX "Index"
 
 // spectral analysis
-#define ANALYZE_SPECTRA_TARGET           "Evaluation"
-#define ANALYZE_SPECTRA_TITLE            ANALYZE_SPECTRA_TARGET
-#define ANALYZE_SPECTRA_DESC             "Define Calculation Parameters"
-#define ANALYZE_SPECTRA_METHODS          "Peak Position|Mass Centre|Peak Intensity|Peak Area|Peak FWHM"
+#define ANALYZE_SPECTRA_TARGET "Evaluation"
+#define ANALYZE_SPECTRA_TITLE  ANALYZE_SPECTRA_TARGET
+#define ANALYZE_SPECTRA_DESC   "Define Calculation Parameters"
+#define ANALYZE_SPECTRA_METHODS \
+    "Peak Position|Mass Centre|Peak Intensity|Peak Area|Peak FWHM"
 #define ANALYZE_SPECTRA_LABEL_TARGET     "Dataset Name"
 #define ANALYZE_SPECTRA_LABEL_METHOD     "Method"
 #define ANALYZE_SPECTRA_LABEL_SKIP       "Skip Abscissa?"
@@ -160,10 +168,10 @@
 #define MAP_START "\nProcessing data ..."
 #define MAP_STOP  "\nProcess completed.\n"
 
-#define MAP_TITLE       "Map Data Handling"
-#define MAP_DESC        "Choose Processing Method"
-#define MAP_METHOD      "Method"
-#define MAP_METHODS     "XYZ-Data to Matrix|4D-Linescan"
+#define MAP_TITLE   "Map Data Handling"
+#define MAP_DESC    "Choose Processing Method"
+#define MAP_METHOD  "Method"
+#define MAP_METHODS "XYZ-Data to Matrix|4D-Linescan"
 
 // convert XYZ to matrix
 #define XYZ_MATRIX_TITLE   "Setup Map Dimensions"
@@ -187,10 +195,12 @@
 #define MAP_LINESCAN_NAME  "Linescans"
 
 // peaks
-#define PEAKS_START    "\nCollecting peak data ..."
-#define PEAKS_STOP     "\nPeak data completed.\n"
-#define PEAKS_NO_WKS   "\nNo valid worksheets found in current workbook!"
-#define PEAKS_TOO_LONG "\nCommand string is too long (%d), please reduce the number of worksheets!\nAborting ..."
+#define PEAKS_START  "\nCollecting peak data ..."
+#define PEAKS_STOP   "\nPeak data completed.\n"
+#define PEAKS_NO_WKS "\nNo valid worksheets found in current workbook!"
+#define PEAKS_TOO_LONG                                                \
+    "\nCommand string is too long (%d), please reduce the number of " \
+    "worksheets!\nAborting ..."
 
 #define PEAKS_TITLE "Peak Collection"
 #define PEAKS_DESC  "Collect peaks from fitting results."

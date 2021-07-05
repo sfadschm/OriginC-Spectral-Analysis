@@ -6,7 +6,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-#ifndef _WORKBOOK_ // include once
+#ifndef _WORKBOOK_  // include once
 #define _WORKBOOK_
 
 /**
@@ -22,22 +22,21 @@
  *
  * @return int wksInt the index of the new worksheet in the workbook
  */
-int WORKBOOK_addWorksheet(WorksheetPage wb, string wksName = "")
-{
-	// create new layer
-	int wksInt = wb.AddLayer();
-	Worksheet wks  = wb.Layers(wksInt);
+int WORKBOOK_addWorksheet(WorksheetPage wb, string wksName = "") {
+    // create new layer
+    int wksInt    = wb.AddLayer();
+    Worksheet wks = wb.Layers(wksInt);
 
-	// clear worksheet
-	while(wks.DeleteCol(0));
+    // clear worksheet
+    while (wks.DeleteCol(0))
+        ;
 
-	// rename worksheet if applicable
-	if(wksName != "")
-	{
-		wks.SetName(wksName);
-	}
+    // rename worksheet if applicable
+    if (wksName != "") {
+        wks.SetName(wksName);
+    }
 
-	return wksInt;
+    return wksInt;
 }
 
 #endif

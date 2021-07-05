@@ -6,15 +6,16 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-#ifndef _IMPORTER_ // include once
+#ifndef _IMPORTER_  // include once
 #define _IMPORTER_
 
 /**
  * This file provides methods for importing data from various file formats.
  */
 #include <Origin.h>
-#include "Lang.h"
+
 #include "File.h"
+#include "Lang.h"
 #include "Misc.h"
 #include "Worksheet.h"
 
@@ -26,472 +27,451 @@
  *
  * @return Worksheet wks the worksheet containing the imported data
  */
-Worksheet IMPORT_spectra(vector<string> params, vector<string> strFiles){
-	// user information
-	printf(IMPORT_READING);
+Worksheet IMPORT_spectra(vector<string> params, vector<string> strFiles) {
+    // user information
+    printf(IMPORT_READING);
 
-	// map required user parameters
-	string wbName  = params[1];
-	string wksName = params[2];
-	int delim      = atoi(params[3]);
-	int numSep     = atoi(params[4]) - 2; // see definition of NF_IS_AUTO
-	int removeX    = atoi(params[5]);
-	int addSparks  = atoi(params[6]);
-	int addSeries  = atoi(params[7]);
+    // map required user parameters
+    string wbName  = params[1];
+    string wksName = params[2];
+    int delim      = atoi(params[3]);
+    int numSep     = atoi(params[4]) - 2;  // see definition of NF_IS_AUTO
+    int removeX    = atoi(params[5]);
+    int addSparks  = atoi(params[6]);
+    int addSeries  = atoi(params[7]);
 
-	// create target workbook/worksheet for import
-	WorksheetPage wb = ORIGIN_createWb(wbName); 
-	Worksheet wks    = ORIGIN_createWks(wb, wksName); 
-	int existingCols = wks.GetNumCols();
+    // create target workbook/worksheet for import
+    WorksheetPage wb = ORIGIN_createWb(wbName);
+    Worksheet wks    = ORIGIN_createWks(wb, wksName);
+    int existingCols = wks.GetNumCols();
 
-	// loop through source files
-	for(int i = 0; i < strFiles.GetSize(); i++)
-	{
-		ASCIMP	ai;
-		if(0 == AscImpReadFileStruct(strFiles[i], &ai))
-		{
-			// setup headers
-			ai.iMode       = ASCIMP_MODE_APPEND_COLS; // open new columns per file
-			ai.iRenameWks  = 0;                       // do not automatically rename
-			ai.iNonnumeric = 1;                       // read nonnumeric values as missing 
-			ai.iDelimited  = 1;                       // files must be delimited
-			ai.iDelimiter  = delim;
-			ai.nNumSep     = numSep;
+    // loop through source files
+    for (int i = 0; i < strFiles.GetSize(); i++) {
+        ASCIMP ai;
+        if (0 == AscImpReadFileStruct(strFiles[i], &ai)) {
+            // setup headers
+            ai.iMode = ASCIMP_MODE_APPEND_COLS;  // open new columns per file
+            ai.iRenameWks  = 0;                  // do not automatically rename
+            ai.iNonnumeric = 1;  // read nonnumeric values as missing
+            ai.iDelimited  = 1;  // files must be delimited
+            ai.iDelimiter  = delim;
+            ai.nNumSep     = numSep;
 
-			// import file
-			wks.ImportASCII(strFiles[i], ai);
+            // import file
+            wks.ImportASCII(strFiles[i], ai);
 
-			// set headers and add filename to comments
-			for(int j = existingCols; j < wks.GetNumCols(); j++)
-			{
-				if(wks.Columns(j).GetLongName() == "X" || j == existingCols)
-				{
-					wks.Columns(j).SetType(OKDATAOBJ_DESIGNATION_X);
-				}
-				else
-				{
-					wks.Columns(j).SetType(OKDATAOBJ_DESIGNATION_Y);
-					wks.Columns(j).SetComments(MISC_stripName(strFiles[i]));
-				}
-				if(wks.Columns(j).GetLongName() == "")
-				{
-					if(j == existingCols)
-					{
-						wks.Columns(j).SetLongName(X_NAME_WAVELENGTH);
-						wks.Columns(j).SetUnits(X_UNIT_WAVELENGTH);
-					}
-					else
-					{
-						wks.Columns(j).SetLongName(Y_NAME_INTENSITY);
-						wks.Columns(j).SetUnits(Y_UNIT_INTENSITY);
-					}
-				}
-			}
+            // set headers and add filename to comments
+            for (int j = existingCols; j < wks.GetNumCols(); j++) {
+                if (wks.Columns(j).GetLongName() == "X" || j == existingCols) {
+                    wks.Columns(j).SetType(OKDATAOBJ_DESIGNATION_X);
+                } else {
+                    wks.Columns(j).SetType(OKDATAOBJ_DESIGNATION_Y);
+                    wks.Columns(j).SetComments(MISC_stripName(strFiles[i]));
+                }
+                if (wks.Columns(j).GetLongName() == "") {
+                    if (j == existingCols) {
+                        wks.Columns(j).SetLongName(X_NAME_WAVELENGTH);
+                        wks.Columns(j).SetUnits(X_UNIT_WAVELENGTH);
+                    } else {
+                        wks.Columns(j).SetLongName(Y_NAME_INTENSITY);
+                        wks.Columns(j).SetUnits(Y_UNIT_INTENSITY);
+                    }
+                }
+            }
 
-			// get new column count
-			existingCols = wks.GetNumCols();
-		}
-	}
+            // get new column count
+            existingCols = wks.GetNumCols();
+        }
+    }
 
-	// read labels from user
-	if(addSeries == 1)
-	{
-		printf(IMPORT_LABELING);
-		vector<string> labels;
-		labels = USER_readLabels();
+    // read labels from user
+    if (addSeries == 1) {
+        printf(IMPORT_LABELING);
+        vector<string> labels;
+        labels = USER_readLabels();
 
-		// add column labels (for series)
-		if(atoi(labels[0]) != -1)
-		{
-			// map user input
-			string paramName = (labels[0] + " (" + labels[1] + ")");
-			float paramStep = atof(labels[2]);
+        // add column labels (for series)
+        if (atoi(labels[0]) != -1) {
+            // map user input
+            string paramName = (labels[0] + " (" + labels[1] + ")");
+            float paramStep  = atof(labels[2]);
 
-			// add user parameter row
-			WOKRSHEET_addUserParameter(wks, paramName);
+            // add user parameter row
+            WOKRSHEET_addUserParameter(wks, paramName);
 
-			// write labels to columns
-			for(int jj = existingCols - 1; jj < wks.GetNumCols(); jj++)
-			{
-				if(jj%2 == 1)
-				{
-					// Y-column
-					wks.Columns(jj).SetExtendedLabel(ftoa((jj-1)/2*paramStep), RCLT_UDL);
-				}
-			}
-		}
-	}
+            // write labels to columns
+            for (int jj = existingCols - 1; jj < wks.GetNumCols(); jj++) {
+                if (jj % 2 == 1) {
+                    // Y-column
+                    wks.Columns(jj).SetExtendedLabel(
+                        ftoa((jj - 1) / 2 * paramStep), RCLT_UDL);
+                }
+            }
+        }
+    }
 
-	// remove double x-axes
-	if(removeX == 1)
-	{
-		for(int jjj = wks.GetNumCols() - 2; jjj > 0; jjj-=2)
-		{
-			wks.DeleteCol(jjj);
-		}
-	}
+    // remove double x-axes
+    if (removeX == 1) {
+        for (int jjj = wks.GetNumCols() - 2; jjj > 0; jjj -= 2) {
+            wks.DeleteCol(jjj);
+        }
+    }
 
-	// generate sparklines
-	if(addSparks == 1)
-	{
-		WORKSHEET_addSparklines(wks);
-	}
+    // generate sparklines
+    if (addSparks == 1) {
+        WORKSHEET_addSparklines(wks);
+    }
 
-	return wks;
+    return wks;
 }
 
 /**
- * Import and format spectral data from a one or more 3D Map ASCII files (e.g., Streak).
+ * Import and format spectral data from a one or more 3D Map ASCII files.
+ * E.g. from Streak, LabSpec timetraces or evaluated NT-MDT maps.
  *
  * @param vector<string> params   the user parameters
  * @param vector<string> strFiles the names of the input data files
  *
  * @return WorksheetPage wb the workbook containing the imported data
  */
-WorksheetPage IMPORT_3dMaps(vector<string> params, vector<string> strFiles){
-	//user information
-	printf(IMPORT_READING);
+WorksheetPage IMPORT_3dMaps(vector<string> params, vector<string> strFiles) {
+    // user information
+    printf(IMPORT_READING);
 
-	// map required user parameters
-	string wbName  = params[1];
-	string wksName = params[2];
-	int delim      = atoi(params[3]);
-	int numSep     = atoi(params[4]) - 2; // see definition of NF_IS_AUTO
+    // map required user parameters
+    string wbName  = params[1];
+    string wksName = params[2];
+    int delim      = atoi(params[3]);
+    int numSep     = atoi(params[4]) - 2;  // see definition of NF_IS_AUTO
 
-	// create target workbook for import
-	WorksheetPage wb = ORIGIN_createWb(wbName); 
+    // create target workbook for import
+    WorksheetPage wb = ORIGIN_createWb(wbName);
 
-	// loop through source files
-	for(int i = 0; i < strFiles.GetSize(); i++)
-	{
-		// get source file extension
-		string strExt = strFiles[i].Mid(strFiles[i].ReverseFind('.')+1);
+    // loop through source files
+    for (int i = 0; i < strFiles.GetSize(); i++) {
+        // get source file extension
+        string strExt = strFiles[i].Mid(strFiles[i].ReverseFind('.') + 1);
 
-		// create target worksheet for import
-		Worksheet wks = ORIGIN_createWks(wb, MISC_stripName(strFiles[i]), true); 
+        // create target worksheet for import
+        Worksheet wks = ORIGIN_createWks(wb, MISC_stripName(strFiles[i]), true);
 
-		ASCIMP ai;
-		if(0 == AscImpReadFileStruct(strFiles[i], &ai))
-		{
-			// setup headers
-			ai.iMode       = ASCIMP_MODE_NEW_SHEETS; // open new worksheet per file
-			ai.iRenameWks  = 0;                      // do not automatically rename
-			ai.iNonnumeric = 1;                      // read nonnumeric values as missing 
-			ai.iDelimited  = 1;                      // files must be delimited
-			ai.iDelimiter  = delim;
-			ai.nNumSep     = numSep;
+        ASCIMP ai;
+        if (0 == AscImpReadFileStruct(strFiles[i], &ai)) {
+            // setup headers
+            ai.iMode = ASCIMP_MODE_NEW_SHEETS;  // open new worksheet per file
+            ai.iRenameWks  = 0;                 // do not automatically rename
+            ai.iNonnumeric = 1;  // read nonnumeric values as missing
+            ai.iDelimited  = 1;  // files must be delimited
+            ai.iDelimiter  = delim;
+            ai.nNumSep     = numSep;
 
-			// import file
-			wks.ImportASCII(strFiles[i], ai);
+            // import file
+            wks.ImportASCII(strFiles[i], ai);
 
-			// transpose matrix if necessary (Streak and LabSpec)
-			if(strExt.CompareNoCase("DAC") == 0 || strExt.CompareNoCase("TXT") == 0)
-			{
-				int rowStart,rowEnd;
-				wks.GetBounds(rowStart, 0, rowEnd, 0);
-				wks.Transpose();
-				wks.SetSize(wks.GetNumCols(), rowEnd + 1);
-			}
+            // transpose matrix if necessary (Streak and LabSpec)
+            if (strExt.CompareNoCase("DAC") == 0 ||
+                strExt.CompareNoCase("TXT") == 0) {
+                int rowStart, rowEnd;
+                wks.GetBounds(rowStart, 0, rowEnd, 0);
+                wks.Transpose();
+                wks.SetSize(wks.GetNumCols(), rowEnd + 1);
+            }
 
-			// define parameters and units
-			string xParam, xUnit, yParam, yUnit;
+            // define parameters and units
+            string xParam, xUnit, yParam, yUnit;
 
-			// Streak images
-			if(strExt.CompareNoCase("DAC") == 0)
-			{
-				xParam = X_NAME_TIME;
+            // Streak images
+            if (strExt.CompareNoCase("DAC") == 0) {
+                xParam = X_NAME_TIME;
 
-				string cellText;
-				wks.GetCell(0, 0, cellText);
-				xUnit = cellText.Mid(0, cellText.ReverseFind('|'));
+                string cellText;
+                wks.GetCell(0, 0, cellText);
+                xUnit = cellText.Mid(0, cellText.ReverseFind('|'));
 
-				yParam = X_NAME_WAVELENGTH;
-				yUnit  = X_UNIT_WAVELENGTH;
-			}
+                yParam = X_NAME_WAVELENGTH;
+                yUnit  = X_UNIT_WAVELENGTH;
+            }
 
-			// LabSpec TimeTrace
-			if(strExt.CompareNoCase("TXT") == 0)
-			{
-				xParam = X_NAME_TIME;
-				xUnit  = X_UNIT_TIME;
-				yParam = X_NAME_WAVELENGTH;
-				yUnit  = X_UNIT_WAVELENGTH;
-			}
+            // LabSpec TimeTrace
+            if (strExt.CompareNoCase("TXT") == 0) {
+                xParam = X_NAME_TIME;
+                xUnit  = X_UNIT_TIME;
+                yParam = X_NAME_WAVELENGTH;
+                yUnit  = X_UNIT_WAVELENGTH;
+            }
 
-			// Raman image
-			if(strExt.CompareNoCase("TSV") == 0){
-				xParam = "X";
-				xUnit  = XYZ_MATRIX_STEPU_PRE;
-				yParam = "Y";
-				yUnit  = XYZ_MATRIX_STEPU_PRE;
-			}
+            // Raman image
+            if (strExt.CompareNoCase("TSV") == 0) {
+                xParam = "X";
+                xUnit  = XYZ_MATRIX_STEPU_PRE;
+                yParam = "Y";
+                yUnit  = XYZ_MATRIX_STEPU_PRE;
+            }
 
-			// add user parameter row
-			WOKRSHEET_addUserParameter(wks, xParam + " (" + xUnit + ")");
+            // add user parameter row
+            WOKRSHEET_addUserParameter(wks, xParam + " (" + xUnit + ")");
 
-			// move x-axis to parameters
-			string colLabel;
-			for(int jj = 1; jj < wks.GetNumCols(); jj++)
-			{
-				wks.GetCell(0, jj, colLabel);
-				wks.Columns(jj).SetExtendedLabel(colLabel, RCLT_UDL);
-			}
+            // move x-axis to parameters
+            string colLabel;
+            for (int jj = 1; jj < wks.GetNumCols(); jj++) {
+                wks.GetCell(0, jj, colLabel);
+                wks.Columns(jj).SetExtendedLabel(colLabel, RCLT_UDL);
+            }
 
-			// remove x-axis from data matrix
-			wks.DeleteRow(0);
+            // remove x-axis from data matrix
+            wks.DeleteRow(0);
 
-			// finalize worksheet
-			wks.Columns(0).SetType(OKDATAOBJ_DESIGNATION_X); // set wavelength as X
-			wks.Columns(0).SetLongName(yParam);
-			wks.Columns(0).SetUnits(yUnit);
-			for(int ii = 1; ii < wks.GetNumCols(); ii++)
-			{
-				wks.Columns(ii).SetLongName(X_NAME_WAVELENGTH);
-				wks.Columns(ii).SetUnits(X_UNIT_WAVELENGTH);
-			}
-		}
-	}
+            // finalize worksheet
+            wks.Columns(0).SetType(
+                OKDATAOBJ_DESIGNATION_X);  // set wavelength as X
+            wks.Columns(0).SetLongName(yParam);
+            wks.Columns(0).SetUnits(yUnit);
+            for (int ii = 1; ii < wks.GetNumCols(); ii++) {
+                wks.Columns(ii).SetLongName(X_NAME_WAVELENGTH);
+                wks.Columns(ii).SetUnits(X_UNIT_WAVELENGTH);
+            }
+        }
+    }
 
-	return wb;
+    return wb;
 }
 
 /**
- * Import and format spectral data from a one or more 4D Map ASCII files (e.g., NT-MDT).
+ * Import and format spectral data from a one or more 4D Map ASCII files.
+ * E.g., NT-MDT maps (in MATLab format).
  *
  * @param vector<string> params the user parameters
  * @param vector<string> strFiles the names of the input data files
  *
  * @return WorksheetPage wb the workbook containing the imported data
  */
-WorksheetPage IMPORT_4dMaps(vector<string> params, vector<string> strFiles){
-	// user information
-	printf(IMPORT_READING);
+WorksheetPage IMPORT_4dMaps(vector<string> params, vector<string> strFiles) {
+    // user information
+    printf(IMPORT_READING);
 
-	// map required user parameters
-	string wbName  = params[1];
-	string wksName = params[2];
-	int delim      = atoi(params[3]);
-	int numSep     = atoi(params[4]) - 2; // see definition of NF_IS_AUTO
-	int addSparks  = atoi(params[6]);
+    // map required user parameters
+    string wbName  = params[1];
+    string wksName = params[2];
+    int delim      = atoi(params[3]);
+    int numSep     = atoi(params[4]) - 2;  // see definition of NF_IS_AUTO
+    int addSparks  = atoi(params[6]);
 
-	// create target workbook for import
-	WorksheetPage wb = ORIGIN_createWb(wbName); 
+    // create target workbook for import
+    WorksheetPage wb = ORIGIN_createWb(wbName);
 
-	// loop through source files
-	for(int i = 0; i < strFiles.GetSize(); i++)
-	{
-		// progress info
-		printf(IMPORT_PROGRESS, i + 1, strFiles.GetSize());
+    // loop through source files
+    for (int i = 0; i < strFiles.GetSize(); i++) {
+        // progress info
+        printf(IMPORT_PROGRESS, i + 1, strFiles.GetSize());
 
-		// create target worksheet for import
-		Worksheet wks = ORIGIN_createWks(wb, MISC_stripName(strFiles[i]), true); 
+        // create target worksheet for import
+        Worksheet wks = ORIGIN_createWks(wb, MISC_stripName(strFiles[i]), true);
 
-		// set worksheet size (avoid creating new columns)
-		wks.SetSize(-1, 1024);
+        // set worksheet size (avoid creating new columns)
+        wks.SetSize(-1, 1024);
 
-		// open file
-		stdioFile srcFile; // create file object
-		FILE_openRead(srcFile, strFiles[i]); // open source file
+        // open file
+        stdioFile srcFile;                    // create file object
+        FILE_openRead(srcFile, strFiles[i]);  // open source file
 
-		// read parameters
-		string xCalibStr, yCalibStr;
-		srcFile.ReadString(xCalibStr);
-		srcFile.ReadString(yCalibStr);
+        // read parameters
+        string xCalibStr, yCalibStr;
+        srcFile.ReadString(xCalibStr);
+        srcFile.ReadString(yCalibStr);
 
-		// strip lines
-		xCalibStr.Replace("X = [", "");
-		xCalibStr.Replace(" ];", "");
-		yCalibStr.Replace("Y = [", "");
-		yCalibStr.Replace(" ];", "");
+        // strip lines
+        xCalibStr.Replace("X = [", "");
+        xCalibStr.Replace(" ];", "");
+        yCalibStr.Replace("Y = [", "");
+        yCalibStr.Replace(" ];", "");
 
-		// split lines into vector
-		vector<string> xCalibStrV, yCalibStrV;
-		str_separate(xCalibStr, " ", xCalibStrV);
-		str_separate(yCalibStr, " ", yCalibStrV);
+        // split lines into vector
+        vector<string> xCalibStrV, yCalibStrV;
+        str_separate(xCalibStr, " ", xCalibStrV);
+        str_separate(yCalibStr, " ", yCalibStrV);
 
-		// convert to double (for manipulation)
-		vector<double> xCalib, yCalib;
-		convert_str_vector_to_num_vector(xCalibStrV, xCalib);
-		convert_str_vector_to_num_vector(yCalibStrV, yCalib);
+        // convert to double (for manipulation)
+        vector<double> xCalib, yCalib;
+        convert_str_vector_to_num_vector(xCalibStrV, xCalib);
+        convert_str_vector_to_num_vector(yCalibStrV, yCalib);
 
-		// remove axis bias
-		xCalib = xCalib - xCalib[0];
-		yCalib = yCalib - yCalib[0];
+        // remove axis bias
+        xCalib = xCalib - xCalib[0];
+        yCalib = yCalib - yCalib[0];
 
-		// resize worksheet to fit data
-		wks.SetSize(-1, (xCalib.GetSize() * yCalib.GetSize()) + 2);
-		
-		// add user parameter rows
-		WOKRSHEET_addUserParameter(wks, "X (" + XYZ_MATRIX_STEPU_PRE + ")", 0);
-		WOKRSHEET_addUserParameter(wks, "Y (" + XYZ_MATRIX_STEPU_PRE + ")", 1);
+        // resize worksheet to fit data
+        wks.SetSize(-1, (xCalib.GetSize() * yCalib.GetSize()) + 2);
 
-		// write calibration to parameters
-		for(int jj = 2; jj < xCalib.GetSize() * yCalib.GetSize() + 2; jj++)
-		{
-			wks.Columns(jj).SetExtendedLabel(ftoa(xCalib[(jj - 2) % xCalib.GetSize()]), RCLT_UDL);
-			wks.Columns(jj).SetExtendedLabel(ftoa(yCalib[((jj - 2) - (jj - 2) % xCalib.GetSize()) /  xCalib.GetSize()]), RCLT_UDL + 1);
-		}
+        // add user parameter rows
+        WOKRSHEET_addUserParameter(wks, "X (" + XYZ_MATRIX_STEPU_PRE + ")", 0);
+        WOKRSHEET_addUserParameter(wks, "Y (" + XYZ_MATRIX_STEPU_PRE + ")", 1);
 
-		// read data
-		int lineInt = 3;
-		string strLine, dataStr;
-		while(srcFile.ReadString(strLine))
-		{
-			// progress info
-			if(mod(lineInt, 256) == 0)
-			{
-				printf("\n%d%%",(lineInt/256*25));
-			}
+        // write calibration to parameters
+        for (int jj = 2; jj < xCalib.GetSize() * yCalib.GetSize() + 2; jj++) {
+            wks.Columns(jj).SetExtendedLabel(
+                ftoa(xCalib[(jj - 2) % xCalib.GetSize()]), RCLT_UDL);
+            wks.Columns(jj).SetExtendedLabel(
+                ftoa(yCalib[((jj - 2) - (jj - 2) % xCalib.GetSize()) /
+                            xCalib.GetSize()]),
+                RCLT_UDL + 1);
+        }
 
-			// strip line
-			int dataStart, dataEnd;
-			dataStart = strLine.Find("[") + 1;
-			dataEnd = strLine.GetLength()-3;
-			dataStr = strLine.Mid(dataStart, dataEnd-dataStart);
-			dataStr.Replace(";","");
+        // read data
+        int lineInt = 3;
+        string strLine, dataStr;
+        while (srcFile.ReadString(strLine)) {
+            // progress info
+            if (mod(lineInt, 256) == 0) {
+                printf("\n%d%%", (lineInt / 256 * 25));
+            }
 
-			// import data
-			switch(lineInt)
-			{
-				case 1: // x-cordinates
-				case 2: // y-cordinates
-				case 1030: // EOF
-					break;
+            // strip line
+            int dataStart, dataEnd;
+            dataStart = strLine.Find("[") + 1;
+            dataEnd   = strLine.GetLength() - 3;
+            dataStr   = strLine.Mid(dataStart, dataEnd - dataStart);
+            dataStr.Replace(";", "");
 
-				case 5: // map-info
-					// transpose calibration data
-					wks.Transpose();
-					break;
+            // import data
+            switch (lineInt) {
+                case 1:     // x-cordinates
+                case 2:     // y-cordinates
+                case 1030:  // EOF
+                    break;
 
-				default:
-					// split line into vector
-					vector<string> dataStrVector;
-					str_separate(dataStr," ", dataStrVector);
+                case 5:  // map-info
+                    // transpose calibration data
+                    wks.Transpose();
+                    break;
 
-					// copy vector into column
-					if(lineInt < 5)
-					{
-						// calibration data
-						wks.Columns(lineInt-3).PutStringArray(dataStrVector, 0, true);
-					}
-					else
-					{
-						// spectra
-						wks.Columns(lineInt-6).PutStringArray(dataStrVector, 2, true);
-					}
-					break;
-			}
-			lineInt++; // next line
-		} 
+                default:
+                    // split line into vector
+                    vector<string> dataStrVector;
+                    str_separate(dataStr, " ", dataStrVector);
 
-		// close source file
-		FILE_close(srcFile);
+                    // copy vector into column
+                    if (lineInt < 5) {
+                        // calibration data
+                        wks.Columns(lineInt - 3)
+                            .PutStringArray(dataStrVector, 0, true);
+                    } else {
+                        // spectra
+                        wks.Columns(lineInt - 6)
+                            .PutStringArray(dataStrVector, 2, true);
+                    }
+                    break;
+            }
+            lineInt++;  // next line
+        }
 
-		// transpose matrix
-		int rowStart,rowEnd;
-		wks.GetBounds(rowStart, 0, rowEnd, 0);
-		wks.Transpose();
-		wks.SetSize(1024, rowEnd + 1);
+        // close source file
+        FILE_close(srcFile);
 
-		// set wavelength as X
-		wks.Columns(0).SetType(OKDATAOBJ_DESIGNATION_X);
-		wks.Columns(0).SetLongName(X_NAME_WAVELENGTH);
-		wks.Columns(0).SetUnits(X_UNIT_WAVELENGTH);
+        // transpose matrix
+        int rowStart, rowEnd;
+        wks.GetBounds(rowStart, 0, rowEnd, 0);
+        wks.Transpose();
+        wks.SetSize(1024, rowEnd + 1);
 
-		// set raman shift as X
-		wks.Columns(1).SetType(OKDATAOBJ_DESIGNATION_X);
-		wks.Columns(1).SetLongName(X_NAME_RAMAN);
-		wks.Columns(1).SetUnits(X_UNIT_RAMAN);
+        // set wavelength as X
+        wks.Columns(0).SetType(OKDATAOBJ_DESIGNATION_X);
+        wks.Columns(0).SetLongName(X_NAME_WAVELENGTH);
+        wks.Columns(0).SetUnits(X_UNIT_WAVELENGTH);
 
-		// set intensities
-		for(int ii = 2; ii < wks.GetNumCols(); ii++ )
-		{
-			wks.Columns(ii).SetLongName(Y_NAME_INTENSITY);
-			wks.Columns(ii).SetUnits(Y_UNIT_INTENSITY);
-		}
+        // set raman shift as X
+        wks.Columns(1).SetType(OKDATAOBJ_DESIGNATION_X);
+        wks.Columns(1).SetLongName(X_NAME_RAMAN);
+        wks.Columns(1).SetUnits(X_UNIT_RAMAN);
 
-		// generate sparklines
-		if(addSparks == 1){
-			WORKSHEET_addSparklines(wks);
-		}
-	}
+        // set intensities
+        for (int ii = 2; ii < wks.GetNumCols(); ii++) {
+            wks.Columns(ii).SetLongName(Y_NAME_INTENSITY);
+            wks.Columns(ii).SetUnits(Y_UNIT_INTENSITY);
+        }
 
-	return wb;
+        // generate sparklines
+        if (addSparks == 1) {
+            WORKSHEET_addSparklines(wks);
+        }
+    }
+
+    return wb;
 }
 
 /**
- * Import and format spectra data from a one or more 4D Map ASCII files (e.g., Streak, LabView, XY-LI).
+ * Import and format spectra data from a one or more 4D Map ASCII files.
+ * E.g., LabView maps, XY-LI maps.
  *
  * @param vector<string> params the user parameters
  * @param vector<string> strFiles the names of the input data files
  *
  * @return WorksheetPage wb the workbook containing the imported data
  */
-WorksheetPage IMPORT_LabViewMaps(vector<string> params, vector<string> strFiles){
-	// user information
-	printf(IMPORT_READING);
+WorksheetPage IMPORT_LabViewMaps(vector<string> params,
+                                 vector<string> strFiles) {
+    // user information
+    printf(IMPORT_READING);
 
-	// map required user parameters
-	string wbName  = params[1];
-	string wksName = params[2];
-	int delim      = atoi(params[3]);
-	int numSep     = atoi(params[4]) - 2; // see definition of NF_IS_AUTO
+    // map required user parameters
+    string wbName  = params[1];
+    string wksName = params[2];
+    int delim      = atoi(params[3]);
+    int numSep     = atoi(params[4]) - 2;  // see definition of NF_IS_AUTO
 
-	// create target workbook for import
-	WorksheetPage wb = ORIGIN_createWb(wbName); 
+    // create target workbook for import
+    WorksheetPage wb = ORIGIN_createWb(wbName);
 
-	// loop through source files
-	for(int i = 0; i < strFiles.GetSize(); i++)
-	{
-		// create target worksheet for import
-		Worksheet wks = ORIGIN_createWks(wb, MISC_stripName(strFiles[i]), true); 
+    // loop through source files
+    for (int i = 0; i < strFiles.GetSize(); i++) {
+        // create target worksheet for import
+        Worksheet wks = ORIGIN_createWks(wb, MISC_stripName(strFiles[i]), true);
 
-		ASCIMP ai;
-		if(0 == AscImpReadFileStruct(strFiles[i], &ai))
-		{
-			// setup headers
-			ai.iMode       = ASCIMP_MODE_NEW_SHEETS; // open new worksheet per file
-			ai.iRenameWks  = 0;                      // do not automatically rename
-			ai.iNonnumeric = 1;                      // read nonnumeric values as missing 
-			ai.iDelimited  = 1;                      // files must be delimited
-			ai.iDelimiter  = delim;
-			ai.nNumSep     = numSep;
+        ASCIMP ai;
+        if (0 == AscImpReadFileStruct(strFiles[i], &ai)) {
+            // setup headers
+            ai.iMode = ASCIMP_MODE_NEW_SHEETS;  // open new worksheet per file
+            ai.iRenameWks  = 0;                 // do not automatically rename
+            ai.iNonnumeric = 1;  // read nonnumeric values as missing
+            ai.iDelimited  = 1;  // files must be delimited
+            ai.iDelimiter  = delim;
+            ai.nNumSep     = numSep;
 
-			// import file
-			wks.ImportASCII(strFiles[i], ai);
+            // import file
+            wks.ImportASCII(strFiles[i], ai);
 
-			// add user parameter rows
-			string paramUnit;
-			WOKRSHEET_addUserParameter(wks, "X (" + XYZ_MATRIX_STEPU_PRE + ")", 0);
-			WOKRSHEET_addUserParameter(wks, "Y (" + XYZ_MATRIX_STEPU_PRE + ")", 1);
+            // add user parameter rows
+            string paramUnit;
+            WOKRSHEET_addUserParameter(wks, "X (" + XYZ_MATRIX_STEPU_PRE + ")",
+                                       0);
+            WOKRSHEET_addUserParameter(wks, "Y (" + XYZ_MATRIX_STEPU_PRE + ")",
+                                       1);
 
-			// write coordinates to parameters
-			string xLabel, yLabel;
-			for(int jj = 1; jj < wks.GetNumCols(); jj++)
-			{
-				wks.GetCell(0, jj, xLabel);
-				wks.GetCell(1, jj, yLabel);
-				wks.Columns(jj).SetExtendedLabel(xLabel, RCLT_UDL);
-				wks.Columns(jj).SetExtendedLabel(yLabel, RCLT_UDL+1);
-			}
+            // write coordinates to parameters
+            string xLabel, yLabel;
+            for (int jj = 1; jj < wks.GetNumCols(); jj++) {
+                wks.GetCell(0, jj, xLabel);
+                wks.GetCell(1, jj, yLabel);
+                wks.Columns(jj).SetExtendedLabel(xLabel, RCLT_UDL);
+                wks.Columns(jj).SetExtendedLabel(yLabel, RCLT_UDL + 1);
+            }
 
-			// remove time axis
-			wks.DeleteRow(0); // remove x axis
-			wks.DeleteRow(0); // remove y axis
+            // remove time axis
+            wks.DeleteRow(0);  // remove x axis
+            wks.DeleteRow(0);  // remove y axis
 
-			// finalize worksheet
-			wks.Columns(0).SetType(OKDATAOBJ_DESIGNATION_X); // set wavelength as X
-			wks.Columns(0).SetLongName(X_NAME_WAVELENGTH);
-			wks.Columns(0).SetUnits(X_UNIT_WAVELENGTH);
-			for(int ii = 1; ii < wks.GetNumCols(); ii++ )
-			{
-				wks.Columns(ii).SetLongName(Y_NAME_INTENSITY);
-				wks.Columns(ii).SetUnits(Y_UNIT_INTENSITY);
-			}
-		}
-	}
+            // finalize worksheet
+            wks.Columns(0).SetType(
+                OKDATAOBJ_DESIGNATION_X);  // set wavelength as X
+            wks.Columns(0).SetLongName(X_NAME_WAVELENGTH);
+            wks.Columns(0).SetUnits(X_UNIT_WAVELENGTH);
+            for (int ii = 1; ii < wks.GetNumCols(); ii++) {
+                wks.Columns(ii).SetLongName(Y_NAME_INTENSITY);
+                wks.Columns(ii).SetUnits(Y_UNIT_INTENSITY);
+            }
+        }
+    }
 
-	return wb;
+    return wb;
 }
 
 /**
@@ -502,112 +482,111 @@ WorksheetPage IMPORT_LabViewMaps(vector<string> params, vector<string> strFiles)
  *
  * @return WorksheetPage wb the workbook containing the imported data
  */
-void IMPORT_Tracks(vector<string> params, vector<string> strFiles){
-	// user information
-	printf(IMPORT_READING);
+void IMPORT_Tracks(vector<string> params, vector<string> strFiles) {
+    // user information
+    printf(IMPORT_READING);
 
-	// map required user parameters
-	string wbName  = params[1];
-	string wksName = params[2];
+    // map required user parameters
+    string wbName  = params[1];
+    string wksName = params[2];
 
-	// create target workbook/worksheet for import
-	WorksheetPage wb  = ORIGIN_createWb(wbName); 
-	Worksheet     wks = ORIGIN_createWks(wb, wksName); 
+    // create target workbook/worksheet for import
+    WorksheetPage wb = ORIGIN_createWb(wbName);
+    Worksheet wks    = ORIGIN_createWks(wb, wksName);
 
-	// loop through source files
-	for(int i = 0; i < strFiles.GetSize(); i++)
-	{
-		// read XML	
-		Tree tr;
-		if(tr.Load(strFiles[i]))
-		{
-			// progress info
-			printf(IMPORT_PROGRESS, i + 1, strFiles.GetSize());
+    // loop through source files
+    for (int i = 0; i < strFiles.GetSize(); i++) {
+        // read XML
+        Tree tr;
+        if (tr.Load(strFiles[i])) {
+            // progress info
+            printf(IMPORT_PROGRESS, i + 1, strFiles.GetSize());
 
-			// create target worksheet for import
-			Worksheet wks = ORIGIN_createWks(wb, MISC_stripName(strFiles[i]), true); 
+            // create target worksheet for import
+            Worksheet wks =
+                ORIGIN_createWks(wb, MISC_stripName(strFiles[i]), true);
 
-			// set wks size
-			wks.SetSize(-1, 4*tr.GetNodeCount());
+            // set wks size
+            wks.SetSize(-1, 4 * tr.GetNodeCount());
 
-			// get params
-			string xyUnits, tUnits; 
-			double tScale, numParts;
-			tr.GetAttribute("spaceUnits",    xyUnits);
-			tr.GetAttribute("timeUnits",     tUnits);
-			tr.GetAttribute("frameInterval", tScale);
-			tr.GetAttribute("nTracks",       numParts);
+            // get params
+            string xyUnits, tUnits;
+            double tScale, numParts;
+            tr.GetAttribute("spaceUnits", xyUnits);
+            tr.GetAttribute("timeUnits", tUnits);
+            tr.GetAttribute("frameInterval", tScale);
+            tr.GetAttribute("nTracks", numParts);
 
-			// loop particles
-			int iCol = 0;
-			foreach(TreeNode tParticle in tr.Children)
-			{
-				// loop spots
-				vector<double> partT, partX, partY, partD;
-				foreach(TreeNode tSpot in tParticle.Children)
-				{
-					double tempVal;
-					tSpot.GetAttribute("t", tempVal);
-					partT.Add(tempVal);
-					tSpot.GetAttribute("x", tempVal);
-					partX.Add(tempVal);
-					tSpot.GetAttribute("y", tempVal);
-					partY.Add(tempVal);
-				}
+            // loop particles
+            int iCol = 0;
+            foreach (TreeNode tParticle in tr.Children) {
+                // loop spots
+                vector<double> partT, partX, partY, partD;
+                foreach (TreeNode tSpot in tParticle.Children) {
+                    double tempVal;
+                    tSpot.GetAttribute("t", tempVal);
+                    partT.Add(tempVal);
+                    tSpot.GetAttribute("x", tempVal);
+                    partX.Add(tempVal);
+                    tSpot.GetAttribute("y", tempVal);
+                    partY.Add(tempVal);
+                }
 
-				//recalculate data
-				partT = partT * tScale;
-				partX = -(partX - partX[0]);
-				partY = -(partY - partY[0]);
-				partD = sqrt(partX^2 + partY^2);
+                // recalculate data
+                partT = partT * tScale;
+                partX = -(partX - partX[0]);
+                partY = -(partY - partY[0]);
+                partD = sqrt(partX ^ 2 + partY ^ 2);
 
-				// inset values
-				for(int iAttr = 0; iAttr < 4; iAttr++)
-				{
-					// next column
-					Column curCol = wks.Columns(iCol++);
+                // inset values
+                for (int iAttr = 0; iAttr < 4; iAttr++) {
+                    // next column
+                    Column curCol = wks.Columns(iCol++);
 
-					// set column properties
-					vector<string> curData;
-					int colType    = OKDATAOBJ_DESIGNATION_Y;
-					string colName = "", colUnit = xyUnits;
-					switch(iAttr)
-					{
-						case 0:
-							colType = OKDATAOBJ_DESIGNATION_X;
-							colName = X_NAME_TIME;
-							colUnit = tUnits;
-							convert_double_vector_to_string_vector(partT, curData, partT.GetSize());
-							break;
+                    // set column properties
+                    vector<string> curData;
+                    int colType    = OKDATAOBJ_DESIGNATION_Y;
+                    string colName = "", colUnit = xyUnits;
+                    switch (iAttr) {
+                        case 0:
+                            colType = OKDATAOBJ_DESIGNATION_X;
+                            colName = X_NAME_TIME;
+                            colUnit = tUnits;
+                            convert_double_vector_to_string_vector(
+                                partT, curData, partT.GetSize());
+                            break;
 
-						case 1:
-							colName = "X";
-							convert_double_vector_to_string_vector(partX, curData, partX.GetSize());
-							break;
+                        case 1:
+                            colName = "X";
+                            convert_double_vector_to_string_vector(
+                                partX, curData, partX.GetSize());
+                            break;
 
-						case 2:
-							colName = "Y";
-							convert_double_vector_to_string_vector(partY, curData, partY.GetSize());
-							break;
+                        case 2:
+                            colName = "Y";
+                            convert_double_vector_to_string_vector(
+                                partY, curData, partY.GetSize());
+                            break;
 
-						case 3:
-							colName = "d";
-							convert_double_vector_to_string_vector(partD, curData, partD.GetSize());
-							break;
-					}
+                        case 3:
+                            colName = "d";
+                            convert_double_vector_to_string_vector(
+                                partD, curData, partD.GetSize());
+                            break;
+                    }
 
-					curCol.SetLongName(colName);
-					curCol.SetUnits(colUnit);
-					curCol.SetType(colType);
-					curCol.PutStringArray(curData);
-					curCol.SetFormat(OKCOLTYPE_NUMERIC);
-				}
-			}
-		}
-	}
-	
-	// remove default worksheet
-	wb.Layers("Sheet1").Destroy();
+                    curCol.SetLongName(colName);
+                    curCol.SetUnits(colUnit);
+                    curCol.SetType(colType);
+                    curCol.PutStringArray(curData);
+                    curCol.SetFormat(OKCOLTYPE_NUMERIC);
+                }
+            }
+        }
+    }
+
+    // remove default worksheet
+    wb.Layers("Sheet1").Destroy();
 }
 
 #endif

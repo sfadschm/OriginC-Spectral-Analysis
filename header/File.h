@@ -6,7 +6,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-#ifndef _FILE_ // include once
+#ifndef _FILE_  // include once
 #define _FILE_
 
 /**
@@ -21,13 +21,11 @@
  * @param stdioFile* fileObj  the file object to open the file into
  * @param string     fileName the full path to the file to open
  */
-void FILE_openRead(stdioFile &fileObj, string fileName)
-{
-	if(!fileObj.Open(fileName, file::modeRead))
-	{
-		// invalid file
-		printf(FILES_NOT_FOUND);
-	}
+void FILE_openRead(stdioFile &fileObj, string fileName) {
+    if (! fileObj.Open(fileName, file::modeRead)) {
+        // invalid file
+        printf(FILES_NOT_FOUND);
+    }
 }
 
 /**
@@ -35,9 +33,6 @@ void FILE_openRead(stdioFile &fileObj, string fileName)
  *
  * @param stdioFile fileObj the file object to close
  */
-void FILE_close(stdioFile &fileObj)
-{
-	fileObj.Close();
-}
+void FILE_close(stdioFile &fileObj) { fileObj.Close(); }
 
 #endif
