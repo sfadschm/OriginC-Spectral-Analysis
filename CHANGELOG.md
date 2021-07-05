@@ -5,6 +5,9 @@
 **Fixed Bugs:**
 - 3D map import did set wrong intensity axis labels.
 
+**Implemented Enhancements:**
+- Refined and extended test data.
+
 **Internal Changes:**
 - Introduced and applied clang-format style fixer.
 
