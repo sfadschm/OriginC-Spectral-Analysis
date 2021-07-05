@@ -222,13 +222,12 @@ WorksheetPage IMPORT_3dMaps(vector<string> params, vector<string> strFiles) {
             wks.DeleteRow(0);
 
             // finalize worksheet
-            wks.Columns(0).SetType(
-                OKDATAOBJ_DESIGNATION_X);  // set wavelength as X
+            wks.Columns(0).SetType(OKDATAOBJ_DESIGNATION_X);
             wks.Columns(0).SetLongName(yParam);
             wks.Columns(0).SetUnits(yUnit);
             for (int ii = 1; ii < wks.GetNumCols(); ii++) {
-                wks.Columns(ii).SetLongName(X_NAME_WAVELENGTH);
-                wks.Columns(ii).SetUnits(X_UNIT_WAVELENGTH);
+                wks.Columns(ii).SetLongName(Y_NAME_INTENSITY);
+                wks.Columns(ii).SetUnits(Y_UNIT_INTENSITY);
             }
         }
     }
