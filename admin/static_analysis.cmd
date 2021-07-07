@@ -1,13 +1,13 @@
 @echo off
 
-cd ..
+cd "./../src/Spectral Analysis"
+
 echo Running cppcheck ...
-call cppcheck src/main.c src/headers/*.h
+call cppcheck "Spectral Analysis.c" headers/*.h
 echo.
 
-cd src
 echo Running clang-format ...
-call "./../admin/tools/bin/clang-format" --verbose --style=file -i *.c headers/*.h
+call "./../../admin/tools/bin/clang-format" --verbose --style=file -i *.c headers/*.h
 echo Source code formatted.
 
 echo.
