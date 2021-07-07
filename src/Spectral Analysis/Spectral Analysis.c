@@ -22,7 +22,6 @@
 #include "headers\user.h"
 #include "headers\worksheet.h"
 
-
 /**
  * Import various datasets based on user input.
  */
