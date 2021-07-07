@@ -12,8 +12,6 @@
 /**
  * This file provides methods for manipulating text files.
  */
-#include <Origin.h>
-#include <stdio.h>
 
 /**
  * Open a file in read mode.
@@ -21,18 +19,13 @@
  * @param stdioFile* fileObj  the file object to open the file into
  * @param string     fileName the full path to the file to open
  */
-void FILE_openRead(stdioFile &fileObj, string fileName) {
-    if (! fileObj.Open(fileName, file::modeRead)) {
-        // invalid file
-        printf(FILES_NOT_FOUND);
-    }
-}
+void FILE_openRead(stdioFile &fileObj, string fileName);
 
 /**
  * Close a file object.
  *
  * @param stdioFile fileObj the file object to close
  */
-void FILE_close(stdioFile &fileObj) { fileObj.Close(); }
+void FILE_close(stdioFile &fileObj);
 
 #endif

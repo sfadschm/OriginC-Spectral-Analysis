@@ -12,6 +12,7 @@
 /**
  * This file provides text constants for user and status messages.
  */
+
 // general
 #define LABEL_TARGET_NAME   "Name:"
 #define LABEL_WB_NAME       "Target Workbook"

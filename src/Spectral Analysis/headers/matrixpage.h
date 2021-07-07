@@ -12,7 +12,6 @@
 /**
  * This file provides methods for Origin MatrixPage manipulation.
  */
-#include <Origin.h>
 
 /**
  *  Adds a new matrix layer to a matrix page.
@@ -22,16 +21,6 @@
  *
  *  @return int wksInt the index of the new worksheet in the workbook
  **/
-int MATRIXPAGE_addMatrixLayer(MatrixPage mp, string mlName = "") {
-    int mlInt      = mp.AddLayer();
-    MatrixLayer ml = mp.Layers(mlInt);
-
-    // rename layer if applicable
-    if (mlName != "") {
-        ml.SetName(mlName);
-    }
-
-    return mlInt;
-}
+int MATRIXPAGE_addMatrixLayer(MatrixPage mp, string mlName = "");
 
 #endif
