@@ -16,6 +16,7 @@
 #include <Origin.h>
 
 #include "lang.h"
+#include "misc.h"
 
 /**
  * Open a single file selection dialog.
