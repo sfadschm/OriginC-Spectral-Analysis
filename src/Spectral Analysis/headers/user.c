@@ -75,17 +75,20 @@ vector<string> USER_importData() {
         params.Add(tr.RemoveX.strVal);
         params.Add(tr.Sparklines.strVal);
         params.Add(tr.SeriesLabel.strVal);
+
+        // secure worksheet name
+        int nRet = params[2].Find(" - ");  // wksName
+        if (nRet > -1) {
+            // wbName
+            params[1] = params[2].Left(nRet);
+
+            // wksName
+            params[2] = params[2].Right(params[2].GetLength() - (nRet + 3));
+        }
+
     } else {
         // user input failed or cancelled
         params.Add("-1");
-    }
-
-    // secure worksheet name
-    int nRet = params[2].Find(" - ");  // wksName
-    if (nRet > -1) {
-        params[1] = params[2].Left(nRet);  // wbName
-        params[2] =
-            params[2].Right(params[2].GetLength() - (nRet + 3));  // wksName
     }
 
     return params;
