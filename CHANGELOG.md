@@ -1,6 +1,6 @@
 # Changelog
 
-## v1.1.0 (unreleased)
+## v1.1.0 (2021-07-08)
 
 **Caution: This version changes the installation method of the package!**
 
