@@ -1,0 +1,54 @@
+[install]
+    // List of package files to load (order sensitive!)
+    StringArray newFiles;
+    newFiles.Append("misc|file|graph|curve|workbook|matrixpage|user|origin|worksheet|map|correct|convert|analyze|import", "|");
+
+    // List of package files to remove
+    StringArray oldFiles;
+    oldFiles.Copy(newFiles);
+
+    // Remove old helper files
+    int iNOE = @NOE;
+    loop(ii, 1, oldFiles.GetSize()) {
+        // Generate the full path
+        string remFileName$ = "..\\Spectral Analysis\\headers\\" + oldFiles.GetAt(ii)$ + ".c";
+
+        // Suppress errors
+        {
+            @NOE = 0;
+            run -cr "%(remFileName$)";
+        }
+        @NOE = iNOE;
+    }
+
+    // Remove old main file
+    {
+        @NOE = 0;
+        run -cr "..\\Spectral Analysis\\Spectral Analysis.c";
+    }
+    @NOE = iNOE;
+
+    // Load new helper files
+    int iNOE = @NOE;
+    int iRet = 0, iError = 0;
+    loop(jj, 1, newFiles.GetSize()) {
+        // Generate the full path
+        string newFileName$ = "..\\Spectral Analysis\\headers\\" + newFiles.GetAt(jj)$ + ".c";
+
+        // Load the new file
+        iRet = run.loadOC(newFileName$, 2048);
+        if(iRet != 0) {
+            iError = iRet;
+        }
+    }
+
+    // Load new main file
+    iRet = run.loadOC("..\\Spectral Analysis\\Spectral Analysis.c", 2048);
+    if(iRet != 0) {
+        iError = iRet;
+    }
+
+    // Output result
+    if(iError != 0) {
+        type -b Some errors occured during installation.\nPlease contact the administrator!\nError Code: $(iError);
+    }
