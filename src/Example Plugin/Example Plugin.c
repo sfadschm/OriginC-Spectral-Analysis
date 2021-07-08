@@ -13,9 +13,9 @@
  */
 #include <Origin.h>
 
-#include "headers\plugin.h"
 #include "..\Spectral Analysis\headers\lang.h"
 #include "..\Spectral Analysis\headers\misc.h"
+#include "headers\plugin.h"
 
 /**
  * Some example output to show the plugin working.
@@ -26,7 +26,11 @@ void EXAMPLE_plugin() {
 
     // some output from the plugin header
     PLUGIN_HEADER_talk();
-    
+
     // demonstrate usage of a main package header
-    printf("\n\nMISC_formatString fills placeholders in a string dynamically:\nE.g., '%s' becomes '%s'.", "Starting %s ...", MISC_formatString("Starting %s ...", "Example Plugin"));
+    printf(
+        "\n\nMISC_formatString fills placeholders in a string "
+        "dynamically:\nE.g., '%s' becomes '%s'.",
+        "Starting %s ...",
+        MISC_formatString("Starting %s ...", "Example Plugin"));
 }
