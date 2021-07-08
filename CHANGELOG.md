@@ -7,8 +7,9 @@
 ### 2021-07-08
 
 **Implemented Enhancements:**
-- Build first opx package.
-- Created labtalk post-install script.
+- Implement package building and build first opx package.
+- Add exemplary plugin code and package.
+- Add developer guide for plugin extensions.
 
 ### 2021-07-07
 
