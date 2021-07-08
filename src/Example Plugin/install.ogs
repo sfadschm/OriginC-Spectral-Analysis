@@ -56,6 +56,6 @@
 
     // Output result
     if(iError != 0) {
-        type -b Some errors occured during installation.\nPlease contact the plugin provider!\nError Code: $(iError);
+        type -b Some errors occured during installation.\nPlease make sure that the OriginC Spectral Analysis package is installed first.\nIf the error persists, contact the plugin provider.\n\nError Code: $(iError);
     }
     return iError;
