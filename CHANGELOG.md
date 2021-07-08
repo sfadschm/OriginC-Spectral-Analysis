@@ -11,6 +11,12 @@
 - Add exemplary plugin code and package.
 - Add developer guide for plugin extensions.
 
+**Fixed Bugs:**
+- Wrong error handling when aborting `ìmport` dialog.
+
+**Internal Changes:**
+- Split up static analysis and code styling scripts.
+
 ### 2021-07-07
 
 **Important Changes:**
