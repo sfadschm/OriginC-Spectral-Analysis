@@ -48,7 +48,14 @@
         iError = iRet;
     }
 
+    // Final compile to catch errors
+    iRet = run.loadOC();
+    if(iRet != 0) {
+        iError = iRet;
+    }
+
     // Output result
     if(iError != 0) {
         type -b Some errors occured during installation.\nPlease contact the administrator!\nError Code: $(iError);
     }
+    return iError;
