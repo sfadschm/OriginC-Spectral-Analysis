@@ -1,5 +1,26 @@
 # Changelog
 
+## v1.1.0 (unreleased)
+
+**Caution: This version changes the installation method of the package!**
+
+### 2021-07-08
+
+**Implemented Enhancements:**
+- Build first opx package.
+- Created labtalk post-install script.
+
+### 2021-07-07
+
+**Important Changes:**
+- Renamed main file and moved sources to subfolder for packaging.
+- Create true header files with associated .c files.
+
+### 2021-07-06
+
+**Other Changes:**
+- Add badges and links in readme.
+
 ## v1.0.0 (2021-07-05)
 
 ### 2021-07-05
