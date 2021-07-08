@@ -239,7 +239,9 @@ void analyze() {
  *
  * @deprecated use analyze
  */
-void analyse() { analyze(); }
+void analyse() {
+    analyze();
+}
 
 /**
  * Handle, convert or extract data from maps.

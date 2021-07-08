@@ -11,3 +11,6 @@ SpaceAfterLogicalNot: true
 AlignConsecutiveAssignments: true
 AlignConsecutiveMacros: true
 AlignTrailingComments: true
+
+# misc
+AllowShortFunctionsOnASingleLine: false
