@@ -179,12 +179,19 @@ WorksheetPage IMPORT_3dMaps(vector<string> params, vector<string> strFiles) {
                 yUnit  = X_UNIT_WAVELENGTH;
             }
 
-            // Raman image
+            // Raman image or CCD image
             if (strExt.CompareNoCase("TSV") == 0) {
                 xParam = "X";
-                xUnit  = XYZ_MATRIX_STEPU_PRE;
                 yParam = "Y";
-                yUnit  = XYZ_MATRIX_STEPU_PRE;
+
+                // CCD image
+                if (strFiles[i].Find("_img") > -1) {
+                    xUnit = XYZ_MATRIX_STEPU_PX;
+                    yUnit = XYZ_MATRIX_STEPU_PX;
+                } else {
+                    xUnit = XYZ_MATRIX_STEPU_PRE;
+                    yUnit = XYZ_MATRIX_STEPU_PRE;
+                }
             }
 
             // add user parameter row

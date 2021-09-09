@@ -184,6 +184,7 @@
 #define XYZ_MATRIX_COLC       "Column Count"
 #define XYZ_MATRIX_STEPU      "Step Unit"
 #define XYZ_MATRIX_STEPU_PRE  "µm"
+#define XYZ_MATRIX_STEPU_PX   "px"
 #define XYZ_MATRIX_XSTEP      "X-Step"
 #define XYZ_MATRIX_YSTEP      "Y-Step"
 #define XYZ_MATRIX_SHEET_NAME "Maps"
