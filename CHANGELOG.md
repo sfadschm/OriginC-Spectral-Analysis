@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.2.0 (2021-09-13)
+
+### 2021-09-13
+**Implemented Enhancements:**
+- Header lines are now handled for imported spectra and map files.
+
 ## v1.1.0 (2021-07-08)
 
 **Caution: This version changes the installation method of the package!**
