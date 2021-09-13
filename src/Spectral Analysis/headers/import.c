@@ -45,16 +45,20 @@ Worksheet IMPORT_spectra(vector<string> params, vector<string> strFiles) {
             ai.iDelimiter  = delim;
             ai.nNumSep     = numSep;
 
+            // ignore headers (will be handled later)
+            ai.iAutoSubHeaderLines = 0;
+            ai.iSubHeaderLines     = 0;
+
             // import file
             wks.ImportASCII(strFiles[i], ai);
 
-            // set headers and add filename to comments
+            // set headers
             for (int j = existingCols; j < wks.GetNumCols(); j++) {
                 if (wks.Columns(j).GetLongName() == "X" || j == existingCols) {
                     wks.Columns(j).SetType(OKDATAOBJ_DESIGNATION_X);
                 } else {
                     wks.Columns(j).SetType(OKDATAOBJ_DESIGNATION_Y);
-                    wks.Columns(j).SetComments(MISC_stripName(strFiles[i]));
+                    // wks.Columns(j).SetComments(MISC_stripName(strFiles[i]));
                 }
                 if (wks.Columns(j).GetLongName() == "") {
                     if (j == existingCols) {
@@ -71,6 +75,9 @@ Worksheet IMPORT_spectra(vector<string> params, vector<string> strFiles) {
             existingCols = wks.GetNumCols();
         }
     }
+
+    // handle header lines if any
+    IMPORT_processHeaders(wks);
 
     // read labels from user
     if (addSeries == 1) {
@@ -144,6 +151,10 @@ WorksheetPage IMPORT_3dMaps(vector<string> params, vector<string> strFiles) {
             ai.iDelimiter  = delim;
             ai.nNumSep     = numSep;
 
+            // ignore headers (will be handled later)
+            ai.iAutoSubHeaderLines = 0;
+            ai.iSubHeaderLines     = 0;
+
             // import file
             wks.ImportASCII(strFiles[i], ai);
 
@@ -194,20 +205,7 @@ WorksheetPage IMPORT_3dMaps(vector<string> params, vector<string> strFiles) {
                 }
             }
 
-            // add user parameter row
-            WOKRSHEET_addUserParameter(wks, xParam + " (" + xUnit + ")");
-
-            // move x-axis to parameters
-            string colLabel;
-            for (int jj = 1; jj < wks.GetNumCols(); jj++) {
-                wks.GetCell(0, jj, colLabel);
-                wks.Columns(jj).SetExtendedLabel(colLabel, RCLT_UDL);
-            }
-
-            // remove x-axis from data matrix
-            wks.DeleteRow(0);
-
-            // finalize worksheet
+            // set basic column labels
             wks.Columns(0).SetType(OKDATAOBJ_DESIGNATION_X);
             wks.Columns(0).SetLongName(yParam);
             wks.Columns(0).SetUnits(yUnit);
@@ -215,6 +213,24 @@ WorksheetPage IMPORT_3dMaps(vector<string> params, vector<string> strFiles) {
                 wks.Columns(ii).SetLongName(Y_NAME_INTENSITY);
                 wks.Columns(ii).SetUnits(Y_UNIT_INTENSITY);
             }
+
+            // handle header lines if any
+            int paramCount = IMPORT_processHeaders(wks, 0, true);
+
+            // add user parameter row
+            WOKRSHEET_addUserParameter(wks, xParam + " (" + xUnit + ")",
+                                       paramCount);
+
+            // move x-axis to parameters
+            string colLabel;
+            for (int jj = 1; jj < wks.GetNumCols(); jj++) {
+                wks.GetCell(0, jj, colLabel);
+                wks.Columns(jj).SetExtendedLabel(colLabel,
+                                                 RCLT_UDL + paramCount);
+            }
+
+            // remove x-axis from data matrix
+            wks.DeleteRow(0);
         }
     }
 
@@ -405,30 +421,14 @@ WorksheetPage IMPORT_LabViewMaps(vector<string> params,
             ai.iDelimiter  = delim;
             ai.nNumSep     = numSep;
 
+            // ignore headers (will be handled later)
+            ai.iAutoSubHeaderLines = 0;
+            ai.iSubHeaderLines     = 0;
+
             // import file
             wks.ImportASCII(strFiles[i], ai);
 
-            // add user parameter rows
-            string paramUnit;
-            WOKRSHEET_addUserParameter(wks, "X (" + XYZ_MATRIX_STEPU_PRE + ")",
-                                       0);
-            WOKRSHEET_addUserParameter(wks, "Y (" + XYZ_MATRIX_STEPU_PRE + ")",
-                                       1);
-
-            // write coordinates to parameters
-            string xLabel, yLabel;
-            for (int jj = 1; jj < wks.GetNumCols(); jj++) {
-                wks.GetCell(0, jj, xLabel);
-                wks.GetCell(1, jj, yLabel);
-                wks.Columns(jj).SetExtendedLabel(xLabel, RCLT_UDL);
-                wks.Columns(jj).SetExtendedLabel(yLabel, RCLT_UDL + 1);
-            }
-
-            // remove time axis
-            wks.DeleteRow(0);  // remove x axis
-            wks.DeleteRow(0);  // remove y axis
-
-            // finalize worksheet
+            // set basic column headers
             wks.Columns(0).SetType(
                 OKDATAOBJ_DESIGNATION_X);  // set wavelength as X
             wks.Columns(0).SetLongName(X_NAME_WAVELENGTH);
@@ -437,6 +437,29 @@ WorksheetPage IMPORT_LabViewMaps(vector<string> params,
                 wks.Columns(ii).SetLongName(Y_NAME_INTENSITY);
                 wks.Columns(ii).SetUnits(Y_UNIT_INTENSITY);
             }
+
+            // handle header lines if any
+            int paramCount = IMPORT_processHeaders(wks, 0, true);
+
+            // add user parameter rows
+            WOKRSHEET_addUserParameter(wks, "X (" + XYZ_MATRIX_STEPU_PRE + ")",
+                                       paramCount);
+            WOKRSHEET_addUserParameter(wks, "Y (" + XYZ_MATRIX_STEPU_PRE + ")",
+                                       paramCount + 1);
+
+            // write coordinates to parameters
+            string xLabel, yLabel;
+            for (int jj = 1; jj < wks.GetNumCols(); jj++) {
+                wks.GetCell(0, jj, xLabel);
+                wks.GetCell(1, jj, yLabel);
+                wks.Columns(jj).SetExtendedLabel(xLabel, RCLT_UDL + paramCount);
+                wks.Columns(jj).SetExtendedLabel(yLabel,
+                                                 RCLT_UDL + paramCount + 1);
+            }
+
+            // remove axes
+            wks.DeleteRow(0);  // remove x axis
+            wks.DeleteRow(0);  // remove y axis
         }
     }
 
@@ -548,4 +571,74 @@ void IMPORT_Tracks(vector<string> params, vector<string> strFiles) {
 
     // remove default worksheet
     wb.Layers("Sheet1").Destroy();
+}
+
+int IMPORT_processHeaders(Worksheet wks, int offset = 0, bool isMap = false) {
+    // count header rows in data (first column)
+    string cellValue;
+    int iHeaders = 0;
+    for (int i = 0; i < wks.Columns(1).GetNumRows(); i++) {
+        wks.GetCell(i, 0, cellValue);
+        if (is_numeric(cellValue)) {
+            break;
+        } else {
+            iHeaders++;
+        }
+    }
+
+    // extract parameter names
+    int paramCount = offset;
+    string paramName;
+    vector<string> paramNames;
+    for (int ii = 0; ii < iHeaders; ii++) {
+        // get cell value
+        wks.GetCell(0, 0, paramName);
+
+        // skip section headers
+        if (paramName.Find(":") > -1) {
+            // strip spaces and colon
+            paramName.TrimLeft();
+            paramName.TrimRight(':');
+
+            // create new user parameter
+            WOKRSHEET_addUserParameter(wks, paramName, paramCount);
+
+            // write parameter values to parameters
+            string labelData;
+            for (int jj = 0; jj < wks.GetNumCols(); jj++) {
+                // skip repeating X columns
+                if (wks.Columns(jj).GetType() == OKDATAOBJ_DESIGNATION_X) {
+                    continue;
+                }
+
+                // extract label value
+                wks.GetCell(0, jj, labelData);
+
+                // strip space
+                labelData.TrimLeft();
+                labelData.TrimRight();
+
+                // paste value to user parameter
+                int tgtColInt = isMap ? 0 : jj;
+                wks.Columns(tgtColInt).SetExtendedLabel(labelData,
+                                                        RCLT_UDL + paramCount);
+
+                // abort if only one parameter column
+                if (isMap) {
+                    break;
+                }
+            }
+
+            // count user parameters
+            paramCount++;
+        }
+
+        // remove header from data
+        wks.DeleteRow(0);
+    }
+
+    // adjust column widths
+    wks.AutoSize();
+
+    return paramCount;
 }
