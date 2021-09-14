@@ -312,11 +312,6 @@ WorksheetPage IMPORT_4dMaps(vector<string> params, vector<string> strFiles) {
         int lineInt = 3;
         string strLine, dataStr;
         while (srcFile.ReadString(strLine)) {
-            // progress info
-            if (mod(lineInt, 256) == 0) {
-                printf("\n%d%%", (lineInt / 256 * 25));
-            }
-
             // strip line
             int dataStart, dataEnd;
             dataStart = strLine.Find("[") + 1;
