@@ -1,5 +1,12 @@
 # Changelog
 
+### 2021-10-04
+**Implemented Enhancements:**
+- Fixed index out of range when running analysis without y-abscissa.
+
+**Internal Changes:**
+- Moved and renamed workspaces to subfolder.
+
 ## v1.2.0 (2021-09-13)
 
 ### 2021-09-13
