@@ -152,7 +152,11 @@ vector<string> USER_analyzeSpectra(Worksheet wks) {
         params.Add(ftoa(
             USER_getUserLabelIndex(wks, labelNames[tr.XParam.nVal - 0]) + 1));
         params.Add(ftoa(
-            USER_getUserLabelIndex(wks, labelNames[tr.YParam.nVal - 1]) + 2));
+            (tr.YParam.nVal <= 0)
+                ? 0
+                : USER_getUserLabelIndex(wks, labelNames[tr.YParam.nVal - 1]) +
+                      2));
+
     } else {
         // user input failed or cancelled
         params.Add("-1");
