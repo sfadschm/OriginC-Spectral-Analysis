@@ -1,5 +1,9 @@
 # Changelog
 
+### 2021-12-20
+**Fixed Bugs:**
+- Removed non-existent method `alignText´ from docs.
+
 ### 2021-10-04
 **Implemented Enhancements:**
 - Fixed index out of range when running analysis without y-abscissa.
