@@ -1,5 +1,7 @@
 # Changelog
 
+## v1.2.1 (2022-02-28)
+
 ### 2021-12-20
 **Fixed Bugs:**
 - Removed non-existent method `alignText´ from docs.
