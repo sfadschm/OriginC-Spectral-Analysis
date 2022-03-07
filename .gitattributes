@@ -1,8 +1,2 @@
 # Auto detect text files and perform LF normalization
 * text=auto
-
-# Convert MS Word to Markdown
-*.docx diff=pandoc
-
-# Convert PDF to Markdown
-*.pdf diff=pdf
