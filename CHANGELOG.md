@@ -1,6 +1,8 @@
 # Changelog
 
 ## v1.2.2 (2022-03-07)
+
+### 2022-03-07
 **Documentation:**
 - Convert docs to rst format.
 - Automatically deploy docs to wiki.
