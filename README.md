@@ -7,7 +7,7 @@ This is an OriginC (from OriginLabs's OriginPro) library for importing, manipula
 
 The project is located at [GitHub](https://github.com/sfadschm/OriginC-Spectral-Analysis).
 
-Please take a look at the [*User Guide*](https://github.com/sfadschm/OriginC-Spectral-Analysis/blob/develop/docs/UserGuide.pdf) for an overview of installation instructions, available methods and parameters.
+Please take a look at the [*User/Developer Guide*](https://github.com/sfadschm/OriginC-Spectral-Analysis/blob/develop/docs/build) or the [*Wiki*](https://github.com/sfadschm/OriginC-Spectral-Analysis/wiki) for an overview of installation instructions, available methods and parameters.
 
 Please take note of recent changes in the [*Changelog*](https://github.com/sfadschm/OriginC-Spectral-Analysis/blob/develop/CHANGELOG.md) before updating the script.
 
