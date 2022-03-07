@@ -15,7 +15,7 @@ No promise is made for backwards compatibility between any revisions of this lib
 
 Feel free to submit additions/corrections and thoughts at any time.
 
-## Licence
+## License
 This project is published unter the `MIT License`.
 
 For more information, please refer to the [*License*](https://github.com/sfadschm/OriginC-Spectral-Analysis/blob/develop/LICENSE).
