@@ -9,14 +9,14 @@
 
    |front-subtitle|
 
-**Last Update:** 07.03.2022 (v1.2.2)
+**Last Update:** 19.03.2022 (v1.2.3)
 
 This is an *OriginC* library providing several scripts for importing,
 handling, and evaluating spectroscopic data. No warranty is given for
 functionality or correctness, please verify all results generated with
 this script manually.
 
-All methods have been tested with *OriginPro 2021-2021b*; older program
+All methods have been tested with *OriginPro 2021-2022*; older program
 versions should be updated anyways.
 
 .. contents::
@@ -153,7 +153,7 @@ OriginPro worksheet user parameters with the pseudo-syntax
 
      * - :literal:`\  3D-Maps \ `
        - E.g., time traces from *LabSpec*, peak maps from *NT-MDT* or
-         Raman images generated with the *Raman Tool Set 2.0*. The file structure
+         Raman images generated with the Raman *Live* Tool Set. The file structure
          must be *XY-I* ... File names are used as worksheet names.
          *XY*-coordinates and other axes are written to the user parameters.
 

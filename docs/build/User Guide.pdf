@@ -2944,7 +2944,7 @@ endobj
 endobj
 70 0 obj
 <<
-/Author () /CreationDate (D:20220307180052-01'00') /Creator (\(unspecified\)) /Keywords () /ModDate (D:20220307180052-01'00') /Producer (ReportLab PDF Library - www.reportlab.com) 
+/Author () /CreationDate (D:20220319225129-01'00') /Creator (\(unspecified\)) /Keywords () /ModDate (D:20220319225129-01'00') /Producer (ReportLab PDF Library - www.reportlab.com) 
   /Subject (\(unspecified\)) /Title () /Trapped /False
 >>
 endobj
@@ -3105,7 +3105,7 @@ endobj
 endobj
 100 0 obj
 <<
-/Length 5725
+/Length 5723
 >>
 stream
 1 0 0 1 0 0 cm 
@@ -3126,7 +3126,7 @@ Q
 q
 1 0 0 1 76.86614 625.8236 cm
 q
-BT 1 0 0 1 0 2.4 Tm 14.4 TL 0 0 0 rg /F2+0 12 Tf 14.4 TL (Last Update:) Tj /F3+0 12 Tf 14.4 TL ( 07.03.2022 \(v1.2.2\)) Tj T* ET
+BT 1 0 0 1 0 2.4 Tm 14.4 TL 0 0 0 rg /F2+0 12 Tf 14.4 TL (Last Update:) Tj /F3+0 12 Tf 14.4 TL ( 19.03.2022 \(v1.2.3\)) Tj T* ET
 Q
 Q
 q
@@ -3138,7 +3138,7 @@ Q
 q
 1 0 0 1 76.86614 537.8236 cm
 q
-BT 1 0 0 1 0 16.8 Tm 2.566831 Tw 14.4 TL 0 0 0 rg /F3+0 12 Tf 14.4 TL (All methods have been tested with ) Tj /F4+0 12 Tf 14.4 TL (OriginPro 2021-2021b) Tj /F3+0 12 Tf 14.4 TL (; older program versions) Tj T* 0 Tw (should be updated anyways.) Tj T* ET
+BT 1 0 0 1 0 16.8 Tm 3.00101 Tw 14.4 TL 0 0 0 rg /F3+0 12 Tf 14.4 TL (All methods have been tested with ) Tj /F4+0 12 Tf 14.4 TL (OriginPro 2021-2022) Tj /F3+0 12 Tf 14.4 TL (; older program versions) Tj T* 0 Tw (should be updated anyways.) Tj T* ET
 Q
 Q
 q
@@ -4247,7 +4247,7 @@ endstream
 endobj
 103 0 obj
 <<
-/Length 9439
+/Length 9440
 >>
 stream
 1 0 0 1 0 0 cm 
@@ -4308,7 +4308,7 @@ Q
 q
 1 0 0 1 109.8858 125.8 cm
 q
-BT 1 0 0 1 0 60 Tm 14.4 TL 0 0 0 rg /F3+0 12 Tf 14.4 TL (E.g., time traces from ) Tj /F4+0 12 Tf 14.4 TL (LabSpec) Tj /F3+0 12 Tf 14.4 TL (, peak maps from ) Tj /F4+0 12 Tf 14.4 TL (NT-MDT) Tj  T* /F3+0 12 Tf 14.4 TL (or Raman images generated with the ) Tj /F4+0 12 Tf 14.4 TL (Raman Tool Set 2.0) Tj /F3+0 12 Tf 14.4 TL (.) Tj T* (The file structure must be ) Tj /F4+0 12 Tf 14.4 TL (XY-I) Tj /F3+0 12 Tf 14.4 TL ( \202 File names are used as) Tj T* (worksheet names. ) Tj /F4+0 12 Tf 14.4 TL (XY) Tj /F3+0 12 Tf 14.4 TL (-coordinates and other axes are) Tj T* (written to the user parameters.) Tj T* ET
+BT 1 0 0 1 0 60 Tm 14.4 TL 0 0 0 rg /F3+0 12 Tf 14.4 TL (E.g., time traces from ) Tj /F4+0 12 Tf 14.4 TL (LabSpec) Tj /F3+0 12 Tf 14.4 TL (, peak maps from ) Tj /F4+0 12 Tf 14.4 TL (NT-MDT) Tj  T* /F3+0 12 Tf 14.4 TL (or Raman images generated with the Raman ) Tj /F4+0 12 Tf 14.4 TL (Live) Tj /F3+0 12 Tf 14.4 TL ( Tool) Tj T* (Set. The file structure must be ) Tj /F4+0 12 Tf 14.4 TL (XY-I) Tj /F3+0 12 Tf 14.4 TL ( \202 File names are used) Tj T* (as worksheet names. ) Tj /F4+0 12 Tf 14.4 TL (XY) Tj /F3+0 12 Tf 14.4 TL (-coordinates and other axes are) Tj T* (written to the user parameters.) Tj T* ET
 Q
 Q
 q
@@ -6564,26 +6564,26 @@ xref
 0000248642 00000 n 
 0000248831 00000 n 
 0000248941 00000 n 
-0000254719 00000 n 
-0000263788 00000 n 
-0000274072 00000 n 
-0000283564 00000 n 
-0000292003 00000 n 
-0000303186 00000 n 
-0000313700 00000 n 
-0000320659 00000 n 
-0000320775 00000 n 
-0000320810 00000 n 
-0000320845 00000 n 
-0000320880 00000 n 
-0000320915 00000 n 
-0000320950 00000 n 
-0000320985 00000 n 
-0000321020 00000 n 
+0000254717 00000 n 
+0000263786 00000 n 
+0000274070 00000 n 
+0000283563 00000 n 
+0000292002 00000 n 
+0000303185 00000 n 
+0000313699 00000 n 
+0000320658 00000 n 
+0000320774 00000 n 
+0000320809 00000 n 
+0000320844 00000 n 
+0000320879 00000 n 
+0000320914 00000 n 
+0000320949 00000 n 
+0000320984 00000 n 
+0000321019 00000 n 
 trailer
 <<
 /ID 
-[<6997000d1dd40440df25bfe614c52e8f><6997000d1dd40440df25bfe614c52e8f>]
+[<c1500dbcb25ab2a93831d8addc266095><c1500dbcb25ab2a93831d8addc266095>]
 % ReportLab generated PDF document -- digest (http://www.reportlab.com)
 
 /Info 70 0 R
@@ -6591,7 +6591,7 @@ trailer
 /Size 117
 >>
 startxref
-321055
+321054
 %%EOF
 %PDF-1.4
 %“Œ‹ž ReportLab Generated PDF document http://www.reportlab.com
@@ -9539,7 +9539,7 @@ endobj
 endobj
 70 0 obj
 <<
-/Author () /CreationDate (D:20220307180052-01'00') /Creator (\(unspecified\)) /Keywords () /ModDate (D:20220307180052-01'00') /Producer (ReportLab PDF Library - www.reportlab.com) 
+/Author () /CreationDate (D:20220319225129-01'00') /Creator (\(unspecified\)) /Keywords () /ModDate (D:20220319225129-01'00') /Producer (ReportLab PDF Library - www.reportlab.com) 
   /Subject (\(unspecified\)) /Title () /Trapped /False
 >>
 endobj
@@ -9700,7 +9700,7 @@ endobj
 endobj
 100 0 obj
 <<
-/Length 5725
+/Length 5723
 >>
 stream
 1 0 0 1 0 0 cm 
@@ -9721,7 +9721,7 @@ Q
 q
 1 0 0 1 76.86614 625.8236 cm
 q
-BT 1 0 0 1 0 2.4 Tm 14.4 TL 0 0 0 rg /F2+0 12 Tf 14.4 TL (Last Update:) Tj /F3+0 12 Tf 14.4 TL ( 07.03.2022 \(v1.2.2\)) Tj T* ET
+BT 1 0 0 1 0 2.4 Tm 14.4 TL 0 0 0 rg /F2+0 12 Tf 14.4 TL (Last Update:) Tj /F3+0 12 Tf 14.4 TL ( 19.03.2022 \(v1.2.3\)) Tj T* ET
 Q
 Q
 q
@@ -9733,7 +9733,7 @@ Q
 q
 1 0 0 1 76.86614 537.8236 cm
 q
-BT 1 0 0 1 0 16.8 Tm 2.566831 Tw 14.4 TL 0 0 0 rg /F3+0 12 Tf 14.4 TL (All methods have been tested with ) Tj /F4+0 12 Tf 14.4 TL (OriginPro 2021-2021b) Tj /F3+0 12 Tf 14.4 TL (; older program versions) Tj T* 0 Tw (should be updated anyways.) Tj T* ET
+BT 1 0 0 1 0 16.8 Tm 3.00101 Tw 14.4 TL 0 0 0 rg /F3+0 12 Tf 14.4 TL (All methods have been tested with ) Tj /F4+0 12 Tf 14.4 TL (OriginPro 2021-2022) Tj /F3+0 12 Tf 14.4 TL (; older program versions) Tj T* 0 Tw (should be updated anyways.) Tj T* ET
 Q
 Q
 q
@@ -10842,7 +10842,7 @@ endstream
 endobj
 103 0 obj
 <<
-/Length 9439
+/Length 9440
 >>
 stream
 1 0 0 1 0 0 cm 
@@ -10903,7 +10903,7 @@ Q
 q
 1 0 0 1 109.8858 125.8 cm
 q
-BT 1 0 0 1 0 60 Tm 14.4 TL 0 0 0 rg /F3+0 12 Tf 14.4 TL (E.g., time traces from ) Tj /F4+0 12 Tf 14.4 TL (LabSpec) Tj /F3+0 12 Tf 14.4 TL (, peak maps from ) Tj /F4+0 12 Tf 14.4 TL (NT-MDT) Tj  T* /F3+0 12 Tf 14.4 TL (or Raman images generated with the ) Tj /F4+0 12 Tf 14.4 TL (Raman Tool Set 2.0) Tj /F3+0 12 Tf 14.4 TL (.) Tj T* (The file structure must be ) Tj /F4+0 12 Tf 14.4 TL (XY-I) Tj /F3+0 12 Tf 14.4 TL ( \202 File names are used as) Tj T* (worksheet names. ) Tj /F4+0 12 Tf 14.4 TL (XY) Tj /F3+0 12 Tf 14.4 TL (-coordinates and other axes are) Tj T* (written to the user parameters.) Tj T* ET
+BT 1 0 0 1 0 60 Tm 14.4 TL 0 0 0 rg /F3+0 12 Tf 14.4 TL (E.g., time traces from ) Tj /F4+0 12 Tf 14.4 TL (LabSpec) Tj /F3+0 12 Tf 14.4 TL (, peak maps from ) Tj /F4+0 12 Tf 14.4 TL (NT-MDT) Tj  T* /F3+0 12 Tf 14.4 TL (or Raman images generated with the Raman ) Tj /F4+0 12 Tf 14.4 TL (Live) Tj /F3+0 12 Tf 14.4 TL ( Tool) Tj T* (Set. The file structure must be ) Tj /F4+0 12 Tf 14.4 TL (XY-I) Tj /F3+0 12 Tf 14.4 TL ( \202 File names are used) Tj T* (as worksheet names. ) Tj /F4+0 12 Tf 14.4 TL (XY) Tj /F3+0 12 Tf 14.4 TL (-coordinates and other axes are) Tj T* (written to the user parameters.) Tj T* ET
 Q
 Q
 q
@@ -13162,26 +13162,26 @@ xref
 0000248642 00000 n 
 0000248831 00000 n 
 0000248941 00000 n 
-0000254719 00000 n 
-0000263788 00000 n 
-0000274072 00000 n 
-0000283564 00000 n 
-0000292003 00000 n 
-0000303186 00000 n 
-0000313700 00000 n 
-0000320692 00000 n 
-0000320808 00000 n 
-0000320843 00000 n 
-0000320878 00000 n 
-0000320913 00000 n 
-0000320948 00000 n 
-0000320983 00000 n 
-0000321018 00000 n 
-0000321053 00000 n 
+0000254717 00000 n 
+0000263786 00000 n 
+0000274070 00000 n 
+0000283563 00000 n 
+0000292002 00000 n 
+0000303185 00000 n 
+0000313699 00000 n 
+0000320691 00000 n 
+0000320807 00000 n 
+0000320842 00000 n 
+0000320877 00000 n 
+0000320912 00000 n 
+0000320947 00000 n 
+0000320982 00000 n 
+0000321017 00000 n 
+0000321052 00000 n 
 trailer
 <<
 /ID 
-[<fce34649507e1bec24926067da510baa><fce34649507e1bec24926067da510baa>]
+[<23f1479c83819e488b3c0ea6a7e31915><23f1479c83819e488b3c0ea6a7e31915>]
 % ReportLab generated PDF document -- digest (http://www.reportlab.com)
 
 /Info 70 0 R
@@ -13189,5 +13189,5 @@ trailer
 /Size 117
 >>
 startxref
-321088
+321087
 %%EOF
