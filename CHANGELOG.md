@@ -1,22 +1,18 @@
 # Changelog
 
 ## v1.2.3 (2022-03-19)
-### 2022-03-19
-**Documentation:**
-- Fix links.
-
-### 2021-10-04
 **Fixed Bugs:**
 - Fixed index out of range when running analysis without y-abscissa.
 
-### 2022-03-07
+**Documentation:**
+- Fix links.
+
+## v1.2.2 (2022-03-07)
 **Documentation:**
 - Convert docs to rst format.
 - Automatically deploy docs to wiki.
 
 ## v1.2.1 (2022-02-28)
-
-### 2021-12-20
 **Fixed Bugs:**
 - Removed non-existent method `alignText´ from docs.
 
@@ -24,16 +20,11 @@
 - Moved and renamed workspaces to subfolder.
 
 ## v1.2.0 (2021-09-13)
-
-### 2021-09-13
 **Implemented Enhancements:**
 - Header lines are now handled for imported spectra and map files.
 
 ## v1.1.0 (2021-07-08)
-
 **Caution: This version changes the installation method of the package!**
-
-### 2021-07-08
 
 **Implemented Enhancements:**
 - Implement package building and build first opx package.
@@ -45,50 +36,33 @@
 
 **Internal Changes:**
 - Split up static analysis and code styling scripts.
-
-### 2021-07-07
-
-**Important Changes:**
 - Renamed main file and moved sources to subfolder for packaging.
 - Create true header files with associated .c files.
 
-### 2021-07-06
-
-**Other Changes:**
+**Documentation:**
 - Add badges and links in readme.
 
 ## v1.0.0 (2021-07-05)
-
-### 2021-07-05
-
 **Fixed Bugs:**
 - 3D map import did set wrong intensity axis labels.
 
 **Implemented Enhancements:**
 - Refined and extended test data.
+- Added parameters `Skip Abscissae` and "Y Abscissa" to `analyze`.
+- Extract units from user label name in `analyze`.
 
 **Internal Changes:**
 - Moved all source files into the `src` directory.
 - Changed all filenames to lowercase.
 - Introduced and applied clang-format style fixer.
 - Introduce cppcheck for static analysis. 
-
-### 2021-07-04
-
-**Fixed Bugs:**
-- Only show visible user labels in `analyze` and `correct`.
-
-**Implemented Enhancements:**
-- Added parameters `Skip Abscissae` and "Y Abscissa" to `analyze`.
-- Extract units from user label name in `analyze`.
+- Replace `ANALYSE` by `ANALYZE` to unify spelling in American English.
+- Fix license and file headers.
 
 **Deprecations:**
 - Deprecated function `analyse`, use function `analyze` instead.
 
-**Internal Changes:**
-- Replace `ANALYSE` by `ANALYZE` to unify spelling in American English.
-- Fix license and file headers.
-
+## v0.9.x
 ### 2021-07-03
 
 **Important Changes:**
