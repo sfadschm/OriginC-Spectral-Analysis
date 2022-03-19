@@ -1,6 +1,13 @@
 # Changelog
 
-## v1.2.2 (2022-03-07)
+## v1.2.3 (2022-03-19)
+### 2022-03-19
+**Documentation:**
+- Fix links.
+
+### 2021-10-04
+**Fixed Bugs:**
+- Fixed index out of range when running analysis without y-abscissa.
 
 ### 2022-03-07
 **Documentation:**
@@ -12,10 +19,6 @@
 ### 2021-12-20
 **Fixed Bugs:**
 - Removed non-existent method `alignText´ from docs.
-
-### 2021-10-04
-**Implemented Enhancements:**
-- Fixed index out of range when running analysis without y-abscissa.
 
 **Internal Changes:**
 - Moved and renamed workspaces to subfolder.
